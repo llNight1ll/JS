@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GameName</title>
+    <link rel="stylesheet" href="/css/stylegame.css" />
+  </head>
+
+  <body>
+    <canvas id="gameCanvas" width="1020" height="510"></canvas>
+<script>
+        var canvas = document.getElementById("gameCanvas");
+        var ctx = canvas.getContext("2d");
+
+        var attack = {
+            x: 50,
+            y: 50,
+            width: 50,
+            height: 50,
+            draw: function() {
+                ctx.fillStyle = "red";
+                ctx.fillRect(this.x, this.y, this.width, this.height);
+            },
+            move: function(dx, dy) {
+                this.x += dx;
+                this.y += dy;
+            }
+        };
+
+        var distanceAttack = {
+            x: -1200000000,
+            y: -1200000000,
+            width: 20,
+            height: 20,
+            speed: 15,
+            draw: function() {
+                ctx.fillStyle = "red";
+                ctx.fillRect(this.x, this.y, this.width, this.height);
+            },
+            move: function() {
+                this.x += this.speed;
+            }
+        };
+
+
+        var enemy = {
+            x: 200,
+            y: 200,
+            width: 50,
+            height: 50,
+            // Fonction pour dessiner l'ennemi
+            draw: function() {
+                ctx.fillStyle = "blue";
+                ctx.fillRect(this.x, this.y, this.width, this.height);
+            }
+        };
+
+        function checkCollision(rect1, rect2) {
+            return rect1.x < rect2.x + rect2.width &&
+                   rect1.x + rect1.width > rect2.x &&
+                   rect1.y < rect2.y + rect2.height &&
+                   rect1.y + rect1.height > rect2.y;
+        }
+
+        function handleKeyDown(event) {
+            // Déterminer quelle touche a été enfoncée
+            switch(event.key) {
+                case "z":
+                    attack.move(0, -10); // Déplacement vers le haut
+                    break;
+                case "s":
+                    attack.move(0, 10); // Déplacement vers le bas
+                    break;
+                case "q":
+                    attack.move(-10, 0); // Déplacement vers la gauche
+                    break;
+                case "d":
+                    attack.move(10, 0); // Déplacement vers la droite
+                    break;
+                case "k":
+
+                    startDistanceAttack();
+                    break;
+            }
+        }
+
+
+        function startDistanceAttack() {
+            attackDistance = 0;
+            distanceAttack.x = attack.x + attack.width;
+            distanceAttack.y = attack.y + attack.height / 2;
+
+
+            distanceAttackInterval = setInterval(function() {
+                attackDistance += 1;
+
+                distanceAttack.move();
+
+                if (attackDistance > 15) {
+                    stopDistanceAttack();
+                }
+
+            }, 100); 
+        }
+
+
+        function stopDistanceAttack() {
+            clearInterval(distanceAttackInterval);
+            distanceAttack.x = -1200000000;
+        }
+
+
+        document.addEventListener("keydown", handleKeyDown);
+
+
+        function mainLoop() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            attack.draw();
+            enemy.draw();
+            distanceAttack.draw();
+
+            if (checkCollision(distanceAttack, enemy)) {
+                console.log("Collision détectée !");
+            }
+
+            requestAnimationFrame(mainLoop);
+        }
+
+        mainLoop();
+</script>
+  </body>
+</html>
