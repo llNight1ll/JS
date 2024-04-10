@@ -28,6 +28,9 @@
             var spriteSheetP = new Image();
             spriteSheetP.src = "./img/playerfullbot.png"; // Remplacez "spritesheet.png" par le chemin de votre spritesheet
 
+            var spriteSheet4 = new Image();
+            spriteSheet4.src = "./img/bot3.png"; // Remplacez "spritesheet.png" par le chemin de votre spritesheet
+
             var frameWidth = 39; // Largeur d'un frame dans la spritesheet
             var frameHeight = 61; // Hauteur d'un frame dans la spritesheet
             var frameCount = 4; // Nombre total de frames dans la spritesheet
@@ -49,6 +52,13 @@
             var currentFrame3 = 0; // Frame actuelle
             var rogneX3 = 0; 
             var rogneY3 = 0; 
+
+            var frameWidth4 = 48; // Largeur d'un frame dans la spritesheet
+            var frameHeight4 = 90; // Hauteur d'un frame dans la spritesheet
+            var frameCount4 = 4; // Nombre total de frames dans la spritesheet
+            var currentFrame4 = 0; // Frame actuelle
+            var rogneX4 = 0; 
+            var rogneY4 = 0; 
  
 
 
@@ -72,6 +82,9 @@
                 ctx.drawImage(spriteSheetP, currentFrame3 * frameWidth3+rogneX3, 0+rogneY3, frameWidth3, frameHeight3, 100, 100, frameWidth3, frameHeight3);
                 currentFrame3 = (currentFrame3 + 1) % frameCount3;
 
+                ctx.drawImage(spriteSheet4, currentFrame4 * frameWidth4+rogneX4, 0+rogneY4, frameWidth4, frameHeight4, 400, 0, frameWidth4, frameHeight4);
+                currentFrame4 = (currentFrame4 + 1) % frameCount4;
+
 
 
                 setTimeout(function() {
@@ -94,6 +107,13 @@
                         } else {
                             rogneY2 = 0
                             frameHeight2 = 69;
+                        }
+                    if (rogneY4 === 0){
+                            rogneY4 = 90
+                            frameHeight4 = 90
+                        } else {
+                            rogneY4 = 0
+                            frameHeight4 = 90;
                         }
                 
 
