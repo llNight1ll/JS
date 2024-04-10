@@ -18,9 +18,28 @@
             y: 50,
             width: 50,
             height: 50,
+            spriteSheet: new Image(),
+            spriteSheet,src : "spritesheet.png", // Remplacez "spritesheet.png" par le chemin de votre spritesheet
+
+             frameWidth: 64, // Largeur d'un frame dans la spritesheet
+            frameHeight:  64, // Hauteur d'un frame dans la spritesheet
+             frameCount:  4, // Nombre total de frames dans la spritesheet
+             currentFrame:  0, // Frame actuelle
+
+            spriteSheet,onload : function() {
+                animate();
+            },
+
+          /*   function animate() {
+                ctx.drawImage(spriteSheet, currentFrame * frameWidth, 0, frameWidth, frameHeight, 0, 0, frameWidth, frameHeight);
+                currentFrame = (currentFrame + 1) % frameCount;
+                requestAnimationFrame(animate);
+            } */
             draw: function() {
                 ctx.fillStyle = "red";
                 ctx.fillRect(this.x, this.y, this.width, this.height);
+                ctx.drawImage(spriteSheet, currentFrame * frameWidth, 0, frameWidth, frameHeight, 0, 0, frameWidth, frameHeight);
+                currentFrame = (currentFrame + 1) % frameCount;
             },
             move: function(dx, dy) {
                 this.x += dx;
@@ -38,8 +57,9 @@
                 ctx.fillStyle = "red";
                 ctx.fillRect(this.x, this.y, this.width, this.height);
             },
-            move: function() {
-                this.x += this.speed;
+            move: function(dx, dy) {
+                this.x += dx;
+                this.y += dy;
             }
         };
 
@@ -80,14 +100,15 @@
                     break;
                 case "k":
 
-                    startDistanceAttack();
+                    startDistanceAttack(0,0);
                     break;
             }
         }
 
 
-        function startDistanceAttack() {
+        function startDistanceAttack(x,y) {
             attackDistance = 0;
+            
             distanceAttack.x = attack.x + attack.width;
             distanceAttack.y = attack.y + attack.height / 2;
 
@@ -95,13 +116,17 @@
             distanceAttackInterval = setInterval(function() {
                 attackDistance += 1;
 
-                distanceAttack.move();
+                distanceAttack.move(x,y);
+
 
                 if (attackDistance > 15) {
                     stopDistanceAttack();
                 }
 
-            }, 100); 
+            },);
+
+            distanceAttack.draw();
+
         }
 
 
@@ -112,18 +137,27 @@
 
 
         document.addEventListener("keydown", handleKeyDown);
+        
+        
 
 
         function mainLoop() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
             attack.draw();
-            enemy.draw();
+            enemy.draw();  
             distanceAttack.draw();
+ 
 
             if (checkCollision(distanceAttack, enemy)) {
                 console.log("Collision détectée !");
             }
+
+
+
+
+        
+
 
             requestAnimationFrame(mainLoop);
         }

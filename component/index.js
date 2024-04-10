@@ -49,6 +49,9 @@ playerRightImage.src = "./img/playerfullright.png"
 const playerLeftImage = new Image()
 playerLeftImage.src = "./img/playerfullleft.png"
 
+const enemyDown = new Image()
+enemyDown.src = "./img/bot.png"
+
 
 const player = new Sprite ({
     position: {
@@ -70,6 +73,30 @@ const player = new Sprite ({
     }
 })
 console.log(player)
+
+
+
+
+const enemy = new Sprite ({
+    position: {
+        x: canvas.width / 2 - 528 / 4 / 2 -50,
+        y: canvas.height / 2 - 157 / 2 - 50,
+    },
+    image: enemyDown,
+    frames: {
+        max: 4,
+    },
+    sprites: {
+        up: enemyDown,
+        left: enemyDown,
+        down: enemyDown,
+        right: enemyDown,
+    },
+    size: {
+        s : 1 ,
+    }
+})
+
 
 const background = new Sprite({
     position: {
@@ -130,10 +157,12 @@ function move () {
         boundari.draw()
     })
     player.draw()
+    enemy.draw()
     foreground.draw()
 
     let moving = true
     player.moving = false
+    enemy.moving = false
 
     if (keys.z.presser) {
         player.moving = true
