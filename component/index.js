@@ -73,8 +73,8 @@ console.log(player)
 
 const ennemi = new ObjectTest ({
     position: {
-        x: 447,
-        y: 176,
+        x: player.position.x,
+        y: player.position.y,
     },
     image: playerRightImage,
     frames: {
@@ -132,7 +132,7 @@ const testbor = new Boundary({
 })
 
 
-const movables = [background, ...contour, foreground]
+const movables = [background, ...contour, foreground,ennemi]
 function rectangleCollision({rectangle1, rectangle2}) {
     return (
         rectangle1.position.x + rectangle1.width * rectangle1.size.s >= rectangle2.position.x && 
