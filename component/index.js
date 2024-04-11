@@ -71,12 +71,12 @@ const player = new Sprite ({
 })
 console.log(player)
 
-const ennemi = new Sprite ({
+const ennemi = new ObjectTest ({
     position: {
-        x: 500,
+        x: 447,
         y: 176,
     },
-    image: playerDownImage,
+    image: playerRightImage,
     frames: {
         max: 4,
     },
@@ -90,6 +90,7 @@ const ennemi = new Sprite ({
         s : 0.5 ,
     }
 })
+
 console.log(ennemi)
 
 const background = new Sprite({
@@ -151,8 +152,8 @@ function move () {
         boundari.draw()
     })
     player.draw()
-    foreground.draw()
     ennemi.draw()
+    foreground.draw()
 
     let moving = true
     player.moving = false
