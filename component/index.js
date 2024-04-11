@@ -71,6 +71,27 @@ const player = new Sprite ({
 })
 console.log(player)
 
+const ennemi = new Sprite ({
+    position: {
+        x: 500,
+        y: 176,
+    },
+    image: playerDownImage,
+    frames: {
+        max: 4,
+    },
+    sprites: {
+        up: playerUpImage,
+        left: playerLeftImage,
+        down: playerDownImage,
+        right: playerRightImage,
+    },
+    size: {
+        s : 0.5 ,
+    }
+})
+console.log(ennemi)
+
 const background = new Sprite({
     position: {
         x: offset.x,
@@ -131,6 +152,7 @@ function move () {
     })
     player.draw()
     foreground.draw()
+    ennemi.draw()
 
     let moving = true
     player.moving = false
