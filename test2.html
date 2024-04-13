@@ -96,13 +96,33 @@
             
             document.addEventListener("keydown", function(event) {
                 if (event.key === "z") {
+                    clearTimeout(animationTimeout);   
+                    spriteSheet2.src = "./img/up2.png";
+                    spriteSheet.src = "./img/up1.png";
+                    spriteSheet4.src = "./img/up3.png";     
+                }
+                if (event.key === "s") {
                     clearTimeout(animationTimeout);
-
                     spriteSheet.src = "./img/bot.png"; // Remplacez "spritesheet.png" par le chemin de votre spritesheet
                     spriteSheet2.src = "./img/bot2.png";
                     spriteSheet4.src = "./img/bot3.png";
+                }   
 
+                if (event.key === "d") {
+                    clearTimeout(animationTimeout);
+                    spriteSheet2.src = "./img/right2.png";
+                    spriteSheet.src = "./img/right.png";
+                    spriteSheet4.src = "./img/right3.png";
+                }
 
+                if (event.key === "q") {
+                    clearTimeout(animationTimeout);
+                    spriteSheet2.src = "./img/left2.png";
+                    spriteSheet.src = "./img/left.png";
+                    spriteSheet4.src = "./img/left3.png";
+                }
+
+                if (event.key === "f") {
                     if (rogneY === 0) {
                             rogneY = 61
                             frameHeight = 60
@@ -124,24 +144,6 @@
                             rogneY4 = 0
                             frameHeight4 = 90;
                         }
-                
-
-                  
-                        
-                }
-                if (event.key === "s") {
-                    clearTimeout(animationTimeout);
-                    spriteSheet.src = "./img/bot.png"; // Remplacez "spritesheet.png" par le chemin de votre spritesheet
-                    spriteSheet2.src = "./img/bot2.png";
-                    spriteSheet4.src = "./img/bot3.png";
-                    
-                }   
-
-                if (event.key === "d") {
-                    clearTimeout(animationTimeout);
-                    spriteSheet2.src = "./img/up2.png";
-                    spriteSheet.src = "./img/up1.png";
-                    spriteSheet4.src = "./img/up3.png";
                 }
             });
         };
