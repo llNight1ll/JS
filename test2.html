@@ -90,7 +90,7 @@
 
                 animationTimeout = setTimeout(function() {
                     requestAnimationFrame(animate);
-                 }, 100);
+                 }, 500);
             }
 
             
@@ -99,13 +99,15 @@
                     clearTimeout(animationTimeout);   
                     spriteSheet2.src = "./img/up2.png";
                     spriteSheet.src = "./img/up1.png";
-                    spriteSheet4.src = "./img/up3.png";     
+                    spriteSheet4.src = "./img/up3.png"
+                    spriteSheetP.src = "./img/playerfullup.png";;     
                 }
                 if (event.key === "s") {
                     clearTimeout(animationTimeout);
                     spriteSheet.src = "./img/bot.png"; // Remplacez "spritesheet.png" par le chemin de votre spritesheet
                     spriteSheet2.src = "./img/bot2.png";
                     spriteSheet4.src = "./img/bot3.png";
+                    spriteSheetP.src = "./img/playerfullbot.png";
                 }   
 
                 if (event.key === "d") {
@@ -113,6 +115,7 @@
                     spriteSheet2.src = "./img/right2.png";
                     spriteSheet.src = "./img/right.png";
                     spriteSheet4.src = "./img/right3.png";
+                    spriteSheetP.src = "./img/playerfullright.png";
                 }
 
                 if (event.key === "q") {
@@ -120,6 +123,7 @@
                     spriteSheet2.src = "./img/left2.png";
                     spriteSheet.src = "./img/left.png";
                     spriteSheet4.src = "./img/left3.png";
+                    spriteSheetP.src = "./img/playerfullleft.png";
                 }
 
                 if (event.key === "f") {
