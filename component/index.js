@@ -49,6 +49,19 @@ playerRightImage.src = "./img/playerfullright.png"
 const playerLeftImage = new Image()
 playerLeftImage.src = "./img/playerfullleft.png"
 
+
+const playerDownAttackImage = new Image()
+playerDownAttackImage.src = "./img/playerfullbotattak.png"
+
+const playerUpAttackImage = new Image()
+playerUpAttackImage.src = "./img/playerfullupattak.png"
+
+const playerRightAttackImage = new Image()
+playerRightAttackImage.src = "./img/playerfullrightattak.png"
+
+const playerLeftAttackImage = new Image()
+playerLeftAttackImage.src = "./img/playerfullleftattak.png"
+
 const enemyDown = new Image()
 enemyDown.src = "./img/bot.png"
 
@@ -67,6 +80,12 @@ const player = new Sprite ({
         left: playerLeftImage,
         down: playerDownImage,
         right: playerRightImage,
+        
+        attackUp: playerUpAttackImage,
+        attackLeft:playerLeftAttackImage,
+        attackDown:playerDownAttackImage,
+        attackRight:playerRightAttackImage,
+
     },
     size: {
         s : 0.5 ,
@@ -127,6 +146,9 @@ const keys = {
     d: {
         presser: false
     },
+    rightClick: {
+        presser: false
+    },
 }
 
 const testbor = new Boundary({
@@ -156,18 +178,28 @@ function move () {
     contour.forEach((boundari) => {
         boundari.draw()
     })
-    player.draw()
+
+    if (!player.attacking) {
+        player.draw()
+
+    } else {
+        player.drawAttack()
+    }
     enemy.draw()
     foreground.draw()
 
     let moving = true
     player.moving = false
     enemy.moving = false
-
     if (keys.z.presser) {
         player.moving = true
-        player.image = player.sprites.up
-        for (let i = 0; i < contour.length; i++) {
+        if(keys.rightClick.presser) {
+            player.attacking = true
+            player.image = player.sprites.attackUp
+        } else {
+            player.image = player.sprites.up
+
+        }        for (let i = 0; i < contour.length; i++) {
             const boundari = contour[i]
             if(
                 rectangleCollision({
@@ -193,8 +225,13 @@ function move () {
 
     } else if (keys.q.presser) {
         player.moving = true
-        player.image = player.sprites.left
-        for (let i = 0; i < contour.length; i++) {
+        if(keys.rightClick.presser) {
+            player.attacking = true
+            player.image = player.sprites.attackLeft
+        } else {
+            player.image = player.sprites.left
+
+        }        for (let i = 0; i < contour.length; i++) {
             const boundari = contour[i]
             if(
                 rectangleCollision({
@@ -220,7 +257,13 @@ function move () {
 
     } else if (keys.s.presser) {
         player.moving = true
-        player.image = player.sprites.down
+        if(keys.rightClick.presser) {
+            player.attacking = true
+            player.image = player.sprites.attackDown
+        } else {
+            player.image = player.sprites.down
+
+        }
         for (let i = 0; i < contour.length; i++) {
             const boundari = contour[i]
             if(
@@ -247,8 +290,13 @@ function move () {
 
     } else if (keys.d.presser) {
         player.moving = true
-        player.image = player.sprites.right
-        for (let i = 0; i < contour.length; i++) {
+        if(keys.rightClick.presser) {
+            player.attacking = true
+            player.image = player.sprites.attackRight
+        } else {
+            player.image = player.sprites.right
+
+        }        for (let i = 0; i < contour.length; i++) {
             const boundari = contour[i]
             if(
                 rectangleCollision({
@@ -271,7 +319,7 @@ function move () {
                 movable.position.x -= 5
             })
         }
-    }
+    } 
 }
 move()
 
@@ -325,4 +373,17 @@ window.addEventListener('keyup', (e) => {
     }
 });
 
+window.addEventListener('mousedown', function(event) {
+    if (event.button === 0) {
+        keys.rightClick.presser = true;
+        console.log("true")
+    }
+})
+
+window.addEventListener('mouseup', function(event) {
+    if (event.button === 0) {
+        keys.rightClick.presser = false;
+        console.log("false")
+    }
+})
 
