@@ -113,7 +113,8 @@ const enemy = new Sprite ({
     },
     size: {
         s : 1 ,
-    }
+    },
+    pointDeVie : 2,
 })
 
 
@@ -159,7 +160,7 @@ const testbor = new Boundary({
 })
 
 
-const movables = [background, ...contour, foreground]
+const movables = [background, ...contour, foreground, enemy]
 function rectangleCollision({rectangle1, rectangle2}) {
     return (
         rectangle1.position.x + rectangle1.width * rectangle1.size.s >= rectangle2.position.x && 
@@ -178,7 +179,11 @@ function move () {
     contour.forEach((boundari) => {
         boundari.draw()
     })
+    if(enemy.alive) {
+        enemy.draw()
+    }
 
+    console.log("hp des ennemis", enemy.pointDeVie)
     if (!player.attacking) {
         player.draw()
         console.log("nattaque aps")
@@ -187,13 +192,13 @@ function move () {
         player.drawAttack()
         console.log("est entrain d'attack")
     }
-    enemy.draw()
     foreground.draw()
 
     let moving = true
     player.moving = false
     enemy.moving = false
     if (keys.z.presser) {
+        player.orientation = "up"
         player.moving = true
         if(keys.rightClick.presser) {
             player.attacking = true
@@ -225,7 +230,27 @@ function move () {
             })
         }
 
+        if(
+            rectangleCollision({
+                rectangle1: player,
+                rectangle2: {
+                    ...enemy, 
+                    position: {
+                    x: enemy.position.x,
+                    y: enemy.position.y + 5
+                }}
+            }) && player.frames.elapsedAttack %10 === 0 && player.attacking && player.frames.attackFrameVal >= player.frames.max - 1
+        ) {
+            enemy.getHit = true
+            enemy.pointDeVie += -1
+            if(enemy.pointDeVie == 0) {
+                enemy.alive = false
+            }
+        }
+
     } else if (keys.q.presser) {
+        player.orientation = "left"
+
         player.moving = true
         if(keys.rightClick.presser) {
             player.attacking = true
@@ -257,8 +282,26 @@ function move () {
                 movable.position.x += 5
             })
         }
+        if(
+            rectangleCollision({
+                rectangle1: player,
+                rectangle2: {
+                    ...enemy, 
+                    position: {
+                    x: enemy.position.x,
+                    y: enemy.position.y + 5
+                }}
+            }) && player.frames.elapsedAttack %10 === 0 && player.attacking && player.frames.attackFrameVal >= player.frames.max - 1
+        ) {
+            enemy.getHit = true
+            enemy.pointDeVie += -1
+            if(enemy.pointDeVie == 0) {
+                enemy.alive = false
+            }
+        }
 
     } else if (keys.s.presser) {
+        player.orientation = "bot"
         player.moving = true
         if(keys.rightClick.presser) {
             player.attacking = true
@@ -291,8 +334,27 @@ function move () {
                 movable.position.y -= 5
             })
         }
+        if(
+            rectangleCollision({
+                rectangle1: player,
+                rectangle2: {
+                    ...enemy, 
+                    position: {
+                    x: enemy.position.x,
+                    y: enemy.position.y + 5
+                }}
+            }) && player.frames.elapsedAttack %10 === 0 && player.attacking && player.frames.attackFrameVal >= player.frames.max - 1
+        ) {
+            enemy.getHit = true
+            enemy.pointDeVie += -1
+            if(enemy.pointDeVie == 0) {
+                enemy.alive = false
+            }
+        }
 
     } else if (keys.d.presser) {
+        player.orientation = "right"
+
         player.moving = true
         if(keys.rightClick.presser) {
             player.attacking = true
@@ -324,7 +386,60 @@ function move () {
                 movable.position.x -= 5
             })
         }
-    } 
+        if(
+            rectangleCollision({
+                rectangle1: player,
+                rectangle2: {
+                    ...enemy, 
+                    position: {
+                    x: enemy.position.x,
+                    y: enemy.position.y + 5
+                }}
+            }) && player.frames.elapsedAttack %10 === 0 && player.attacking && player.frames.attackFrameVal >= player.frames.max - 1
+        ) {
+            enemy.getHit = true
+            enemy.pointDeVie += -1
+            if(enemy.pointDeVie == 0) {
+                enemy.alive = false
+            }
+        }
+    } else if (keys.rightClick.presser && !keys.d.presser  && !keys.q.presser  && !keys.z.presser  && !keys.s.presser){
+        player.attacking = true
+        if (player.orientation == "up") {
+            player.image = player.sprites.attackUp
+
+        }  else if (player.orientation == "bot") {
+            player.image = player.sprites.attackDown
+            
+        } else if (player.orientation == "left") {
+            player.image = player.sprites.attackLeft
+
+            
+        } else if (player.orientation == "right") {
+            player.image = player.sprites.attackRight
+
+            
+        }
+
+        if(
+            rectangleCollision({
+                rectangle1: player,
+                rectangle2: {
+                    ...enemy, 
+                    position: {
+                    x: enemy.position.x,
+                    y: enemy.position.y + 5
+                }}
+            }) && player.frames.elapsedAttack %10 === 0 && player.attacking && player.frames.attackFrameVal >= player.frames.max - 1
+        ) {
+            enemy.getHit = true
+            enemy.pointDeVie += -1
+            if(enemy.pointDeVie == 0) {
+                enemy.alive = false
+            }
+        }
+
+    }
 }
 move()
 

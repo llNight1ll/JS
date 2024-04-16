@@ -1,9 +1,9 @@
 class Sprite {
-    constructor({position, velocity, image, frames = {max: 1}, sprites,size = {s: 1}}) {
+    constructor({position, velocity, image, frames = {max: 1}, sprites,size = {s: 1},pointDeVie}) {
         this.size = size
         this.position = position
         this.image = image
-        this.frames = {...frames, val: 0, elapsed: 0, attack : 0, elapsedAttack :0,}
+        this.frames = {...frames, val: 0, elapsed: 0, attackFrameVal : 0, elapsedAttack :0,}
         this.image.onload = () => {
             this.width = this.image.width / this.frames.max
             this.height = this.image.height
@@ -11,8 +11,12 @@ class Sprite {
         this.moving = false
         this.attacking = false
         this.sprites = sprites
-        this.animationTimeout
-        this.number = 0
+        this.orientation = ""
+        this.alive = true
+        this.pointDeVie = pointDeVie
+        this.getHit = false
+        this.endAttack = false
+        this.attackingNumber = 0
 
     }
 
@@ -49,10 +53,12 @@ class Sprite {
 
 
     drawAttack() {
+        
+
         c.drawImage
         c.drawImage(
             this.image,
-            this.frames.attack * this.width,
+            this.frames.attackFrameVal * this.width,
             0,
             this.image.width / this.frames.max,
             this.image.height,
@@ -67,16 +73,16 @@ class Sprite {
         }
 
         if (this.frames.elapsedAttack %10 === 0) {
-            if (this.frames.attack < this.frames.max - 1) {    
-                this.frames.attack++
+            if (this.frames.attackFrameVal < this.frames.max - 1) {    
+                this.frames.attackFrameVal++
             } else {
-                this.frames.attack = 0
                 this.attacking = false
+                this.frames.attackFrameVal = 0
                 keys.rightClick.presser = false
                 return
+
             }
         }
-        console.log(this.frames.attack)
     }
 
   
