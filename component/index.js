@@ -181,9 +181,11 @@ function move () {
 
     if (!player.attacking) {
         player.draw()
+        console.log("nattaque aps")
 
     } else {
         player.drawAttack()
+        console.log("est entrain d'attack")
     }
     enemy.draw()
     foreground.draw()
@@ -229,6 +231,7 @@ function move () {
             player.attacking = true
             player.image = player.sprites.attackLeft
         } else {
+            player.attacking = false
             player.image = player.sprites.left
 
         }        for (let i = 0; i < contour.length; i++) {
@@ -261,6 +264,7 @@ function move () {
             player.attacking = true
             player.image = player.sprites.attackDown
         } else {
+            player.attacking = false
             player.image = player.sprites.down
 
         }
@@ -294,6 +298,7 @@ function move () {
             player.attacking = true
             player.image = player.sprites.attackRight
         } else {
+            player.attacking = false
             player.image = player.sprites.right
 
         }        for (let i = 0; i < contour.length; i++) {
@@ -376,14 +381,10 @@ window.addEventListener('keyup', (e) => {
 window.addEventListener('mousedown', function(event) {
     if (event.button === 0) {
         keys.rightClick.presser = true;
-        console.log("true")
     }
 })
 
-window.addEventListener('mouseup', function(event) {
-    if (event.button === 0) {
-        keys.rightClick.presser = false;
-        console.log("false")
-    }
-})
+
+
+
 

@@ -3,7 +3,7 @@ class Sprite {
         this.size = size
         this.position = position
         this.image = image
-        this.frames = {...frames, val: 0, elapsed: 0}
+        this.frames = {...frames, val: 0, elapsed: 0, attack : 0, elapsedAttack :0,}
         this.image.onload = () => {
             this.width = this.image.width / this.frames.max
             this.height = this.image.height
@@ -12,6 +12,7 @@ class Sprite {
         this.attacking = false
         this.sprites = sprites
         this.animationTimeout
+        this.number = 0
 
     }
 
@@ -46,12 +47,12 @@ class Sprite {
         }
     }
 
+
     drawAttack() {
-        let i = 0
-        clearTimeout(this.animationTimeout)
+        c.drawImage
         c.drawImage(
             this.image,
-            i * this.width,
+            this.frames.attack * this.width,
             0,
             this.image.width / this.frames.max,
             this.image.height,
@@ -60,32 +61,25 @@ class Sprite {
             this.image.width / this.frames.max * this.size.s, 
             this.image.height* this.size.s
         )
-        if (i >= 4){
-            this.attacking = false
-        }
-
-        if (!this.attacking) {
-            return
-        }
 
         if (this.frames.max > 1) {
-            this.frames.elapsed ++
+            this.frames.elapsedAttack++
         }
 
-        if (this.frames.elapsed %10 === 0) {
-            if (i < this.frames.max - 1) {
-                this.frames.val++
+        if (this.frames.elapsedAttack %10 === 0) {
+            if (this.frames.attack < this.frames.max - 1) {    
+                this.frames.attack++
             } else {
-                this.frames.val = 0
+                this.frames.attack = 0
+                this.attacking = false
+                keys.rightClick.presser = false
+                return
             }
         }
-
-        this.animationTimeout = setTimeout(function() {
-            requestAnimationFrame(drawAttack);
-            i++;
-         }, 100);
-
+        console.log(this.frames.attack)
     }
+
+  
     
 
 
