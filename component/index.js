@@ -65,6 +65,15 @@ playerLeftAttackImage.src = "./img/playerfullleftattak.png"
 const enemyDown = new Image()
 enemyDown.src = "./img/bot.png"
 
+const enemyUp = new Image()
+enemyUp.src = "./img/up1.png"
+
+const enemyRight = new Image()
+enemyRight.src = "./img/right.png"
+
+const enemyLeft = new Image()
+enemyLeft.src = "./img/left.png"
+
 
 const player = new Sprite ({
     position: {
@@ -106,16 +115,17 @@ const enemy = new Enemy ({
         max: 4,
     },
     sprites: {
-        up: enemyDown,
-        left: enemyDown,
+        up: enemyUp,
+        left: enemyLeft,
         down: enemyDown,
-        right: enemyDown,
+        right: enemyRight,
     },
     size: {
         s : 1 ,
     },
     pointDeVie : 2,
-    player: player 
+    player: player ,
+    rogneY: 61
 })
 
 
@@ -181,6 +191,19 @@ function move () {
         boundari.draw()
     })
     if(enemy.alive) {
+        enemy.moveIntoPlayer()
+        if(enemy.orientation == "up"){
+            enemy.image = enemy.sprites.up
+
+        } else if (enemy.orientation == "right"){
+            enemy.image = enemy.sprites.right
+        
+        } else if (enemy.orientation == "left"){
+            enemy.image = enemy.sprites.left
+        }  else if (enemy.orientation == "bot"){
+            enemy.image = enemy.sprites.down
+        } 
+
         enemy.draw()
     }
 
@@ -229,6 +252,7 @@ function move () {
             movables.forEach((movable) => {
                 movable.position.y += 5
             })
+            player.realPostion.y +=5
         }
 
        enemy.hitDetection()
@@ -265,6 +289,8 @@ function move () {
         if (moving) {
             movables.forEach((movable) => {
                 movable.position.x += 5
+                player.realPostion.x +=5
+
             })
         }
         enemy.hitDetection()
@@ -301,6 +327,8 @@ function move () {
         if (moving) {
             movables.forEach((movable) => {
                 movable.position.y -= 5
+                player.realPostion.y -=5
+
             })
         }
         enemy.hitDetection()
@@ -337,6 +365,8 @@ function move () {
         if (moving) {
             movables.forEach((movable) => {
                 movable.position.x -= 5
+                player.realPostion.x -=5
+
             })
         }
         enemy.hitDetection()
