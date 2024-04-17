@@ -96,7 +96,7 @@ console.log(player)
 
 
 
-const enemy = new Sprite ({
+const enemy = new Enemy ({
     position: {
         x: canvas.width / 2 - 528 / 4 / 2 -50,
         y: canvas.height / 2 - 157 / 2 - 50,
@@ -115,6 +115,7 @@ const enemy = new Sprite ({
         s : 1 ,
     },
     pointDeVie : 2,
+    player: player 
 })
 
 
@@ -230,23 +231,7 @@ function move () {
             })
         }
 
-        if(
-            rectangleCollision({
-                rectangle1: player,
-                rectangle2: {
-                    ...enemy, 
-                    position: {
-                    x: enemy.position.x,
-                    y: enemy.position.y + 5
-                }}
-            }) && player.frames.elapsedAttack %10 === 0 && player.attacking && player.frames.attackFrameVal >= player.frames.max - 1
-        ) {
-            enemy.getHit = true
-            enemy.pointDeVie += -1
-            if(enemy.pointDeVie == 0) {
-                enemy.alive = false
-            }
-        }
+       enemy.hitDetection()
 
     } else if (keys.q.presser) {
         player.orientation = "left"
@@ -282,23 +267,7 @@ function move () {
                 movable.position.x += 5
             })
         }
-        if(
-            rectangleCollision({
-                rectangle1: player,
-                rectangle2: {
-                    ...enemy, 
-                    position: {
-                    x: enemy.position.x,
-                    y: enemy.position.y + 5
-                }}
-            }) && player.frames.elapsedAttack %10 === 0 && player.attacking && player.frames.attackFrameVal >= player.frames.max - 1
-        ) {
-            enemy.getHit = true
-            enemy.pointDeVie += -1
-            if(enemy.pointDeVie == 0) {
-                enemy.alive = false
-            }
-        }
+        enemy.hitDetection()
 
     } else if (keys.s.presser) {
         player.orientation = "bot"
@@ -334,23 +303,7 @@ function move () {
                 movable.position.y -= 5
             })
         }
-        if(
-            rectangleCollision({
-                rectangle1: player,
-                rectangle2: {
-                    ...enemy, 
-                    position: {
-                    x: enemy.position.x,
-                    y: enemy.position.y + 5
-                }}
-            }) && player.frames.elapsedAttack %10 === 0 && player.attacking && player.frames.attackFrameVal >= player.frames.max - 1
-        ) {
-            enemy.getHit = true
-            enemy.pointDeVie += -1
-            if(enemy.pointDeVie == 0) {
-                enemy.alive = false
-            }
-        }
+        enemy.hitDetection()
 
     } else if (keys.d.presser) {
         player.orientation = "right"
@@ -386,23 +339,8 @@ function move () {
                 movable.position.x -= 5
             })
         }
-        if(
-            rectangleCollision({
-                rectangle1: player,
-                rectangle2: {
-                    ...enemy, 
-                    position: {
-                    x: enemy.position.x,
-                    y: enemy.position.y + 5
-                }}
-            }) && player.frames.elapsedAttack %10 === 0 && player.attacking && player.frames.attackFrameVal >= player.frames.max - 1
-        ) {
-            enemy.getHit = true
-            enemy.pointDeVie += -1
-            if(enemy.pointDeVie == 0) {
-                enemy.alive = false
-            }
-        }
+        enemy.hitDetection()
+
     } else if (keys.rightClick.presser && !keys.d.presser  && !keys.q.presser  && !keys.z.presser  && !keys.s.presser){
         player.attacking = true
         if (player.orientation == "up") {
@@ -421,23 +359,7 @@ function move () {
             
         }
 
-        if(
-            rectangleCollision({
-                rectangle1: player,
-                rectangle2: {
-                    ...enemy, 
-                    position: {
-                    x: enemy.position.x,
-                    y: enemy.position.y + 5
-                }}
-            }) && player.frames.elapsedAttack %10 === 0 && player.attacking && player.frames.attackFrameVal >= player.frames.max - 1
-        ) {
-            enemy.getHit = true
-            enemy.pointDeVie += -1
-            if(enemy.pointDeVie == 0) {
-                enemy.alive = false
-            }
-        }
+        enemy.hitDetection()
 
     }
 }
