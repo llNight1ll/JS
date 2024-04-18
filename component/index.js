@@ -119,35 +119,7 @@ console.log(player)
 
 
 
-const enemy = new Enemy ({
-    position: {
-        x: canvas.width / 2 - 528 / 4 / 2 -50,
-        y: canvas.height / 2 - 157 / 2 - 50,
-    },
-    image: enemyDown,
-    frames: {
-        max: 4,
-    },
-    sprites: {
-        up: enemyUp,
-        left: enemyLeft,
-        down: enemyDown,
-        right: enemyRight,
-
-
-        attackUp: enemyUpAttackImage,
-        attackLeft:enemyLeftAttackImage,
-        attackDown:enemyDownAttackImage,
-        attackRight:enemyRightAttackImage,
-
-    },
-    size: {
-        s : 1 ,
-    },
-    pointDeVie : 10,
-    player: player ,
-    rogneY: 61
-})
+const enemy = createEnnemyType1()
 
 
 const background = new Sprite({
@@ -206,6 +178,7 @@ function rectangleCollision({rectangle1, rectangle2}) {
 }
 
 function move () {
+
     window.requestAnimationFrame(move)
     background.draw()
     contour.forEach((boundari) => {

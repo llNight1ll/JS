@@ -114,7 +114,7 @@ class Boundary {
 
 
 class Enemy {
-    constructor({position, velocity, image, frames = {max: 1}, sprites,size = {s: 1},pointDeVie, rogneY}) {
+    constructor({position, velocity, image, frames = {max: 1}, sprites,size = {s: 1},pointDeVie, rogneY,imageWidth,imageHeight,attackWidth}) {
         this.size = size
         this.position = position
         this.image = image
@@ -135,8 +135,9 @@ class Enemy {
         this.rogneY = rogneY
         this.distance = 50
         this.rogneY = 60
-        this.imageWidth = 39
-        this.imageHeight = 60
+        this.imageWidth = imageWidth
+        this.imageHeight = imageHeight
+        this.attackWidth = attackWidth
         this.hit = false
         this.IsExpulsed = false
         this.expulsionSpeedX = 4;
@@ -184,20 +185,19 @@ class Enemy {
 
 
     drawAttack() {
-        this.imageWidth = 56
-        this.imageHeight = 61
+      
         
 
         c.drawImage
         c.drawImage(
             this.image,
-            this.frames.attackFrameVal* this.imageWidth,
+            this.frames.attackFrameVal* this.attackWidth,
             0,
-            this.imageWidth,
+            this.attackWidth,
             this.imageHeight,
             this.position.x,
             this.position.y,
-            this.imageWidth * this.size.s, 
+            this.attackWidth * this.size.s, 
             this.imageHeight* this.size.s
         )
 
