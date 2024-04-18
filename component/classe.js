@@ -212,6 +212,7 @@ class Enemy {
                 this.attacking = false
                 this.frames.attackFrameVal = 0
                 this.hasAttacked = true
+                this.cooldown = 0
                 return
 
             }

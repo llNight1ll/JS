@@ -212,18 +212,14 @@ function move () {
         boundari.draw()
     })
     if(enemy.alive) {
-        if (enemy.hasAttacked = true){
-            enemy.cooldown += 50
-            if (enemy.cooldown >= 1000) {
-                enemy.cooldown = 0
-                enemy.hasAttacked = false
-            }
-
-
-        }
-        
-
+        console.log(enemy.cooldown)
+       
         if (enemy.IsExpulsed == false) {
+
+            if (enemy.hasAttacked = true){
+                enemy.cooldown += 2
+    
+            }
             enemy.moveIntoPlayer()
             if(enemy.orientation == "up"){
                 enemy.image = enemy.sprites.up
@@ -237,7 +233,7 @@ function move () {
                 enemy.image = enemy.sprites.down
             } 
     
-            if(enemy.distance < 80 && enemy.cooldown == 0) {
+            if(enemy.distance < 80 && enemy.cooldown >= 500) {
                 enemy.attacking = true
                 enemy.hitDetection()
                 console.log("hp du joueur", player.pointDeVie)
