@@ -1,5 +1,5 @@
 class Sprite {
-    constructor({position, velocity, image, frames = {max: 1}, sprites,size = {s: 1},pointDeVie, player}) {
+    constructor({position, velocity, image, frames = {max: 1}, sprites,size = {s: 1},pointDeVie}) {
         this.size = size
         this.position = position
         this.image = image
@@ -17,8 +17,9 @@ class Sprite {
         this.getHit = false
         this.endAttack = false
         this.attackingNumber = 0
-        this.player = player
         this.realPostion = {x: -410, y: -890}
+        this.gap = 20
+        this.defaultGap = 20
 
     }
 
@@ -55,6 +56,7 @@ class Sprite {
 
 
     drawAttack() {
+
         
 
         c.drawImage
@@ -131,8 +133,11 @@ class Enemy {
         this.endAttack = false
         this.attackingNumber = 0
         this.rogneY = rogneY
-        this.mouvementOrientation = "vertical"
-        this.OldmouvementOrientation = ""
+        this.distance = 50
+        this.rogneY = 60
+        this.imageWidth = 39
+        this.imageHeight = 60
+        this.hit = false
 
 
     }
@@ -140,17 +145,19 @@ class Enemy {
 
 
     draw() {
+        this.imageWidth = 39
+        this.imageHeight = 61
         c.drawImage
         c.drawImage(
             this.image,
             this.frames.val * this.width,
-            this.rogneY,
-            this.image.width / this.frames.max,
-            this.image.height,
+            0,
+            this.imageWidth,
+            this.imageHeight,
             this.position.x,
             this.position.y,
-            this.image.width / this.frames.max * this.size.s, 
-            this.image.height* this.size.s
+            this.imageWidth * this.size.s, 
+            this.imageHeight* this.size.s
         )
 
         if (!this.moving) {
@@ -172,19 +179,21 @@ class Enemy {
 
 
     drawAttack() {
+        this.imageWidth = 56
+        this.imageHeight = 61
         
 
         c.drawImage
         c.drawImage(
             this.image,
-            this.frames.attackFrameVal * this.width,
+            this.frames.attackFrameVal* this.imageWidth,
             0,
-            this.image.width / this.frames.max,
-            this.image.height,
+            this.imageWidth,
+            this.imageHeight,
             this.position.x,
             this.position.y,
-            this.image.width / this.frames.max * this.size.s, 
-            this.image.height* this.size.s
+            this.imageWidth * this.size.s, 
+            this.imageHeight* this.size.s
         )
 
         if (this.frames.max > 1) {
@@ -197,7 +206,6 @@ class Enemy {
             } else {
                 this.attacking = false
                 this.frames.attackFrameVal = 0
-                keys.rightClick.presser = false
                 return
 
             }
@@ -205,7 +213,7 @@ class Enemy {
     }
 
 
-    hitDetection(){
+    getHitDetection(){
         if(
             rectangleCollision({
                 rectangle1: player,
@@ -226,19 +234,41 @@ class Enemy {
 
     }
 
+    hitDetection(){
+        if(
+            rectangleCollision({
+                rectangle1: player,
+                rectangle2: {
+                    ...this, 
+                    position: {
+                    x: this.position.x,
+                    y: this.position.y + 5
+                }}
+            }) && this.frames.elapsedAttack %10 === 0 && this.attacking && this.frames.attackFrameVal >= this.frames.max - 1
+        ) {
+            this.hit = true
+            player.pointDeVie += -1
+            if(player.pointDeVie == 0) {
+                player.alive = false
+            }
+        }
+
+    }
+
+
 
     moveIntoPlayer() {
-        this.OldmouvementOrientation = this.mouvementOrientation
         const playerCenter = player.position.y + player.height / 2;
 
         const dx = player.position.x - this.position.x;
         const dy = playerCenter - this.position.y - this.height/2;
 
         const distanceFromPlayer = Math.sqrt(dx * dx + dy * dy);
+        this.distance = distanceFromPlayer;
 
         if (distanceFromPlayer > 0 && distanceFromPlayer<400) {
-            if(dx*dx >= dy*dy) {
-                this.mouvementOrientation == "horizontal"
+            this.moving = true;
+            if(Math.sqrt(dx *dx)  > Math.sqrt(dy*dy)  +  20) {
                 const vx = (dx / distanceFromPlayer) * 2;
                 this.position.x += vx;
                 if (vx >= 0){
@@ -250,8 +280,7 @@ class Enemy {
 
 
 
-            } else if ( Math.sqrt(dy*dy) >  Math.sqrt(dx *dx)) {
-                this.mouvementOrientation == "vertical"
+            }  else if ( Math.sqrt(dy*dy) >  Math.sqrt(dx *dx) + 20) {
 
                 const vy = (dy / distanceFromPlayer) * 2;
                 this.position.y += vy;
@@ -264,8 +293,18 @@ class Enemy {
 
 
 
-            }
+            }  else if ( Math.sqrt(dy*dy) <  Math.sqrt(dx *dx) + 20 &&  Math.sqrt(dx *dx)  < Math.sqrt(dy*dy)  +  20) {
 
+                this.moving = true
+                const vx = (dx / distanceFromPlayer) * 2;
+                this.position.x += vx;
+
+            }   
+
+
+
+        } else {
+            this.moving = false
         }
     }
 

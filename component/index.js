@@ -75,6 +75,19 @@ const enemyLeft = new Image()
 enemyLeft.src = "./img/left.png"
 
 
+const enemyDownAttackImage = new Image()
+enemyDownAttackImage.src = "./img/attakbot.png"
+
+const enemyUpAttackImage = new Image()
+enemyUpAttackImage.src = "./img/attakup.png"
+
+const enemyRightAttackImage = new Image()
+enemyRightAttackImage.src = "./img/attakright.png"
+
+const enemyLeftAttackImage = new Image()
+enemyLeftAttackImage.src = "./img/attakleft.png"
+
+
 const player = new Sprite ({
     position: {
         x: canvas.width / 2 - 528 / 4 / 2,
@@ -98,7 +111,8 @@ const player = new Sprite ({
     },
     size: {
         s : 0.5 ,
-    }
+    },
+    pointDeVie : 10
 })
 console.log(player)
 
@@ -119,6 +133,13 @@ const enemy = new Enemy ({
         left: enemyLeft,
         down: enemyDown,
         right: enemyRight,
+
+
+        attackUp: enemyUpAttackImage,
+        attackLeft:enemyLeftAttackImage,
+        attackDown:enemyDownAttackImage,
+        attackRight:enemyRightAttackImage,
+
     },
     size: {
         s : 1 ,
@@ -204,7 +225,49 @@ function move () {
             enemy.image = enemy.sprites.down
         } 
 
-        enemy.draw()
+        if(enemy.distance < 80) {
+            enemy.attacking = true
+            enemy.hitDetection()
+            console.log("hp du joueur", player.pointDeVie)
+            
+            if(enemy.orientation == "up"){
+
+              
+                enemy.image = enemy.sprites.attackUp; 
+        
+    
+            } else if (enemy.orientation == "right"){
+
+              
+                enemy.image = enemy.sprites.attackRight;
+                
+                
+            
+            } else if (enemy.orientation == "left"){
+
+              
+                enemy.image = enemy.sprites.attackLeft;
+                
+
+            }  else if (enemy.orientation == "bot"){
+
+               
+                enemy.image = enemy.sprites.attackDown;
+                
+            }
+            enemy.drawAttack();
+
+
+        
+        } else {
+            enemy.attacking = false
+            enemy.imageWidth = 39
+            enemy.imageHeight = 60
+            enemy.draw()
+
+        }
+
+
     }
 
     console.log("hp des ennemis", enemy.pointDeVie)
@@ -255,7 +318,7 @@ function move () {
             player.realPostion.y +=5
         }
 
-       enemy.hitDetection()
+       enemy.getHitDetection()
 
     } else if (keys.q.presser) {
         player.orientation = "left"
@@ -293,7 +356,7 @@ function move () {
 
             })
         }
-        enemy.hitDetection()
+        enemy.getHitDetection()
 
     } else if (keys.s.presser) {
         player.orientation = "bot"
@@ -331,7 +394,7 @@ function move () {
 
             })
         }
-        enemy.hitDetection()
+        enemy.getHitDetection()
 
     } else if (keys.d.presser) {
         player.orientation = "right"
@@ -369,7 +432,7 @@ function move () {
 
             })
         }
-        enemy.hitDetection()
+        enemy.getHitDetection()
 
     } else if (keys.rightClick.presser && !keys.d.presser  && !keys.q.presser  && !keys.z.presser  && !keys.s.presser){
         player.attacking = true
@@ -389,7 +452,7 @@ function move () {
             
         }
 
-        enemy.hitDetection()
+        enemy.getHitDetection()
 
     }
 }
