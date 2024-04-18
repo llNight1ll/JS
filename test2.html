@@ -17,139 +17,301 @@
         window.onload = function() {
             var canvas = document.getElementById("animationCanvas");
             var ctx = canvas.getContext("2d");
+            let animationId = null; // Initialiser à null
+            var animationTimeout;
+            var attakAnimationTimeout;
+            let keydownHandler;
+            let keyupHandler;
+
+
+            var attakframe = 1;
             var spriteSheet = new Image();
             spriteSheet.src = "./img/bot.png";
-          // Remplacez "spritesheet.png" par le chemin de votre spritesheet
-    
-            var spriteSheet2 = new Image();
-            spriteSheet2.src = "./img/bot2.png"; // Remplacez "spritesheet.png" par le chemin de votre spritesheet
 
+            var spriteSheet2 = new Image();
+            spriteSheet2.src = "./img/bot2.png";
 
             var spriteSheetP = new Image();
-            spriteSheetP.src = "./img/playerfullbot.png"; // Remplacez "spritesheet.png" par le chemin de votre spritesheet
+            spriteSheetP.src = "./img/playerfullbot.png";
 
             var spriteSheet4 = new Image();
-            spriteSheet4.src = "./img/bot3.png"; // Remplacez "spritesheet.png" par le chemin de votre spritesheet
+            spriteSheet4.src = "./img/bot3.png";
 
-            var frameWidth = 39; // Largeur d'un frame dans la spritesheet
-            var frameHeight = 61; // Hauteur d'un frame dans la spritesheet
-            var frameCount = 4; // Nombre total de frames dans la spritesheet
-            var currentFrame = 0; // Frame actuelle
-            var rogneX = 0; 
-            var rogneY = 0; 
+            const image = new Image()
+            image.src = "./img/map.png"
 
+            const foregroundImage = new Image()
+            foregroundImage.src = "./img/foreground.png"
+            
 
-            var frameWidth2 = 50; // Largeur d'un frame dans la spritesheet
-            var frameHeight2 = 69; // Hauteur d'un frame dans la spritesheet
-            var frameCount2 = 4; // Nombre total de frames dans la spritesheet
-            var currentFrame2 = 0; // Frame actuelle
-            var rogneX2 = 0; 
+            var frameWidth = 39;
+            var frameHeight = 61;
+            var frameCount = 4;
+            var currentFrame = 0;
+            var rogneX = 0;
+            var rogneY = 0;
+
+            var frameWidth2 = 50;
+            var frameHeight2 = 69;
+            var frameCount2 = 4;
+            var currentFrame2 = 0;
+            var rogneX2 = 0;
             var rogneY2 = 0;
-            
-            var frameWidth3 = 132; // Largeur d'un frame dans la spritesheet
-            var frameHeight3 = 157; // Hauteur d'un frame dans la spritesheet
-            var frameCount3 = 4; // Nombre total de frames dans la spritesheet
-            var currentFrame3 = 0; // Frame actuelle
-            var rogneX3 = 0; 
-            var rogneY3 = 0; 
 
-            var frameWidth4 = 48; // Largeur d'un frame dans la spritesheet
-            var frameHeight4 = 90; // Hauteur d'un frame dans la spritesheet
-            var frameCount4 = 4; // Nombre total de frames dans la spritesheet
-            var currentFrame4 = 0; // Frame actuelle
-            var rogneX4 = 0; 
-            var rogneY4 = 0; 
-            var animationTimeout;
- 
+            var frameWidth3 = 132;
+            var frameHeight3 = 157;
+            var frameCount3 = 4;
+            var currentFrame3 = 0;
+            var rogneX3 = 0;
+            var rogneY3 = 0;
 
+            var frameWidth4 = 48;
+            var frameHeight4 = 90;
+            var frameCount4 = 4;
+            var currentFrame4 = 0;
+            var rogneX4 = 0;
+            var rogneY4 = 0;
 
-            spriteSheet4.onload = function() {
-                animate();
-            };
-
-            
-        
+            var isAttacking = false;
 
 
-            function animate() {
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-                ctx.drawImage(spriteSheet, currentFrame * frameWidth+rogneX, 0+rogneY, frameWidth, frameHeight, 0, 0, frameWidth, frameHeight);
-                currentFrame = (currentFrame + 1) % frameCount;
+            const keys = {
+                z: { presser: false },
+                q: { presser: false },
+                s: { presser: false },
+                d: { presser: false },
+                g: { presser: false },
 
-
-                ctx.drawImage(spriteSheet2, currentFrame2 * frameWidth2+rogneX2, 0+rogneY2, frameWidth2, frameHeight2, 40, 0, frameWidth2, frameHeight2);
-                currentFrame2 = (currentFrame2 + 1) % frameCount2;
-
-                ctx.drawImage(spriteSheetP, currentFrame3 * frameWidth3+rogneX3, 0+rogneY3, frameWidth3, frameHeight3, 100, 100, frameWidth3, frameHeight3);
-                currentFrame3 = (currentFrame3 + 1) % frameCount3;
-
-                ctx.drawImage(spriteSheet4, currentFrame4 * frameWidth4+rogneX4, 0+rogneY4, frameWidth4, frameHeight4, 400, 0, frameWidth4, frameHeight4);
-                currentFrame4 = (currentFrame4 + 1) % frameCount4;
-
-
-
-                animationTimeout = setTimeout(function() {
-                    requestAnimationFrame(animate);
-                 }, 100);
+                
             }
 
-            
-            document.addEventListener("keydown", function(event) {
-                if (event.key === "z") {
-                    clearTimeout(animationTimeout);   
-                    spriteSheet2.src = "./img/up2.png";
-                    spriteSheet.src = "./img/up1.png";
-                    spriteSheet4.src = "./img/up3.png"
-                    spriteSheetP.src = "./img/playerfullup.png";;     
-                }
-                if (event.key === "s") {
-                    clearTimeout(animationTimeout);
-                    spriteSheet.src = "./img/bot.png"; // Remplacez "spritesheet.png" par le chemin de votre spritesheet
-                    spriteSheet2.src = "./img/bot2.png";
-                    spriteSheet4.src = "./img/bot3.png";
-                    spriteSheetP.src = "./img/playerfullbot.png";
-                }   
+            function disableEventListener() {
+                window.removeEventListener('keydown', keydownHandler);
 
-                if (event.key === "d") {
-                    clearTimeout(animationTimeout);
-                    spriteSheet2.src = "./img/right2.png";
-                    spriteSheet.src = "./img/right.png";
-                    spriteSheet4.src = "./img/right3.png";
-                    spriteSheetP.src = "./img/playerfullright.png";
-                }
+            }
+            function enableEventListener() {
+                 window.addEventListener('keydown', keydownHandler);
 
-                if (event.key === "q") {
-                    clearTimeout(animationTimeout);
-                    spriteSheet2.src = "./img/left2.png";
-                    spriteSheet.src = "./img/left.png";
-                    spriteSheet4.src = "./img/left3.png";
-                    spriteSheetP.src = "./img/playerfullleft.png";
-                }
+            }
 
-                if (event.key === "f") {
-                    if (rogneY === 0) {
-                            rogneY = 61
-                            frameHeight = 60
-                        } else {
-                            rogneY = 0
-                            frameHeight = 61;
+
+
+            window.addEventListener('keydown', (e) => {
+                switch (e.key) {
+                    case 'Z':
+                    case 'ArrowUp':
+                    case 'z':
+                        spriteSheet2.src = "./img/up2.png";
+                        spriteSheet4.src = "./img/up3.png";
+                        spriteSheetP.src = "./img/playerfullup.png";
+                        keys.z.presser = true;
+                        if(isAttacking == false && keys.g.presser == false) {
+                            spriteSheet.src = "./img/up1.png";
+
+                            startAnimation();
                         }
-                    if (rogneY2 === 0){
-                            rogneY2 = 69
-                            frameHeight2 = 69
-                        } else {
-                            rogneY2 = 0
-                            frameHeight2 = 69;
+                        break;
+                    case 'q':
+                    case 'ArrowLeft':
+                    case 'Q':
+                        spriteSheet2.src = "./img/left2.png";
+                        spriteSheet4.src = "./img/left3.png";
+                        spriteSheetP.src = "./img/playerfullleft.png";
+                        keys.q.presser = true;
+                        if(isAttacking == false && keys.g.presser == false) {
+                            spriteSheet.src = "./img/left.png";
+
+                            startAnimation();
                         }
-                    if (rogneY4 === 0){
-                            rogneY4 = 90
-                            frameHeight4 = 90
-                        } else {
-                            rogneY4 = 0
-                            frameHeight4 = 90;
+                        break;
+                    case 's':
+                    case 'ArrowDown':
+                    case 'S':
+                        spriteSheet2.src = "./img/bot2.png";
+                        spriteSheet4.src = "./img/bot3.png";
+                        spriteSheetP.src = "./img/playerfullbot.png";
+                        keys.s.presser = true;
+                        if(isAttacking == false && keys.g.presser == false) {
+                            spriteSheet.src = "./img/bot.png";
+
+                            startAnimation();
                         }
+                        break;
+                    case 'd':
+                    case 'ArrowRight':
+                    case 'D':
+                        spriteSheet2.src = "./img/right2.png";
+                        spriteSheet4.src = "./img/right3.png";
+                        spriteSheetP.src = "./img/playerfullright.png";
+                        keys.d.presser = true;
+                        if(isAttacking == false && keys.g.presser == false) {
+                            spriteSheet.src = "./img/right.png";
+
+                            startAnimation();
+                        }
+                        break;
+                    case 'f':
+                        changeStyle();
+                    break;
+                    case 'g':
+                        keys.g.presser = true;
+                        if (isAttacking == false) {
+                            isAttacking = true;
+                            spriteSheet.src = "./img/attakright.png";
+                            frameWidth = 56;
+
+
+                            playAttak();
+
+                        };
+                    break;
+                
                 }
             });
+
+            window.addEventListener('keyup', keyupHandler = (e) => {
+                switch (e.key) {
+                    case 'z':
+                    case 'ArrowUp':
+                    case 'Z':
+                        keys.z.presser = false;
+                        frameWidth = 39; 
+
+                        checkStopAnimation();
+                        break;
+                    case 'q':
+                    case 'ArrowLeft':
+                    case 'Q':
+                        keys.q.presser = false;
+                        frameWidth = 39; 
+
+                        checkStopAnimation();
+                        break;
+                    case 's':
+                    case 'ArrowDown':
+                    case 'S':
+                        keys.s.presser = false;
+                        frameWidth = 39; 
+
+                        checkStopAnimation();
+                        break;
+                    case 'd':
+                    case 'ArrowRight':
+                    case 'D':
+                        keys.d.presser = false;
+                        frameWidth = 39; 
+
+                        checkStopAnimation();
+                        break;
+                }
+            });
+
+            function startAnimation() {
+                if (animationId === null) {
+                    deplacement();
+                }
+            }
+
+            function checkStopAnimation() {
+                if (!keys.z.presser && !keys.q.presser && !keys.s.presser && !keys.d.presser) {
+                    clearTimeout(animationTimeout);
+
+                    cancelAnimationFrame(animationId);
+                    animationId = null;
+                }
+                
+            }
+
+            function deplacement() {
+                clearTimeout(animationTimeout);
+
+                ctx.drawImage(image,-750,-550);
+                ctx.drawImage(foregroundImage,-750,-550);
+
+                if(isAttacking == false) {
+                    ctx.drawImage(spriteSheet, currentFrame * frameWidth + rogneX, 0 + rogneY, frameWidth, frameHeight, 0, 0, frameWidth, frameHeight);
+                currentFrame = (currentFrame + 1) % frameCount;
+
+                ctx.drawImage(spriteSheet2, currentFrame2 * frameWidth2 + rogneX2, 0 + rogneY2, frameWidth2, frameHeight2, 56, 0, frameWidth2, frameHeight2);
+                currentFrame2 = (currentFrame2 + 1) % frameCount2;
+
+                ctx.drawImage(spriteSheetP, currentFrame3 * frameWidth3 + rogneX3, 0 + rogneY3, frameWidth3, frameHeight3, 100, 100, frameWidth3, frameHeight3);
+                currentFrame3 = (currentFrame3 + 1) % frameCount3;
+
+                ctx.drawImage(spriteSheet4, currentFrame4 * frameWidth4 + rogneX4, 0 + rogneY4, frameWidth4, frameHeight4, 400, 0, frameWidth4, frameHeight4);
+                currentFrame4 = (currentFrame4 + 1) % frameCount4;
+                
+                animationTimeout = setTimeout(function() {
+                     animationId = requestAnimationFrame(deplacement);
+                }, 100);
+                
+            } else {
+                cancelAnimationFrame(animationId);
+                animationId = null;
+
+
+
+            };
+
+
+                
+            }
+            function changeStyle(){
+                if (rogneY === 0) {
+                    rogneY = 61
+                    frameHeight = 60
+                    } else {
+                    rogneY = 0
+                    frameHeight = 61;
+                }   
+                if (rogneY2 === 0){
+                    rogneY2 = 69
+                    frameHeight2 = 69
+                    } else {
+                    rogneY2 = 0
+                    frameHeight2 = 69;
+                }
+                if (rogneY4 === 0){
+                    rogneY4 = 90
+                    frameHeight4 = 90
+                    } else {
+                    rogneY4 = 0
+                    frameHeight4 = 90;
+                    }
+            }
+            function playAttak(){ 
+            
+                if (attakframe <=4){  
+                    setTimeout(function() {
+                        ctx.drawImage(image,-750,-550);
+                        ctx.drawImage(foregroundImage,-750,-550);
+                        ctx.drawImage(spriteSheet, attakframe * frameWidth + rogneX, 0 + rogneY, frameWidth, frameHeight, 0, 0, frameWidth, frameHeight);
+                        
+                        ctx.drawImage(spriteSheet2, currentFrame2 * frameWidth2 + rogneX2, 0 + rogneY2, frameWidth2, frameHeight2, 56, 0, frameWidth2, frameHeight2);
+                        currentFrame2 = (currentFrame2 + 1) % frameCount2;
+
+                        ctx.drawImage(spriteSheetP, currentFrame3 * frameWidth3 + rogneX3, 0 + rogneY3, frameWidth3, frameHeight3, 100, 100, frameWidth3, frameHeight3);
+                        currentFrame3 = (currentFrame3 + 1) % frameCount3;
+
+                        ctx.drawImage(spriteSheet4, currentFrame4 * frameWidth4 + rogneX4, 0 + rogneY4, frameWidth4, frameHeight4, 400, 0, frameWidth4, frameHeight4);
+                        currentFrame4 = (currentFrame4 + 1) % frameCount4;
+
+                        attakframe++;
+
+                        requestAnimationFrame(playAttak);
+
+
+                    },100);
+                } else {
+                    attakframe = 1;
+                    isAttacking = false;
+                    frameWidth = 39;
+                    keys.g.presser = false;
+                     
+
+                }
+            }
+
         };
     </script>
 </body>
