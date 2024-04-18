@@ -138,6 +138,11 @@ class Enemy {
         this.imageWidth = 39
         this.imageHeight = 60
         this.hit = false
+        this.IsExpulsed = false
+        this.expulsionSpeedX = 4;
+        this.expulsionSpeedY = 4;
+        this.cooldown = 0;
+        this.hasAttacked = false
 
 
     }
@@ -206,6 +211,7 @@ class Enemy {
             } else {
                 this.attacking = false
                 this.frames.attackFrameVal = 0
+                this.hasAttacked = true
                 return
 
             }
@@ -227,6 +233,7 @@ class Enemy {
         ) {
             this.getHit = true
             this.pointDeVie += -1
+            this.IsExpulsed = true
             if(this.pointDeVie == 0) {
                 this.alive = false
             }
@@ -253,6 +260,53 @@ class Enemy {
             }
         }
 
+    }
+
+
+    expulsionAnimation() {
+        const expulsionDirection = { x: 2, y: -2 };
+
+
+        if(player.orientation == "up"){
+            expulsionDirection.x = 0.5
+            expulsionDirection.y = -4
+
+        }else  if(player.orientation == "bot"){
+            expulsionDirection.x = 0.5  
+            expulsionDirection.y = 4
+            
+        } else  if(player.orientation == "right"){
+            expulsionDirection.x = 2
+            expulsionDirection.y = -2
+            
+        } else  if(player.orientation == "left"){
+            expulsionDirection.x = -2
+            expulsionDirection.y = -2
+            
+        }
+     
+
+      
+        this.position.x += expulsionDirection.x * this.expulsionSpeedX;
+        this.position.y += expulsionDirection.y * this.expulsionSpeedY;
+
+        if(this.expulsionSpeedX <= 0 && this.expulsionSpeedY <= 0){
+            this.IsExpulsed = false;
+            this.expulsionSpeedX = 4;
+            this.expulsionSpeedY = 4;
+            return
+        }
+
+        this.expulsionSpeedX -= 0.1
+        this.expulsionSpeedY -= 0.2
+
+
+
+        // Mettre à jour les autres propriétés si nécessaire (par exemple, frames, etc.)
+        // ...
+
+        // Si vous avez une logique pour arrêter l'animation ou gérer d'autres états, mettez-la ici
+        // ...
     }
 
 

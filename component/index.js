@@ -144,7 +144,7 @@ const enemy = new Enemy ({
     size: {
         s : 1 ,
     },
-    pointDeVie : 2,
+    pointDeVie : 10,
     player: player ,
     rogneY: 61
 })
@@ -212,60 +212,78 @@ function move () {
         boundari.draw()
     })
     if(enemy.alive) {
-        enemy.moveIntoPlayer()
-        if(enemy.orientation == "up"){
-            enemy.image = enemy.sprites.up
-
-        } else if (enemy.orientation == "right"){
-            enemy.image = enemy.sprites.right
-        
-        } else if (enemy.orientation == "left"){
-            enemy.image = enemy.sprites.left
-        }  else if (enemy.orientation == "bot"){
-            enemy.image = enemy.sprites.down
-        } 
-
-        if(enemy.distance < 80) {
-            enemy.attacking = true
-            enemy.hitDetection()
-            console.log("hp du joueur", player.pointDeVie)
-            
-            if(enemy.orientation == "up"){
-
-              
-                enemy.image = enemy.sprites.attackUp; 
-        
-    
-            } else if (enemy.orientation == "right"){
-
-              
-                enemy.image = enemy.sprites.attackRight;
-                
-                
-            
-            } else if (enemy.orientation == "left"){
-
-              
-                enemy.image = enemy.sprites.attackLeft;
-                
-
-            }  else if (enemy.orientation == "bot"){
-
-               
-                enemy.image = enemy.sprites.attackDown;
-                
+        if (enemy.hasAttacked = true){
+            enemy.cooldown += 50
+            if (enemy.cooldown >= 1000) {
+                enemy.cooldown = 0
+                enemy.hasAttacked = false
             }
-            enemy.drawAttack();
 
-
-        
-        } else {
-            enemy.attacking = false
-            enemy.imageWidth = 39
-            enemy.imageHeight = 60
-            enemy.draw()
 
         }
+        
+
+        if (enemy.IsExpulsed == false) {
+            enemy.moveIntoPlayer()
+            if(enemy.orientation == "up"){
+                enemy.image = enemy.sprites.up
+    
+            } else if (enemy.orientation == "right"){
+                enemy.image = enemy.sprites.right
+            
+            } else if (enemy.orientation == "left"){
+                enemy.image = enemy.sprites.left
+            }  else if (enemy.orientation == "bot"){
+                enemy.image = enemy.sprites.down
+            } 
+    
+            if(enemy.distance < 80 && enemy.cooldown == 0) {
+                enemy.attacking = true
+                enemy.hitDetection()
+                console.log("hp du joueur", player.pointDeVie)
+                
+                if(enemy.orientation == "up"){
+    
+                  
+                    enemy.image = enemy.sprites.attackUp; 
+            
+        
+                } else if (enemy.orientation == "right"){
+    
+                  
+                    enemy.image = enemy.sprites.attackRight;
+                    
+                    
+                
+                } else if (enemy.orientation == "left"){
+    
+                  
+                    enemy.image = enemy.sprites.attackLeft;
+                    
+    
+                }  else if (enemy.orientation == "bot"){
+    
+                   
+                    enemy.image = enemy.sprites.attackDown;
+                    
+                }
+                enemy.drawAttack();
+    
+    
+            
+            } else {
+                enemy.attacking = false
+                enemy.imageWidth = 39
+                enemy.imageHeight = 60
+                enemy.draw()
+    
+            }
+
+        } else {
+            enemy.expulsionAnimation()
+            enemy.draw()
+        }
+       
 
 
     }
