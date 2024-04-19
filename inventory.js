@@ -43,3 +43,24 @@ inventory.addEnemy(newEnemy);
 
 
 inventory.showEnemies();
+
+function openInventory() {
+    characterModal.style.display = "block";
+}
+
+
+document.addEventListener("keydown", function(event) {
+    if (event.key === "a" || event.key === "A") {
+        openInventory(); 
+    }
+});
+
+
+confirmButton.addEventListener("click", function() {
+    if (selectedCharacter) {
+        characterModal.style.display = "none";
+        startGame(selectedCharacter);
+    } else {
+        alert("Veuillez sélectionner un mobs.");
+    }
+});
