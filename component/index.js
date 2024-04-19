@@ -119,7 +119,7 @@ console.log(player)
 
 
 
-
+const enemy = createEnnemyType1()
 
 
 const background = new Sprite({
@@ -164,9 +164,7 @@ const testbor = new Boundary({
 })
 
 
-/* let movables = [background, ...contour, foreground, spawnertest]
- */
-movables.push(background, ...contour, foreground)
+const movables = [background, ...contour, foreground, enemy]
 function rectangleCollision({rectangle1, rectangle2}) {
     return (
         rectangle1.position.x + rectangle1.width * rectangle1.size.s >= rectangle2.position.x && 
@@ -179,26 +177,87 @@ function rectangleCollision({rectangle1, rectangle2}) {
     )
 }
 
-
-let createSpawnBoool = true
-
 function move () {
-    if (createSpawnBoool){
-        const spawnertest = createSpawner1()
-        createSpawnBoool = false 
-
-    }
-
 
     window.requestAnimationFrame(move)
     background.draw()
     contour.forEach((boundari) => {
         boundari.draw()
     })
+    if(enemy.alive) {
+        console.log(enemy.cooldown)
+       
+        if (enemy.IsExpulsed == false) {
 
-  
-   
+            if (enemy.hasAttacked = true){
+                enemy.cooldown += 2
+    
+            }
+            enemy.moveIntoPlayer()
+            if(enemy.orientation == "up"){
+                enemy.image = enemy.sprites.up
+    
+            } else if (enemy.orientation == "right"){
+                enemy.image = enemy.sprites.right
+            
+            } else if (enemy.orientation == "left"){
+                enemy.image = enemy.sprites.left
+            }  else if (enemy.orientation == "bot"){
+                enemy.image = enemy.sprites.down
+            } 
+    
+            if(enemy.distance < 80 && enemy.cooldown >= 500) {
+                enemy.attacking = true
+                enemy.hitDetection()
+                console.log("hp du joueur", player.pointDeVie)
+                
+                if(enemy.orientation == "up"){
+    
+                  
+                    enemy.image = enemy.sprites.attackUp; 
+            
+        
+                } else if (enemy.orientation == "right"){
+    
+                  
+                    enemy.image = enemy.sprites.attackRight;
+                    
+                    
+                
+                } else if (enemy.orientation == "left"){
+    
+                  
+                    enemy.image = enemy.sprites.attackLeft;
+                    
+    
+                }  else if (enemy.orientation == "bot"){
+    
+                   
+                    enemy.image = enemy.sprites.attackDown;
+                    
+                }
+                enemy.drawAttack();
+    
+    
+            
+            } else {
+                enemy.attacking = false
+                enemy.imageWidth = 39
+                enemy.imageHeight = 60
+                enemy.draw()
+    
+            }
 
+        } else {
+            enemy.expulsionAnimation()
+            enemy.draw()
+        }
+       
+
+
+    }
+
+    console.log("hp des ennemis", enemy.pointDeVie)
     if (!player.attacking) {
         player.draw()
         console.log("nattaque aps")
@@ -211,6 +270,7 @@ function move () {
 
     let moving = true
     player.moving = false
+    enemy.moving = false
     if (keys.z.presser) {
         player.orientation = "up"
         player.moving = true
@@ -245,6 +305,7 @@ function move () {
             player.realPostion.y +=5
         }
 
+       enemy.getHitDetection()
 
     } else if (keys.q.presser) {
         player.orientation = "left"
@@ -282,6 +343,7 @@ function move () {
 
             })
         }
+        enemy.getHitDetection()
 
     } else if (keys.s.presser) {
         player.orientation = "bot"
@@ -319,6 +381,7 @@ function move () {
 
             })
         }
+        enemy.getHitDetection()
 
     } else if (keys.d.presser) {
         player.orientation = "right"
@@ -356,7 +419,7 @@ function move () {
 
             })
         }
-        
+        enemy.getHitDetection()
 
     } else if (keys.rightClick.presser && !keys.d.presser  && !keys.q.presser  && !keys.z.presser  && !keys.s.presser){
         player.attacking = true
@@ -376,6 +439,7 @@ function move () {
             
         }
 
+        enemy.getHitDetection()
 
     }
 }
