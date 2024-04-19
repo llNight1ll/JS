@@ -148,9 +148,9 @@ const boss = new Boss ({
     size: {
         s : 1.5 ,
     },
-    pointDeVie : 2,
+    pointDeVie : 20,
     player: player ,
-    rogneY: 61
+    rogneY: 0
 })
 
 
@@ -213,6 +213,9 @@ function rectangleCollision({rectangle1, rectangle2}) {
         rectangle1.position.y + rectangle1.height  * rectangle1.size.s >= rectangle2.position.y
     )
 }
+
+let initialBossX = canvas.width / 2 - 528 / 4 / 2 - 50;
+
 
 function move () {
 
@@ -290,8 +293,9 @@ function move () {
             enemy.draw()
         }
     }
+        boss.draw()
 
-    boss.draw() 
+    boss.moveSet1()
 
     console.log("hp des ennemis", enemy.pointDeVie)
     if (!player.attacking) {

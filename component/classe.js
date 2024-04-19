@@ -88,11 +88,6 @@ class Sprite {
             }
         }
     }
-
-  
-    
-
-
 }
 
 class Boundary {
@@ -417,7 +412,7 @@ class Boss {
             this.frames.elapsed ++
         }
 
-        if (this.frames.elapsed %10 === 0) {
+        if (this.frames.elapsed %150 === 0) {
             if (this.frames.val < this.frames.max - 1) {
                 this.frames.val++
             } else {
@@ -490,5 +485,12 @@ class Boss {
         }
     }
 
+    moveSet1(){
+        if (boss.position.x < initialBossX + 200) {
+            boss.image = boss.sprites.right
+            boss.moving = true
+            boss.position.x += 1;
+        }
+    }
 
 }
