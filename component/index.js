@@ -87,6 +87,19 @@ enemyRightAttackImage.src = "./img/attakright.png"
 const enemyLeftAttackImage = new Image()
 enemyLeftAttackImage.src = "./img/attakleft.png"
 
+const bossDown = new Image()
+bossDown.src = "./img/boss1Down.png"
+
+const bossUp = new Image()
+bossUp.src = "./img/boss1Up.png"
+
+const bossRight = new Image()
+bossRight.src = "./img/boss1Right.png"
+
+const bossLeft = new Image()
+bossLeft.src = "./img/boss1Left.png"
+
+
 
 const player = new Sprite ({
     position: {
@@ -115,6 +128,30 @@ const player = new Sprite ({
     pointDeVie : 10
 })
 console.log(player)
+
+
+const boss = new Boss ({
+    position: {
+        x: canvas.width / 2 - 528 / 4 / 2 -50,
+        y: canvas.height / 2 - 157 / 2 - 50,
+    },
+    image: bossDown,
+    frames: {
+        max: 3,
+    },
+    sprites: {
+        up: bossUp,
+        left: bossLeft,
+        down: bossDown,
+        right: bossRight,
+    },
+    size: {
+        s : 1.5 ,
+    },
+    pointDeVie : 2,
+    player: player ,
+    rogneY: 61
+})
 
 
 
@@ -164,7 +201,7 @@ const testbor = new Boundary({
 })
 
 
-const movables = [background, ...contour, foreground, enemy]
+const movables = [background, ...contour, foreground, enemy,boss]
 function rectangleCollision({rectangle1, rectangle2}) {
     return (
         rectangle1.position.x + rectangle1.width * rectangle1.size.s >= rectangle2.position.x && 
@@ -252,10 +289,9 @@ function move () {
             enemy.expulsionAnimation()
             enemy.draw()
         }
-       
-
-
     }
+
+    boss.draw() 
 
     console.log("hp des ennemis", enemy.pointDeVie)
     if (!player.attacking) {
