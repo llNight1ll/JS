@@ -1,3 +1,7 @@
+const movables = [];
+let timess  = 0;
+
+
 class Sprite {
     constructor({position, velocity, image, frames = {max: 1}, sprites,size = {s: 1},pointDeVie}) {
         this.size = size
@@ -363,4 +367,179 @@ class Enemy {
         }
     }
 
+
+
+    activateEnemy(){
+
+        if(this.alive) {
+            console.log("blablabkaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+
+            this.getHitDetection()
+            console.log(this.cooldown)
+           
+            if (this.IsExpulsed == false) {
+    
+                if (this.hasAttacked = true){
+                    this.cooldown += 2
+        
+                }
+                this.moveIntoPlayer()
+                if(this.orientation == "up"){
+                    this.image = this.sprites.up
+        
+                } else if (this.orientation == "right"){
+                    this.image = this.sprites.right
+                
+                } else if (this.orientation == "left"){
+                    this.image = this.sprites.left
+                }  else if (this.orientation == "bot"){
+                    this.image = this.sprites.down
+                } 
+        
+                if(this.distance < 80 && this.cooldown >= 500) {
+                    this.attacking = true
+                    this.hitDetection()
+                    console.log("hp du joueur", player.pointDeVie)
+                    
+                    if(this.orientation == "up"){
+        
+                      
+                        this.image = this.sprites.attackUp; 
+                
+            
+                    } else if (this.orientation == "right"){
+        
+                      
+                        this.image = this.sprites.attackRight;
+                        
+                        
+                    
+                    } else if (this.orientation == "left"){
+        
+                      
+                        this.image = this.sprites.attackLeft;
+                        
+        
+                    }  else if (this.orientation == "bot"){
+        
+                       
+                        this.image = this.sprites.attackDown;
+                        
+                    }
+                    this.drawAttack();
+        
+        
+                
+                } else {
+                    this.attacking = false
+                    this.imageWidth = 39
+                    this.imageHeight = 60
+                    this.draw()
+        
+                }
+
+    
+            } else {
+                this.expulsionAnimation()
+                this.draw()
+
+            }
+           
+    
+    
+        }
+
+    }
+
+
+}
+
+class Spawner {
+    constructor({position}) {   
+        this.position = position
+
+    }
+
+    timeot(){
+        if (timess == 1000){
+            timess = 0;
+        } else {
+            timess += 1
+        }
+
+    }
+
+
+    spawnerType1() {
+        
+        for(let i = 0; i < 10 ;i++){
+            
+            if (timess > 0){
+                while (timess > 0) {
+                    console.log(timess, "temps resttttttttttttttt ");
+
+                    this.timeot();
+    
+        
+                }
+            } else {
+            /* let enemyNamez = "enemyType1-" + numberOfType1 */
+            const enemyName = createEnnemyType1(this.position)
+            
+    
+        
+            enemies1.push(enemyName);
+            movables.push(enemyName);
+            numberOfType1++;
+            enemyName.activateEnemy();
+            this.timeot();
+                
+            }
+    
+           
+
+        
+        }
+    
+/*         console.log(enemies1)
+ */    
+    
+        
+    }
+
+
+     spawnerType2() {
+
+        for(let i = 0; i < 10;i++){
+            let enemyName = "enemyType2-" + numberOfType2
+            enemyName = createEnnemyType2()
+        
+            enemies2.push(enemyName);
+            numberOfType2++
+    
+        
+        }
+    
+        console.log(enemies2)
+    }
+
+
+     spawnerType3() {
+
+        for(let i = 0; i < 10;i++){
+            let enemyName = "enemyType3-" + numberOfType3
+            enemyName = createEnnemyType3()
+        
+            enemies3.push(enemyName);
+            numberOfType3++
+    
+        
+        }
+    
+        console.log(enemies3)
+    
+        
+    }
+    
+        
 }
