@@ -139,8 +139,7 @@ class Enemy {
         this.expulsionSpeedY = 4;
         this.cooldown = 0;
         this.hasAttacked = false
-
-
+        this.spellMoving = false
     }
 
 
@@ -214,7 +213,6 @@ class Enemy {
         }
     }
 
-
     getHitDetection(){
         if(
             rectangleCollision({
@@ -257,7 +255,6 @@ class Enemy {
         }
 
     }
-
 
     expulsionAnimation() {
         const expulsionDirection = { x: 2, y: -2 };
@@ -304,8 +301,6 @@ class Enemy {
         // Si vous avez une logique pour arrêter l'animation ou gérer d'autres états, mettez-la ici
         // ...
     }
-
-
 
     moveIntoPlayer() {
         const playerCenter = player.position.y + player.height / 2;
@@ -357,6 +352,48 @@ class Enemy {
             this.moving = false
         }
     }
+
+    getDistanceFromPlayer() {
+        const playerCenter = player.position.y + player.height / 2;
+
+        const dx = player.position.x - this.position.x;
+        const dy = playerCenter - this.position.y - this.height/2;
+
+        const distanceFromPlayer = Math.sqrt(dx * dx + dy * dy);
+        return distanceFromPlayer;
+    }
+
+    distanceAttack(unfollow,maxRange, minRange) {
+        this.distance = this.getDistanceFromPlayer()
+
+        if(this.distance <maxRange && this.distance>minRange && this.cooldown >= 500) {
+            if (this.distance > unfollow) {
+                this.imageWidth = 39
+                this.imageHeight = 60
+                this.attacking = false
+            } else {
+                this.attacking = true
+                this.hitDetection()
+                if(this.orientation == "up"){
+                    this.image = this.sprites.attackUp; 
+                } else if (this.orientation == "right"){
+                    this.image = this.sprites.attackRight;
+                } else if (this.orientation == "left"){
+                    this.image = this.sprites.attackLeft;
+                }  else if (this.orientation == "bot"){
+                    this.image = this.sprites.attackDown;
+                }
+                //lancer l'attaque
+                this.drawAttack()
+            }
+        } else {
+            this.attacking = false
+            this.imageWidth = 39
+            this.imageHeight = 60
+            this.moveIntoPlayer()
+        }
+    }
+
 
 }
 
@@ -494,3 +531,77 @@ class Boss {
     }
 
 }
+
+
+class Spell {
+    constructor({position}) {
+        this.size = 5
+        this.velocity = 5
+        this.position = position
+        this.moving = false
+        this.attacking = false
+        this.orientation = "bot"
+        this.endAttack = false
+        this.distance = 0
+        this.hit = false
+        this.width= 50
+        this.height= 50
+    }
+
+    moveIntoPlayer() {
+        const playerCenter = player.position.y + player.height / 2;
+
+        const dx = player.position.x - this.position.x;
+        const dy = playerCenter - this.position.y - this.height/2;
+
+        const distanceFromPlayer = Math.sqrt(dx * dx + dy * dy);
+        this.distance = distanceFromPlayer;
+
+        if (distanceFromPlayer > 0 && distanceFromPlayer<400) {
+            this.moving = true;
+            if(Math.sqrt(dx *dx)  > Math.sqrt(dy*dy)  +  20) {
+                const vx = (dx / distanceFromPlayer) * 2;
+                this.position.x += vx;
+                if (vx >= 0){
+                    this.orientation = "right"
+                    
+                } else {
+                    this.orientation = "left"
+                }
+
+
+
+            }  else if ( Math.sqrt(dy*dy) >  Math.sqrt(dx *dx) + 20) {
+
+                const vy = (dy / distanceFromPlayer) * 2;
+                this.position.y += vy;
+
+                if (vy >= 0){
+                    this.orientation = "bot"
+                } else {
+                    this.orientation = "up"
+                }
+
+
+
+            }  else if ( Math.sqrt(dy*dy) <  Math.sqrt(dx *dx) + 20 &&  Math.sqrt(dx *dx)  < Math.sqrt(dy*dy)  +  20) {
+
+                this.moving = true
+                const vx = (dx / distanceFromPlayer) * 2;
+                this.position.x += vx;
+
+            }   
+
+
+
+        } else {
+            this.moving = false
+        }
+    }
+
+    draw() {
+        c.fillStyle = "red";
+        c.fillRect(this.position.x, this.position.y, this.width, this.height);
+    }
+}
+

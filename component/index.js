@@ -130,33 +130,33 @@ const player = new Sprite ({
 console.log(player)
 
 
-const boss = new Boss ({
-    position: {
-        x: canvas.width / 2 - 528 / 4 / 2 -50,
-        y: canvas.height / 2 - 157 / 2 - 50,
-    },
-    image: bossDown,
-    frames: {
-        max: 3,
-    },
-    sprites: {
-        up: bossUp,
-        left: bossLeft,
-        down: bossDown,
-        right: bossRight,
-    },
-    size: {
-        s : 1.5 ,
-    },
-    pointDeVie : 20,
-    player: player ,
-    rogneY: 0
-})
+// const boss = new Boss ({
+//     position: {
+//         x: canvas.width / 2 - 528 / 4 / 2 -50,
+//         y: canvas.height / 2 - 157 / 2 - 50,
+//     },
+//     image: bossDown,
+//     frames: {
+//         max: 3,
+//     },
+//     sprites: {
+//         up: bossUp,
+//         left: bossLeft,
+//         down: bossDown,
+//         right: bossRight,
+//     },
+//     size: {
+//         s : 1.5 ,
+//     },
+//     pointDeVie : 20,
+//     player: player ,
+//     rogneY: 0
+// })
 
 
 
 
-const enemy = createEnnemyType1()
+const enemy = createEnnemyType3()
 
 
 const background = new Sprite({
@@ -201,7 +201,7 @@ const testbor = new Boundary({
 })
 
 
-const movables = [background, ...contour, foreground, enemy,boss]
+const movables = [background, ...contour, foreground, enemy]
 function rectangleCollision({rectangle1, rectangle2}) {
     return (
         rectangle1.position.x + rectangle1.width * rectangle1.size.s >= rectangle2.position.x && 
@@ -213,9 +213,6 @@ function rectangleCollision({rectangle1, rectangle2}) {
         rectangle1.position.y + rectangle1.height  * rectangle1.size.s >= rectangle2.position.y
     )
 }
-
-let initialBossX = canvas.width / 2 - 528 / 4 / 2 - 50;
-
 
 function move () {
 
@@ -231,9 +228,8 @@ function move () {
 
             if (enemy.hasAttacked = true){
                 enemy.cooldown += 2
-    
             }
-            enemy.moveIntoPlayer()
+
             if(enemy.orientation == "up"){
                 enemy.image = enemy.sprites.up
     
@@ -245,57 +241,58 @@ function move () {
             }  else if (enemy.orientation == "bot"){
                 enemy.image = enemy.sprites.down
             } 
-    
-            if(enemy.distance < 80 && enemy.cooldown >= 500) {
-                enemy.attacking = true
-                enemy.hitDetection()
-                console.log("hp du joueur", player.pointDeVie)
+            enemy.draw()
+
+            enemy.distanceAttack(800,500,350)
+
+            // if(enemy.distance < 80 && enemy.cooldown >= 500) {
+            //     enemy.attacking = true
+            //     enemy.hitDetection()
+            //     console.log("hp du joueur", player.pointDeVie)
                 
-                if(enemy.orientation == "up"){
+            //     if(enemy.orientation == "up"){
     
                   
-                    enemy.image = enemy.sprites.attackUp; 
+            //         enemy.image = enemy.sprites.attackUp; 
             
         
-                } else if (enemy.orientation == "right"){
+            //     } else if (enemy.orientation == "right"){
     
                   
-                    enemy.image = enemy.sprites.attackRight;
+            //         enemy.image = enemy.sprites.attackRight;
                     
                     
                 
-                } else if (enemy.orientation == "left"){
+            //     } else if (enemy.orientation == "left"){
     
                   
-                    enemy.image = enemy.sprites.attackLeft;
+            //         enemy.image = enemy.sprites.attackLeft;
                     
     
-                }  else if (enemy.orientation == "bot"){
+            //     }  else if (enemy.orientation == "bot"){
     
                    
-                    enemy.image = enemy.sprites.attackDown;
+            //         enemy.image = enemy.sprites.attackDown;
                     
-                }
-                enemy.drawAttack();
+            //     }
+            //     enemy.drawAttack();
     
     
             
-            } else {
-                enemy.attacking = false
-                enemy.imageWidth = 39
-                enemy.imageHeight = 60
-                enemy.draw()
+            // } else {
+            //     enemy.attacking = false
+            //     enemy.imageWidth = 39
+            //     enemy.imageHeight = 60
+            //     enemy.draw()
     
-            }
+            // }
 
         } else {
             enemy.expulsionAnimation()
             enemy.draw()
         }
     }
-        boss.draw()
 
-    boss.moveSet1()
 
     console.log("hp des ennemis", enemy.pointDeVie)
     if (!player.attacking) {
