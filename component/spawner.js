@@ -12,14 +12,37 @@ let enemies3 = [];
 
 
 function createSpawnerEnnemyType1(positions){
-     const Spawner1 = new Spawner({ position: {
+     const Spawner1 = new SpawnerType1({ position: {
         x: positions.x,
         y: positions.y
     },})
     movables.push(Spawner1);
-    SpawnerArray.push(Spawner1)
+    SpawnerArrayType1.push(Spawner1)
+   
+}
 
-  
+
+function createSpawnerEnnemyType2(positions){
+    const Spawner2 = new SpawnerType2({ position: {
+       x: positions.x,
+       y: positions.y
+   },})
+   movables.push(Spawner2);
+   SpawnerArrayType2.push(Spawner2)
+
+ 
+}
+
+
+function createSpawnerEnnemyType3(positions){
+    const Spawner3 = new SpawnerType3({ position: {
+       x: positions.x,
+       y: positions.y
+   },})
+   movables.push(Spawner3);
+   SpawnerArrayType3.push(Spawner3)
+
+ 
 }
 
 function createEnnemyType1(position){
@@ -84,7 +107,7 @@ function createEnnemyType1(position){
 }
 
 
-function createEnnemyType2(){
+function createEnnemyType2(position){
 
 
     const enemyDown = new Image()
@@ -115,8 +138,8 @@ function createEnnemyType2(){
 
     return new Enemy ({
         position: {
-            x: canvas.width / 2 - 528 / 4 / 2 -50,
-            y: canvas.height / 2 - 157 / 2 - 50,
+            x: position.x,
+            y: position.y,
         },
         image: enemyDown,
         frames: {
@@ -152,7 +175,7 @@ function createEnnemyType2(){
 }
 
 
-function createEnnemyType3(){
+function createEnnemyType3(position){
 
 
     const enemyDown = new Image()
@@ -182,8 +205,8 @@ function createEnnemyType3(){
 
     return new Enemy ({
         position: {
-            x: canvas.width / 2 - 528 / 4 / 2 -50,
-            y: canvas.height / 2 - 157 / 2 - 50,
+            x: position.x,
+            y: position.y,
         },
         image: enemyDown,
         frames: {

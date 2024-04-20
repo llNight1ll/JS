@@ -1,9 +1,10 @@
 const movables = [];
 const ennemies1 = [];
 
-const SpawnerArray = [];
+const SpawnerArrayType1 = [];
+const SpawnerArrayType2 = [];
+const SpawnerArrayType3 = [];
 let timess  = 0;
-let indicis;
 
 
 class Sprite {
@@ -159,8 +160,7 @@ class Enemy {
 
 
     draw() {
-        this.imageWidth = 39
-        this.imageHeight = 61
+       
         c.drawImage
         c.drawImage(
             this.image,
@@ -311,11 +311,6 @@ class Enemy {
 
 
 
-        // Mettre à jour les autres propriétés si nécessaire (par exemple, frames, etc.)
-        // ...
-
-        // Si vous avez une logique pour arrêter l'animation ou gérer d'autres états, mettez-la ici
-        // ...
     }
 
 
@@ -376,10 +371,8 @@ class Enemy {
     activateEnemy(){
 
         if(this.alive) {
-            console.log("blablabkaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
 
             this.getHitDetection()
-            console.log(this.cooldown)
            
             if (this.IsExpulsed == false) {
     
@@ -403,7 +396,6 @@ class Enemy {
                 if(this.distance < 80 && this.cooldown >= 500) {
                     this.attacking = true
                     this.hitDetection()
-                    console.log("hp du joueur", player.pointDeVie)
                     
                     if(this.orientation == "up"){
         
@@ -436,8 +428,6 @@ class Enemy {
                 
                 } else {
                     this.attacking = false
-                    this.imageWidth = 39
-                    this.imageHeight = 60
                     this.draw()
         
                 }
@@ -458,7 +448,7 @@ class Enemy {
 
 }
 
-class Spawner {
+class SpawnerType1 {
     constructor({position}) {   
         this.position = position
     }
@@ -481,25 +471,14 @@ class Spawner {
                return
         
             } else {
-            /* let enemyNamez = "enemyType1-" + numberOfType1 */
             const enemyName = createEnnemyType1(position)
             
-            
-    
         
             ennemies1.push(enemyName);
             movables.push(enemyName);
             numberOfType1++;
             enemyName.activateEnemy();
             }
-    
-           
-
-        
-
-    
-/*         console.log(enemies1)
- */    
     
         
     }
@@ -538,5 +517,81 @@ class Spawner {
         
     }
     
+        
+}
+
+
+class SpawnerType2 {
+    constructor({position}) {   
+        this.position = position
+    }
+
+    timeot(){
+        if (timess == 3000){
+            timess = 0;
+        } else {
+            timess += 1
+        }
+
+    }
+
+
+    spawnerType2(position) { 
+        
+
+
+            if (timeToSpawn > 0){
+               return
+        
+            } else {
+            const enemyName = createEnnemyType2(position)
+            
+            
+    
+        
+            ennemies1.push(enemyName);
+            movables.push(enemyName);
+            numberOfType1++;
+            enemyName.activateEnemy();
+            }
+     
+    }    
+        
+}
+
+class SpawnerType3 {
+    constructor({position}) {   
+        this.position = position
+    }
+
+    timeot(){
+        if (timess == 3000){
+            timess = 0;
+        } else {
+            timess += 1
+        }
+
+    }
+
+
+    spawnerType3(position) { 
+        
+            if (timeToSpawn > 0){
+               return
+        
+            } else {
+            const enemyName = createEnnemyType3(position)
+            
+        
+            ennemies1.push(enemyName);
+            movables.push(enemyName);
+            numberOfType1++;
+            enemyName.activateEnemy();
+            }
+    
+        
+    }
+
+
         
 }

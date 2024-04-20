@@ -174,7 +174,12 @@ const testbor = new Boundary({
 
 let timeToSpawn = 0
 
-createSpawnerEnnemyType1(position = {x: canvas.width / 2 - 528 / 4 / 2 -300, y: canvas.height / 2 - 157 / 2 -0.5})
+createSpawnerEnnemyType1(position = {x: canvas.width / 2 - 528 / 4 / 2 +300, y: canvas.height / 2 - 157 / 2 -0.5})
+
+createSpawnerEnnemyType2(position = {x: canvas.width / 2 - 528 / 4 / 2 -300, y: canvas.height / 2 - 157 / 2 -0.5})
+
+createSpawnerEnnemyType3(position = {x: canvas.width / 2 - 528 / 4 / 2 +300, y: canvas.height / 2 - 157 / 2 -0.5+ 100})
+
 
 
 movables.push(background, ...contour, foreground)
@@ -196,8 +201,19 @@ function move () {
 
     window.requestAnimationFrame(move)
   
-    SpawnerArray.forEach((spawner) => {
+    SpawnerArrayType1.forEach((spawner) => {
         spawner.spawnerType1(spawner.position)
+       })
+
+       
+    SpawnerArrayType2.forEach((spawner) => {
+        spawner.spawnerType2(spawner.position)
+       })
+
+
+       
+    SpawnerArrayType3.forEach((spawner) => {
+        spawner.spawnerType3(spawner.position)
        })
   
     background.draw()
