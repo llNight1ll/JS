@@ -3,33 +3,26 @@ let numberOfType2 = 0;
 let numberOfType3 = 0;
 
 
-let numberOfSpawnType1 = 0;
-let numberOfSpawnType2 = 0;
-let numberOfSpawnType3 = 0;
+let enemies2 = [];
 
 
-
-const enemies1 = [];
-
-const enemies2 = [];
-
-
-const enemies3 = [];
-
-
-const enemiesSpawn1 = [];
-
-const enemiesSpawn2 = [];
-
-
-const enemiesSpawn3 = [];
-
-let numberOfEnnemyType1 = 0;
+let enemies3 = [];
 
 
 
 
-function createEnnemyType1(positions){
+function createSpawnerEnnemyType1(positions){
+     const Spawner1 = new Spawner({ position: {
+        x: positions.x,
+        y: positions.y
+    },})
+    movables.push(Spawner1);
+    SpawnerArray.push(Spawner1)
+
+  
+}
+
+function createEnnemyType1(position){
     const enemyDown = new Image()
     enemyDown.src = "./img/bot.png"
 
@@ -57,8 +50,8 @@ function createEnnemyType1(positions){
 
     return new Enemy ({
         position: {
-            x: positions.x,
-            y: positions.y,
+            x: position.x,
+            y: position.y,
         },
         image: enemyDown,
         frames: {
@@ -87,12 +80,6 @@ function createEnnemyType1(positions){
         imageHeight: 61,
         attackWidth: 56
     })
-
-
-
-
-
-    
 
 }
 
@@ -230,34 +217,4 @@ function createEnnemyType3(){
     
 
 
-}
-
-function createSpawner1(){
-      
-      /* let enemySpawnNamez = "spawnerEnemyType1-" + numberOfSpawnType1 */
-      
-       const enemySpawnName = new Spawner ({
-            position: {
-                x: canvas.width / 2 - 528 / 4 / 2 + 500 + 20,
-                y: canvas.height / 2 - 157 / 2 + 20,
-            }
-        })
-
-
-        enemySpawnName.spawnerType1();
-
-        console.log(timess, "temps resttttttttttttttt ");
-
-
-
-    
-        enemiesSpawn1.push(enemySpawnName);
-        movables.push(enemySpawnName);
-
-
-        numberOfSpawnType1++;
-
-      
-
-    
 }

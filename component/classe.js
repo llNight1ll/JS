@@ -1,5 +1,9 @@
 const movables = [];
+const ennemies1 = [];
+
+const SpawnerArray = [];
 let timess  = 0;
+let indicis;
 
 
 class Sprite {
@@ -457,11 +461,10 @@ class Enemy {
 class Spawner {
     constructor({position}) {   
         this.position = position
-
     }
 
     timeot(){
-        if (timess == 1000){
+        if (timess == 3000){
             timess = 0;
         } else {
             timess += 1
@@ -470,36 +473,30 @@ class Spawner {
     }
 
 
-    spawnerType1() {
+    spawnerType1(position) { 
         
-        for(let i = 0; i < 10 ;i++){
-            
-            if (timess > 0){
-                while (timess > 0) {
-                    console.log(timess, "temps resttttttttttttttt ");
 
-                    this.timeot();
-    
+
+            if (timeToSpawn > 0){
+               return
         
-                }
             } else {
             /* let enemyNamez = "enemyType1-" + numberOfType1 */
-            const enemyName = createEnnemyType1(this.position)
+            const enemyName = createEnnemyType1(position)
+            
             
     
         
-            enemies1.push(enemyName);
+            ennemies1.push(enemyName);
             movables.push(enemyName);
             numberOfType1++;
             enemyName.activateEnemy();
-            this.timeot();
-                
             }
     
            
 
         
-        }
+
     
 /*         console.log(enemies1)
  */    

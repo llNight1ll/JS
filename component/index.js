@@ -166,6 +166,17 @@ const testbor = new Boundary({
 
 /* let movables = [background, ...contour, foreground, spawnertest]
  */
+
+
+
+
+
+
+let timeToSpawn = 0
+
+createSpawnerEnnemyType1(position = {x: canvas.width / 2 - 528 / 4 / 2 -300, y: canvas.height / 2 - 157 / 2 -0.5})
+
+
 movables.push(background, ...contour, foreground)
 function rectangleCollision({rectangle1, rectangle2}) {
     return (
@@ -179,25 +190,47 @@ function rectangleCollision({rectangle1, rectangle2}) {
     )
 }
 
-
-let createSpawnBoool = true
-
 function move () {
-    if (createSpawnBoool){
-        const spawnertest = createSpawner1()
-        createSpawnBoool = false 
 
-    }
 
 
     window.requestAnimationFrame(move)
+  
+    SpawnerArray.forEach((spawner) => {
+        spawner.spawnerType1(spawner.position)
+       })
+  
     background.draw()
     contour.forEach((boundari) => {
         boundari.draw()
     })
 
-  
+
+
+
+
+
+
+    timeToSpawn+= 1
+
+    if (timeToSpawn >= 1000) {
+        timeToSpawn = 0
+    }
    
+
+   console.log(movables ,'tableauaaaaaaaaaaaaaaaaa')
+   console.log(movables ,'tableauaaaaaaaaaaaaaaaaa')
+
+   console.log(movables ,'tableauaaaaaaaaaaaaaaaaa')
+
+    
+
+
+    ennemies1.forEach((enemy) => {
+        enemy.activateEnemy()
+    })
+
+
 
     if (!player.attacking) {
         player.draw()
