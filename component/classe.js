@@ -124,7 +124,7 @@ class Boundary {
 
 
 class Enemy {
-    constructor({position, velocity, image, frames = {max: 1}, sprites,size = {s: 1},pointDeVie, rogneY,imageWidth,imageHeight,attackWidth}) {
+    constructor({position, velocity, image, frames = {max: 1}, sprites,size = {s: 1},pointDeVie, rogneY,imageWidth,imageHeight,attackWidth,enemyType}) {
         this.size = size
         this.position = position
         this.image = image
@@ -156,13 +156,57 @@ class Enemy {
         this.hasAttacked = false
         this.delayBeforeChangingOrientation = 0;
         this.nombreAleatoire;
+        this.enemyType =  enemyType
+        this.dectect = false
 
 
 
 
     }
 
-
+    drawPoint(){
+        if (this.enemyType == 1) {
+            c.drawImage(
+                this.sprites.point,
+                0,
+                0,
+                41,
+                61,
+                this.position.x,
+                this.position.y,
+                41 * this.size.s, 
+                61* this.size.s
+            )
+        } else if (this.enemyType == 2) {
+            c.drawImage(
+                this.sprites.point,
+                0,
+                0,
+                52,
+                69,
+                this.position.x,
+                this.position.y,
+                52 * this.size.s, 
+                69* this.size.s
+            )
+        } else if (this.enemyType == 3){
+            c.drawImage(
+                this.sprites.point,
+                0,
+                0,
+                52,
+                69,
+                this.position.x,
+                this.position.y,
+                48 * this.size.s, 
+                90* this.size.s
+            )
+        }
+       
+    }
+   
+   
+    
 
     draw() {
        
@@ -376,6 +420,7 @@ class Enemy {
 
         if (distanceFromPlayer > 0 && distanceFromPlayer<300) {
             this.moving = true;
+            this.dectect = true;
             if(Math.sqrt(dx *dx)  > Math.sqrt(dy*dy)  +  20) {
                 const vx = (dx / distanceFromPlayer) * 2;
                 this.position.x += vx;
@@ -412,6 +457,8 @@ class Enemy {
 
 
         } else {
+            this.dectect = false;
+
             this.moving = true
 
             this.moveRandomly()
@@ -481,6 +528,9 @@ class Enemy {
                 } else {
                     this.attacking = false
                     this.draw()
+                    if (this.dectect){
+                        this.drawPoint()
+                    }
         
                 }
 

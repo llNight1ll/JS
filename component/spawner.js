@@ -71,6 +71,9 @@ function createEnnemyType1(position){
     const enemyLeftAttackImage = new Image()
     enemyLeftAttackImage.src = "./img/attakleft.png"
 
+    const point = new Image()
+    point.src = "./img/point3.png"
+
     return new Enemy ({
         position: {
             x: position.x,
@@ -91,6 +94,7 @@ function createEnnemyType1(position){
             attackLeft:enemyLeftAttackImage,
             attackDown:enemyDownAttackImage,
             attackRight:enemyRightAttackImage,
+            point : point,
     
         },
         size: {
@@ -101,7 +105,8 @@ function createEnnemyType1(position){
         rogneY: 61,
         imageWidth :39,
         imageHeight: 61,
-        attackWidth: 56
+        attackWidth: 56,
+        enemyType: 1
     })
 
 }
@@ -134,6 +139,8 @@ function createEnnemyType2(position){
 
     const enemyLeftAttackImage = new Image()
     enemyLeftAttackImage.src = "./img/attakleft2.png"
+    const point = new Image()
+    point.src = "./img/point2.png"
 
 
     return new Enemy ({
@@ -156,6 +163,7 @@ function createEnnemyType2(position){
             attackLeft:enemyLeftAttackImage,
             attackDown:enemyDownAttackImage,
             attackRight:enemyRightAttackImage,
+            point : point,
     
         },
         size: {
@@ -166,8 +174,8 @@ function createEnnemyType2(position){
         rogneY: 61,
         imageWidth :50,
         imageHeight: 69,
-        attackWidth: 56
-
+        attackWidth: 56,
+        enemyType: 2
     })
 
 
@@ -203,6 +211,9 @@ function createEnnemyType3(position){
     const enemyLeftAttackImage = new Image()
     enemyLeftAttackImage.src = "./img/attakleft3.png"
 
+    const point = new Image()
+    point.src = "./img/point.png"
+
     return new Enemy ({
         position: {
             x: position.x,
@@ -223,6 +234,7 @@ function createEnnemyType3(position){
             attackLeft:enemyLeftAttackImage,
             attackDown:enemyDownAttackImage,
             attackRight:enemyRightAttackImage,
+            point : point,
     
         },
         size: {
@@ -233,7 +245,8 @@ function createEnnemyType3(position){
         rogneY: 61,
         imageWidth :48,
         imageHeight: 90,
-        attackWidth: 56
+        attackWidth: 56,
+        enemyType: 3
     })
 
 
