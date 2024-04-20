@@ -1,5 +1,8 @@
 const movables = [];
 const ennemies1 = [];
+const ennemies2 = [];
+const ennemies3 = [];
+
 
 const SpawnerArrayType1 = [];
 const SpawnerArrayType2 = [];
@@ -34,7 +37,6 @@ class Sprite {
     }
 
     draw() {
-        c.drawImage
         c.drawImage(
             this.image,
             this.frames.val * this.width,
@@ -69,7 +71,6 @@ class Sprite {
 
         
 
-        c.drawImage
         c.drawImage(
             this.image,
             this.frames.attackFrameVal * this.width,
@@ -210,7 +211,6 @@ class Enemy {
 
     draw() {
        
-        c.drawImage
         c.drawImage(
             this.image,
             this.frames.val * this.width,
@@ -245,7 +245,6 @@ class Enemy {
       
         
 
-        c.drawImage
         c.drawImage(
             this.image,
             this.frames.attackFrameVal* this.attackWidth,
@@ -564,6 +563,22 @@ class SpawnerType1 {
 
     }
 
+    draw() {
+        const spawnerImage = new Image()
+        spawnerImage.src = "./img/portail.png"
+        c.drawImage(
+            spawnerImage,
+            0,
+            0,
+            69,
+            104,
+            this.position.x,
+            this.position.y,
+            69, 
+            104
+        )
+    }
+
 
     spawnerType1(position) { 
         
@@ -585,46 +600,12 @@ class SpawnerType1 {
         
     }
 
-
-     spawnerType2() {
-
-        for(let i = 0; i < 10;i++){
-            let enemyName = "enemyType2-" + numberOfType2
-            enemyName = createEnnemyType2()
-        
-            enemies2.push(enemyName);
-            numberOfType2++
-    
-        
-        }
-    
-        console.log(enemies2)
-    }
-
-
-     spawnerType3() {
-
-        for(let i = 0; i < 10;i++){
-            let enemyName = "enemyType3-" + numberOfType3
-            enemyName = createEnnemyType3()
-        
-            enemies3.push(enemyName);
-            numberOfType3++
-    
-        
-        }
-    
-        console.log(enemies3)
-    
-        
-    }
-    
-        
+         
 }
 
 
 class SpawnerType2 {
-    constructor({position}) {   
+    constructor({position,}) {   
         this.position = position
     }
 
@@ -635,6 +616,23 @@ class SpawnerType2 {
             timess += 1
         }
 
+    }
+
+    draw() {
+        const spawnerImage = new Image()
+        spawnerImage.src = "./img/portail2.png"
+       
+        c.drawImage(
+            spawnerImage,
+            0,
+            0,
+            69,
+            104,
+            this.position.x,
+            this.position.y,
+            69, 
+            104
+        )
     }
 
 
@@ -651,7 +649,7 @@ class SpawnerType2 {
             
     
         
-            ennemies1.push(enemyName);
+            ennemies2.push(enemyName);
             movables.push(enemyName);
             numberOfType1++;
             enemyName.activateEnemy();
@@ -685,13 +683,29 @@ class SpawnerType3 {
             const enemyName = createEnnemyType3(position)
             
         
-            ennemies1.push(enemyName);
+            ennemies3.push(enemyName);
             movables.push(enemyName);
             numberOfType1++;
             enemyName.activateEnemy();
             }
     
         
+    }
+
+    draw() {
+        const spawnerImage = new Image()
+        spawnerImage.src = "./img/portail3.png"
+        c.drawImage(
+            spawnerImage,
+            0,
+            0,
+            69,
+            104,
+            this.position.x,
+            this.position.y,
+            69, 
+            104
+        )
     }
 
 

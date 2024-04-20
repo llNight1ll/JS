@@ -178,7 +178,7 @@ createSpawnerEnnemyType1(position = {x: canvas.width / 2 - 528 / 4 / 2 +300, y: 
 
 createSpawnerEnnemyType2(position = {x: canvas.width / 2 - 528 / 4 / 2 -300, y: canvas.height / 2 - 157 / 2 -0.5})
 
-createSpawnerEnnemyType3(position = {x: canvas.width / 2 - 528 / 4 / 2 +300, y: canvas.height / 2 - 157 / 2 -0.5+ 100})
+createSpawnerEnnemyType3(position = {x: canvas.width / 2 - 528 / 4 / 2 +300, y: canvas.height / 2 - 157 / 2 -0.5+ - 200})
 
 
 
@@ -200,23 +200,28 @@ function move () {
 
 
     window.requestAnimationFrame(move)
-  
+    background.draw()
+
     SpawnerArrayType1.forEach((spawner) => {
-        spawner.spawnerType1(spawner.position)
+        spawner.spawnerType1(spawner.position);
+        spawner.draw()
        })
 
        
     SpawnerArrayType2.forEach((spawner) => {
-        spawner.spawnerType2(spawner.position)
+        spawner.spawnerType2(spawner.position);
+        spawner.draw()
+
        })
 
 
        
     SpawnerArrayType3.forEach((spawner) => {
-        spawner.spawnerType3(spawner.position)
+        spawner.spawnerType3(spawner.position);
+        spawner.draw()
+
        })
   
-    background.draw()
     contour.forEach((boundari) => {
         boundari.draw()
     })

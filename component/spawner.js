@@ -8,6 +8,7 @@ let numberOfType3 = 0;
 
 
 function createSpawnerEnnemyType1(positions){
+
      const Spawner1 = new SpawnerType1({ position: {
         x: positions.x,
         y: positions.y
@@ -31,6 +32,8 @@ function createSpawnerEnnemyType2(positions){
 
 
 function createSpawnerEnnemyType3(positions){
+
+
     const Spawner3 = new SpawnerType3({ position: {
        x: positions.x,
        y: positions.y
