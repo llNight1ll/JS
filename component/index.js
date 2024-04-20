@@ -245,6 +245,12 @@ function move () {
     ennemies1.forEach((enemy) => {
         enemy.activateEnemy()
     })
+    ennemies2.forEach((enemy) => {
+        enemy.activateEnemy()
+    })
+    ennemies3.forEach((enemy) => {
+        enemy.activateEnemy()
+    })
 
 
 

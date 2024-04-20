@@ -3,10 +3,6 @@ let numberOfType2 = 0;
 let numberOfType3 = 0;
 
 
-let enemies2 = [];
-
-
-let enemies3 = [];
 
 
 
@@ -72,7 +68,7 @@ function createEnnemyType1(position){
     enemyLeftAttackImage.src = "./img/attakleft.png"
 
     const point = new Image()
-    point.src = "./img/point3.png"
+    point.src = "./img/point.png"
 
     return new Enemy ({
         position: {
@@ -212,7 +208,7 @@ function createEnnemyType3(position){
     enemyLeftAttackImage.src = "./img/attakleft3.png"
 
     const point = new Image()
-    point.src = "./img/point.png"
+    point.src = "./img/point3.png"
 
     return new Enemy ({
         position: {
