@@ -7,6 +7,7 @@ const SpawnerArrayType3 = [];
 let timess  = 0;
 
 
+
 class Sprite {
     constructor({position, velocity, image, frames = {max: 1}, sprites,size = {s: 1},pointDeVie}) {
         this.size = size
@@ -153,6 +154,10 @@ class Enemy {
         this.expulsionSpeedY = 4;
         this.cooldown = 0;
         this.hasAttacked = false
+        this.delayBeforeChangingOrientation = 0;
+        this.nombreAleatoire;
+
+
 
 
     }
@@ -313,6 +318,51 @@ class Enemy {
 
     }
 
+    moveRandomly(){
+
+        if (this.delayBeforeChangingOrientation == 0){
+            var min = 0; 
+            var max = 3; 
+
+            var plage = max - min + 1;
+
+            var tableauAleatoire = new Uint32Array(1);
+
+            window.crypto.getRandomValues(tableauAleatoire);
+
+            this.nombreAleatoire = min + tableauAleatoire[0] % plage;
+        }
+        this.delayBeforeChangingOrientation++
+        
+        
+            if (this.nombreAleatoire == 0) {
+                this.orientation = "up";
+                this.position.y -=2
+
+       
+            } else if (this.nombreAleatoire == 1) {
+                this.orientation = "bot";
+                this.position.y +=2
+
+
+            } else if (this.nombreAleatoire == 2) {
+                this.orientation = "right";
+                this.position.x +=2
+
+
+            } else if (this.nombreAleatoire == 3) {
+                this.orientation = "left";
+                this.position.x -=2
+
+
+        }
+        if (this.delayBeforeChangingOrientation >= 200){
+            this.delayBeforeChangingOrientation = 0;
+        }
+    }
+        
+    
+
 
 
     moveIntoPlayer() {
@@ -324,7 +374,7 @@ class Enemy {
         const distanceFromPlayer = Math.sqrt(dx * dx + dy * dy);
         this.distance = distanceFromPlayer;
 
-        if (distanceFromPlayer > 0 && distanceFromPlayer<400) {
+        if (distanceFromPlayer > 0 && distanceFromPlayer<300) {
             this.moving = true;
             if(Math.sqrt(dx *dx)  > Math.sqrt(dy*dy)  +  20) {
                 const vx = (dx / distanceFromPlayer) * 2;
@@ -357,12 +407,14 @@ class Enemy {
                 const vx = (dx / distanceFromPlayer) * 2;
                 this.position.x += vx;
 
-            }   
+            }
 
 
 
         } else {
-            this.moving = false
+            this.moving = true
+
+            this.moveRandomly()
         }
     }
 
