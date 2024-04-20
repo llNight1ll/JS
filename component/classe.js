@@ -170,11 +170,11 @@ class Enemy {
                 this.sprites.point,
                 0,
                 0,
-                41,
+                45,
                 61,
                 this.position.x,
                 this.position.y,
-                41 * this.size.s, 
+                45 * this.size.s, 
                 61* this.size.s
             )
         } else if (this.enemyType == 2) {
