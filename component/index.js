@@ -159,6 +159,14 @@ console.log(player)
 const enemy = createEnnemyType3()
 
 
+const spell1 = new Spell({
+    position: {
+        x: enemy.position.x,
+        y: enemy.position.y
+    },
+})
+
+
 const background = new Sprite({
     position: {
         x: offset.x,
@@ -201,7 +209,7 @@ const testbor = new Boundary({
 })
 
 
-const movables = [background, ...contour, foreground, enemy]
+const movables = [background, ...contour, foreground, enemy,spell1]
 function rectangleCollision({rectangle1, rectangle2}) {
     return (
         rectangle1.position.x + rectangle1.width * rectangle1.size.s >= rectangle2.position.x && 
@@ -242,6 +250,7 @@ function move () {
                 enemy.image = enemy.sprites.down
             } 
             enemy.draw()
+                spell1.startAttack(enemy);
 
             enemy.distanceAttack(800,500,350)
 

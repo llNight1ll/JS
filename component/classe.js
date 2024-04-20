@@ -383,8 +383,9 @@ class Enemy {
                 }  else if (this.orientation == "bot"){
                     this.image = this.sprites.attackDown;
                 }
-                //lancer l'attaque
-                this.drawAttack()
+
+                spell1.draw();
+                spell1.move();
             }
         } else {
             this.attacking = false
@@ -544,60 +545,44 @@ class Spell {
         this.endAttack = false
         this.distance = 0
         this.hit = false
-        this.width= 50
-        this.height= 50
+        this.width= 10
+        this.height= 10
     }
 
-    moveIntoPlayer() {
-        const playerCenter = player.position.y + player.height / 2;
 
-        const dx = player.position.x - this.position.x;
-        const dy = playerCenter - this.position.y - this.height/2;
-
-        const distanceFromPlayer = Math.sqrt(dx * dx + dy * dy);
-        this.distance = distanceFromPlayer;
-
-        if (distanceFromPlayer > 0 && distanceFromPlayer<400) {
-            this.moving = true;
-            if(Math.sqrt(dx *dx)  > Math.sqrt(dy*dy)  +  20) {
-                const vx = (dx / distanceFromPlayer) * 2;
-                this.position.x += vx;
-                if (vx >= 0){
-                    this.orientation = "right"
-                    
-                } else {
-                    this.orientation = "left"
-                }
-
-
-
-            }  else if ( Math.sqrt(dy*dy) >  Math.sqrt(dx *dx) + 20) {
-
-                const vy = (dy / distanceFromPlayer) * 2;
-                this.position.y += vy;
-
-                if (vy >= 0){
-                    this.orientation = "bot"
-                } else {
-                    this.orientation = "up"
-                }
-
-
-
-            }  else if ( Math.sqrt(dy*dy) <  Math.sqrt(dx *dx) + 20 &&  Math.sqrt(dx *dx)  < Math.sqrt(dy*dy)  +  20) {
-
-                this.moving = true
-                const vx = (dx / distanceFromPlayer) * 2;
-                this.position.x += vx;
-
-            }   
-
-
-
-        } else {
-            this.moving = false
-        }
+    updatedPosition(enemyPosition) {
+        this.position.x = enemyPosition.position.x;
+        this.position.y = enemyPosition.position.y;
     }
+
+
+    startAttack(enemyPosition) {
+        this.updatedPosition(enemyPosition);
+        this.attacking = true;
+        this.moving = true;
+    }
+
+move() {
+    const dx = (player.position.x - this.position.x)+40;
+    const dy = (player.position.y - this.position.y)+40;
+
+    const distanceToTarget = Math.sqrt(dx * dx + dy * dy);
+
+    if (distanceToTarget === 0) {
+        this.moving = false;
+        return;
+    }
+
+    const ratio = this.velocity / distanceToTarget;
+    const vx = dx * ratio;
+    const vy = dy * ratio;
+
+    this.position.x += vx;
+    this.position.y += vy;
+
+    this.moving = true;
+}
+
 
     draw() {
         c.fillStyle = "red";
