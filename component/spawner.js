@@ -99,7 +99,7 @@ function createEnnemyType1(position){
         size: {
             s : 1 ,
         },
-        pointDeVie : 10,
+        pointDeVie : 2,
         player: player ,
         rogneY: 61,
         imageWidth :39,
@@ -168,7 +168,7 @@ function createEnnemyType2(position){
         size: {
             s : 1 ,
         },
-        pointDeVie : 10,
+        pointDeVie : 2,
         player: player ,
         rogneY: 61,
         imageWidth :50,
@@ -239,7 +239,7 @@ function createEnnemyType3(position){
         size: {
             s : 1 ,
         },
-        pointDeVie : 10,
+        pointDeVie : 2,
         player: player ,
         rogneY: 61,
         imageWidth :48,
