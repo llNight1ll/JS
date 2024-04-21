@@ -163,6 +163,7 @@ class Enemy {
         this.canBePicked = false 
         this.deadTime = 0
         this.IsRevive =false
+        this.positionInArray = 0
 
 
 
@@ -462,6 +463,66 @@ class Enemy {
             this.moveRandomly()
         }
     }
+
+
+    moveIntoEnnemy(){
+
+        const thisCenter = player.position.y + player.height / 2;
+
+        const dx = player.position.x - this.position.x;
+        const dy = thisCenter - this.position.y - this.height/2;
+
+        const distanceFromPlayer = Math.sqrt(dx * dx + dy * dy);
+        this.distance = distanceFromPlayer;
+
+        if (distanceFromPlayer > 0 && distanceFromPlayer<300) {
+            this.moving = true;
+            this.dectect = true;
+            if(Math.sqrt(dx *dx)  > Math.sqrt(dy*dy)  +  20) {
+                const vx = (dx / distanceFromPlayer) * 2;
+                this.position.x += vx;
+                if (vx >= 0){
+                    this.orientation = "right"
+                    
+                } else {
+                    this.orientation = "left"
+                }
+
+
+
+            }  else if ( Math.sqrt(dy*dy) >  Math.sqrt(dx *dx) + 20) {
+
+                const vy = (dy / distanceFromPlayer) * 2;
+                this.position.y += vy;
+
+                if (vy >= 0){
+                    this.orientation = "bot"
+                } else {
+                    this.orientation = "up"
+                }
+
+
+
+            }  else if ( Math.sqrt(dy*dy) <  Math.sqrt(dx *dx) + 20 &&  Math.sqrt(dx *dx)  < Math.sqrt(dy*dy)  +  20) {
+
+                this.moving = true
+                const vx = (dx / distanceFromPlayer) * 2;
+                this.position.x += vx;
+
+            }
+
+
+
+        } else {
+            this.dectect = false;
+
+            this.moving = true
+
+            this.moveRandomly()
+        }
+        
+
+    }
     dead(){
         if(this.deadTime < 400) {
             this.canBePicked = true
@@ -733,7 +794,7 @@ class SpawnerType1 {
             this.isGenerating = true
             const enemyName = createEnnemyType1(position)
             
-        
+            enemyName.positionInArray = ennemies1.length;
             ennemies1.push(enemyName);
             movables.push(enemyName);
             numberOfType1++;
@@ -825,6 +886,9 @@ class SpawnerType2 {
             this.isGenerating = true
 
             const enemyName = createEnnemyType2(position)
+
+            enemyName.positionInArray = ennemies2.length;
+
             ennemies2.push(enemyName);
             movables.push(enemyName);
             numberOfType1++;
@@ -861,6 +925,7 @@ class SpawnerType3 {
             const enemyName = createEnnemyType3(position)
             
             this.isGenerating = true
+            enemyName.positionInArray = ennemies3.length;
 
             ennemies3.push(enemyName);
             movables.push(enemyName);
