@@ -1,0 +1,9 @@
+body{
+    background-image: url("https://i.redd.it/mnslf2y8hxab1.gif"); 
+    background-size: cover;
+}
+.titre{
+    text-align: center;
+    font-size:150% ; 
+    color: antiquewhite;
+}
