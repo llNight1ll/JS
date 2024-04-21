@@ -144,21 +144,25 @@ class Enemy {
         this.endAttack = false
         this.attackingNumber = 0
         this.rogneY = rogneY
+        this.defaultRogne = 0
         this.distance = 50
-        this.rogneY = 60
+        this.rogneY = rogneY
         this.imageWidth = imageWidth
         this.imageHeight = imageHeight
         this.attackWidth = attackWidth
         this.hit = false
         this.IsExpulsed = false
-        this.expulsionSpeedX = 4;
-        this.expulsionSpeedY = 4;
-        this.cooldown = 0;
+        this.expulsionSpeedX = 4
+        this.expulsionSpeedY = 4
+        this.cooldown = 0
         this.hasAttacked = false
-        this.delayBeforeChangingOrientation = 0;
-        this.nombreAleatoire;
+        this.delayBeforeChangingOrientation = 0
+        this.nombreAleatoire
         this.enemyType =  enemyType
         this.dectect = false
+        this.canBePicked = false 
+        this.deadTime = 0
+        this.IsRevive =false
 
 
 
@@ -214,7 +218,7 @@ class Enemy {
         c.drawImage(
             this.image,
             this.frames.val * this.width,
-            0,
+            this.defaultRogne,
             this.imageWidth,
             this.imageHeight,
             this.position.x,
@@ -248,7 +252,7 @@ class Enemy {
         c.drawImage(
             this.image,
             this.frames.attackFrameVal* this.attackWidth,
-            0,
+            this.defaultRogne,
             this.attackWidth,
             this.imageHeight,
             this.position.x,
@@ -275,18 +279,21 @@ class Enemy {
         }
     }
 
+    collisionDetectionWplayer(){
+        return  rectangleCollision({
+            rectangle1: player,
+            rectangle2: {
+                ...this, 
+                position: {
+                x: this.position.x,
+                y: this.position.y + 5
+            }}
+        })
+    }
 
     getHitDetection(){
         if(
-            rectangleCollision({
-                rectangle1: player,
-                rectangle2: {
-                    ...this, 
-                    position: {
-                    x: this.position.x,
-                    y: this.position.y + 5
-                }}
-            }) && player.frames.elapsedAttack %10 === 0 && player.attacking && player.frames.attackFrameVal >= player.frames.max - 1
+            this.collisionDetectionWplayer() && player.frames.elapsedAttack %10 === 0 && player.attacking && player.frames.attackFrameVal >= player.frames.max - 1
         ) {
             this.getHit = true
             this.pointDeVie += -1
@@ -300,15 +307,7 @@ class Enemy {
 
     hitDetection(){
         if(
-            rectangleCollision({
-                rectangle1: player,
-                rectangle2: {
-                    ...this, 
-                    position: {
-                    x: this.position.x,
-                    y: this.position.y + 5
-                }}
-            }) && this.frames.elapsedAttack %10 === 0 && this.attacking && this.frames.attackFrameVal >= this.frames.max - 1
+            this.collisionDetectionWplayer() && this.frames.elapsedAttack %10 === 0 && this.attacking && this.frames.attackFrameVal >= this.frames.max - 1
         ) {
             this.hit = true
             player.pointDeVie += -1
@@ -463,12 +462,44 @@ class Enemy {
             this.moveRandomly()
         }
     }
+    dead(){
+        if(this.deadTime < 400) {
+            this.canBePicked = true
+            c.drawImage(
+                this.sprites.dead,
+                0,
+                0,
+                100,
+                100,
+                this.position.x,
+                this.position.y,
+                100, 
+                100
+            )
+            this.revive()
+        } else {
+            this.canBePicked = false
+        }
+      
+        this.deadTime++
 
+    }
+
+    revive(){
+        if(this.collisionDetectionWplayer() && keys.f.presser) {
+            this.alive = true
+            this.defaultRogne = this.rogneY
+            this.pointDeVie = 2
+            this.IsRevive = true
+            
+            
+        }
+    }
 
 
     activateEnemy(){
 
-        if(this.alive) {
+        if(this.alive && !this.IsRevive) {
 
             this.getHitDetection()
            
@@ -542,10 +573,85 @@ class Enemy {
            
     
     
+        } 
+        if(!this.alive){
+            this.dead()
+        }
+
+        if(this.alive && this.IsRevive){
+            this.getHitDetection()
+           
+            if (this.IsExpulsed == false) {
+    
+                if (this.hasAttacked = true){
+                    this.cooldown += 2
+        
+                }
+                this.moveIntoPlayer()
+                if(this.orientation == "up"){
+                    this.image = this.sprites.up
+        
+                } else if (this.orientation == "right"){
+                    this.image = this.sprites.right
+                
+                } else if (this.orientation == "left"){
+                    this.image = this.sprites.left
+                }  else if (this.orientation == "bot"){
+                    this.image = this.sprites.down
+                } 
+        
+                if(this.distance < 80 && this.cooldown >= 500) {
+                    this.attacking = true
+                    this.hitDetection()
+                    
+                    if(this.orientation == "up"){
+        
+                      
+                        this.image = this.sprites.attackUp; 
+                
+            
+                    } else if (this.orientation == "right"){
+        
+                      
+                        this.image = this.sprites.attackRight;
+                        
+                        
+                    
+                    } else if (this.orientation == "left"){
+        
+                      
+                        this.image = this.sprites.attackLeft;
+                        
+        
+                    }  else if (this.orientation == "bot"){
+        
+                       
+                        this.image = this.sprites.attackDown;
+                        
+                    }
+                    this.drawAttack();
+        
+        
+                
+                } else {
+                    this.attacking = false
+                    this.draw()
+                    if (this.dectect){
+                        this.drawPoint()
+                    }
+        
+                }
+
+    
+            } else {
+                this.expulsionAnimation()
+                this.draw()
+
+            }
         }
 
     }
-
+    
 
 }
 

@@ -73,6 +73,9 @@ function createEnnemyType1(position){
     const point = new Image()
     point.src = "./img/point.png"
 
+    const dead = new Image()
+    dead.src = "./img/marque.png"
+
     return new Enemy ({
         position: {
             x: position.x,
@@ -94,6 +97,7 @@ function createEnnemyType1(position){
             attackDown:enemyDownAttackImage,
             attackRight:enemyRightAttackImage,
             point : point,
+            dead: dead,
     
         },
         size: {
@@ -140,6 +144,9 @@ function createEnnemyType2(position){
     enemyLeftAttackImage.src = "./img/attakleft2.png"
     const point = new Image()
     point.src = "./img/point2.png"
+    
+    const dead = new Image()
+    dead.src = "./img/marque2.png"
 
 
     return new Enemy ({
@@ -163,6 +170,8 @@ function createEnnemyType2(position){
             attackDown:enemyDownAttackImage,
             attackRight:enemyRightAttackImage,
             point : point,
+            dead : dead,
+
     
         },
         size: {
@@ -170,11 +179,11 @@ function createEnnemyType2(position){
         },
         pointDeVie : 2,
         player: player ,
-        rogneY: 61,
+        rogneY: 69,
         imageWidth :50,
         imageHeight: 69,
         attackWidth: 56,
-        enemyType: 2
+        enemyType: 2,
     })
 
 
@@ -213,6 +222,9 @@ function createEnnemyType3(position){
     const point = new Image()
     point.src = "./img/point3.png"
 
+    const dead = new Image()
+    dead.src = "./img/marque3.png"
+
     return new Enemy ({
         position: {
             x: position.x,
@@ -234,6 +246,7 @@ function createEnnemyType3(position){
             attackDown:enemyDownAttackImage,
             attackRight:enemyRightAttackImage,
             point : point,
+            dead : dead,
     
         },
         size: {
@@ -241,7 +254,7 @@ function createEnnemyType3(position){
         },
         pointDeVie : 2,
         player: player ,
-        rogneY: 61,
+        rogneY: 90,
         imageWidth :48,
         imageHeight: 90,
         attackWidth: 56,

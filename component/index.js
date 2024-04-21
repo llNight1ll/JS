@@ -153,6 +153,9 @@ const keys = {
     rightClick: {
         presser: false
     },
+    f: {
+        presser : false
+    }
 }
 
 const testbor = new Boundary({
@@ -467,6 +470,10 @@ window.addEventListener('keydown', (e) => {
         case 'D':
             keys.d.presser = true;
             break;
+        case 'f':
+        case 'F':
+            keys.f.presser = true;
+            break;
     }
 });
 
@@ -491,6 +498,10 @@ window.addEventListener('keyup', (e) => {
         case 'ArrowRight':
         case 'D':
             keys.d.presser = false;
+            break;
+        case 'f':
+        case 'F':
+            keys.f.presser = false;
             break;
     }
 });
