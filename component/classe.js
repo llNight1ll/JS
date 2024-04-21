@@ -550,8 +550,12 @@ class Enemy {
 }
 
 class SpawnerType1 {
-    constructor({position}) {   
-        this.position = position
+    constructor({position,}) {   
+        this.position = position,
+        this.frames = { val: 0, elapsed: 0, flashFrameVal : 0, elapsedflash :0, max : 4}
+        this.isGenerating = true
+
+
     }
 
     timeot(){
@@ -569,7 +573,7 @@ class SpawnerType1 {
         c.drawImage(
             spawnerImage,
             0,
-            0,
+            246,
             69,
             104,
             this.position.x,
@@ -580,14 +584,47 @@ class SpawnerType1 {
     }
 
 
+    drawSpawnerAnimation(){
+        const spawnerImage = new Image()
+        spawnerImage.src = "./img/portail.png"
+        c.drawImage(
+            spawnerImage,
+            this.frames.flashFrameVal* 69,
+            0,
+            69,
+            350,
+            this.position.x,
+            this.position.y-246,
+            69, 
+            350
+        )
+
+        if (this.frames.max > 1) {
+            this.frames.elapsedflash++
+        }
+
+        if (this.frames.elapsedflash %20 === 0) {
+            if (this.frames.flashFrameVal < this.frames.max - 1) {    
+                this.frames.flashFrameVal++
+            } else {
+                this.isGenerating = false
+                this.frames.flashFrameVal = 0
+                return
+
+            }
+        }
+    }
+
+
     spawnerType1(position) { 
         
 
 
-            if (timeToSpawn > 0){
-               return
+        if (timeToSpawn > 0){
+            return
         
-            } else {
+        } else {
+            this.isGenerating = true
             const enemyName = createEnnemyType1(position)
             
         
@@ -595,7 +632,8 @@ class SpawnerType1 {
             movables.push(enemyName);
             numberOfType1++;
             enemyName.activateEnemy();
-            }
+            
+        }
     
         
     }
@@ -606,7 +644,9 @@ class SpawnerType1 {
 
 class SpawnerType2 {
     constructor({position,}) {   
-        this.position = position
+        this.position = position,
+        this.frames = {val: 0, elapsed: 0, flashFrameVal : 0, elapsedflash :0, max : 4}
+        this.isGenerating = true
     }
 
     timeot(){
@@ -625,7 +665,7 @@ class SpawnerType2 {
         c.drawImage(
             spawnerImage,
             0,
-            0,
+            246,
             69,
             104,
             this.position.x,
@@ -635,6 +675,36 @@ class SpawnerType2 {
         )
     }
 
+    drawSpawnerAnimation(){
+        const spawnerImage = new Image()
+        spawnerImage.src = "./img/portail2.png"
+        c.drawImage(
+            spawnerImage,
+            this.frames.flashFrameVal* 69,
+            0,
+            69,
+            350,
+            this.position.x,
+            this.position.y-246,
+            69, 
+            350
+        )
+
+        if (this.frames.max > 1) {
+            this.frames.elapsedflash++
+        }
+
+        if (this.frames.elapsedflash %20 === 0) {
+            if (this.frames.flashFrameVal < this.frames.max - 1) {    
+                this.frames.flashFrameVal++
+            } else {
+                this.isGenerating = false
+                this.frames.flashFrameVal = 0
+                return
+
+            }
+        }
+    }
 
     spawnerType2(position) { 
         
@@ -644,11 +714,11 @@ class SpawnerType2 {
                return
         
             } else {
+
+
+            this.isGenerating = true
+
             const enemyName = createEnnemyType2(position)
-            
-            
-    
-        
             ennemies2.push(enemyName);
             movables.push(enemyName);
             numberOfType1++;
@@ -661,7 +731,9 @@ class SpawnerType2 {
 
 class SpawnerType3 {
     constructor({position}) {   
-        this.position = position
+        this.position = position,
+        this.frames = { val: 0, elapsed: 0, flashFrameVal : 0, elapsedflash :0, max : 4}
+        this.isGenerating = true
     }
 
     timeot(){
@@ -682,7 +754,8 @@ class SpawnerType3 {
             } else {
             const enemyName = createEnnemyType3(position)
             
-        
+            this.isGenerating = true
+
             ennemies3.push(enemyName);
             movables.push(enemyName);
             numberOfType1++;
@@ -698,7 +771,7 @@ class SpawnerType3 {
         c.drawImage(
             spawnerImage,
             0,
-            0,
+            246,
             69,
             104,
             this.position.x,
@@ -706,6 +779,37 @@ class SpawnerType3 {
             69, 
             104
         )
+    }
+
+    drawSpawnerAnimation(){
+        const spawnerImage = new Image()
+        spawnerImage.src = "./img/portail3.png"
+        c.drawImage(
+            spawnerImage,
+            this.frames.flashFrameVal* 69,
+            0,
+            69,
+            350,
+            this.position.x,
+            this.position.y-246,
+            69, 
+            350
+        )
+
+        if (this.frames.max > 1) {
+            this.frames.elapsedflash++
+        }
+
+        if (this.frames.elapsedflash %10 === 0) {
+            if (this.frames.flashFrameVal < this.frames.max - 1) {    
+                this.frames.flashFrameVal++
+            } else {
+                this.isGenerating = false
+                this.frames.flashFrameVal = 0
+                return
+
+            }
+        }
     }
 
 

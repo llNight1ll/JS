@@ -114,7 +114,6 @@ const player = new Sprite ({
     },
     pointDeVie : 10
 })
-console.log(player)
 
 
 
@@ -204,13 +203,21 @@ function move () {
 
     SpawnerArrayType1.forEach((spawner) => {
         spawner.spawnerType1(spawner.position);
-        spawner.draw()
+        if(spawner.isGenerating == true){
+            spawner.drawSpawnerAnimation()
+        } else {
+            spawner.draw()
+        }
        })
 
        
     SpawnerArrayType2.forEach((spawner) => {
         spawner.spawnerType2(spawner.position);
-        spawner.draw()
+        if(spawner.isGenerating == true){
+            spawner.drawSpawnerAnimation()
+        } else {
+            spawner.draw()
+        }
 
        })
 
@@ -218,7 +225,11 @@ function move () {
        
     SpawnerArrayType3.forEach((spawner) => {
         spawner.spawnerType3(spawner.position);
-        spawner.draw()
+        if(spawner.isGenerating == true){
+            spawner.drawSpawnerAnimation()
+        } else {
+            spawner.draw()
+        }
 
        })
   
@@ -239,11 +250,6 @@ function move () {
     }
    
 
-   console.log(movables ,'tableauaaaaaaaaaaaaaaaaa')
-   console.log(movables ,'tableauaaaaaaaaaaaaaaaaa')
-
-   console.log(movables ,'tableauaaaaaaaaaaaaaaaaa')
-
     
 
 
@@ -261,11 +267,9 @@ function move () {
 
     if (!player.attacking) {
         player.draw()
-        console.log("nattaque aps")
 
     } else {
         player.drawAttack()
-        console.log("est entrain d'attack")
     }
     foreground.draw()
 
