@@ -18,7 +18,6 @@ const SpawnerArrayType3 = [];
 let timess  = 0;
 
 
-
 class Sprite {
     constructor({position, velocity, image, frames = {max: 1}, sprites,size = {s: 1},pointDeVie}) {
         this.size = size
@@ -172,6 +171,11 @@ class Enemy {
         this.deadTime = 0
         this.IsRevive =false
         this.positionInArray = 0
+        this.distanceFromEnemy = -1
+        this.nearestEnemy;
+        this.deltaX;
+        this.deltaY;
+        this.getFirstFight = false
 
 
 
@@ -475,19 +479,107 @@ class Enemy {
 
     moveIntoEnnemy(){
 
-        const thisCenter = player.position.y + player.height / 2;
+        const thisCenter = this.position.y + this.height / 2;
+      
+        if(!this.getFirstFight){
 
-        const dx = player.position.x - this.position.x;
-        const dy = thisCenter - this.position.y - this.height/2;
+            this.getFirstFight = true
+            ennemies1.forEach((enemy) => {
+                const dx = enemy.position.x - this.position.x;
+                const dy = thisCenter - this.position.y - this.height/2;
+                const distanceFromEnemy = Math.sqrt(dx * dx + dy * dy);
+                if(this.distanceFromEnemy < 0 || this.distanceFromEnemy > distanceFromEnemy){
+                    this.distanceFromEnemy = distanceFromEnemy;
+                    this.nearestEnemy = enemy;
+                    this.deltaX = dx;
+                    this.deltaY = dy
+    
+                }
+    
+            })
+    
+            ennemies2.forEach((enemy) => {
+                const dx = enemy.position.x - this.position.x;
+                const dy = thisCenter - this.position.y - this.height/2;
+                const distanceFromEnemy = Math.sqrt(dx * dx + dy * dy);
+                if(this.distanceFromEnemy < 0 || this.distanceFromEnemy > distanceFromEnemy){
+                    this.distanceFromEnemy = distanceFromEnemy;
+                    this.nearestEnemy = enemy
+                    this.deltaX = dx;
+                    this.deltaY = dy
+    
+                }
+    
+            })
+    
+    
+            ennemies3.forEach((enemy) => {
+                const dx = enemy.position.x - this.position.x;
+                const dy = thisCenter - this.position.y - this.height/2;
+                const distanceFromEnemy = Math.sqrt(dx * dx + dy * dy);
+                if(this.distanceFromEnemy < 0 || this.distanceFromEnemy > distanceFromEnemy){
+                    this.distanceFromEnemy = distanceFromEnemy;
+                    this.nearestEnemy = enemy
+                    this.deltaX = dx;
+                    this.deltaY = dy
+    
+                }
+    
+            })
 
-        const distanceFromPlayer = Math.sqrt(dx * dx + dy * dy);
-        this.distance = distanceFromPlayer;
+        } else if(!this.nearestEnemy.alive && !this.nearestEnemy.IsRevive) {        
 
-        if (distanceFromPlayer > 0 && distanceFromPlayer<300) {
+        ennemies1.forEach((enemy) => {
+            const dx = enemy.position.x - this.position.x;
+            const dy = thisCenter - this.position.y - this.height/2;
+            const distanceFromEnemy = Math.sqrt(dx * dx + dy * dy);
+            if(this.distanceFromEnemy < 0 || this.distanceFromEnemy > distanceFromEnemy){
+                this.distanceFromEnemy = distanceFromEnemy;
+                this.nearestEnemy = enemy;
+                this.deltaX = dx;
+                this.deltaY = dy
+
+            }
+
+        })
+
+        ennemies2.forEach((enemy) => {
+            const dx = enemy.position.x - this.position.x;
+            const dy = thisCenter - this.position.y - this.height/2;
+            const distanceFromEnemy = Math.sqrt(dx * dx + dy * dy);
+            if(this.distanceFromEnemy < 0 || this.distanceFromEnemy > distanceFromEnemy){
+                this.distanceFromEnemy = distanceFromEnemy;
+                this.nearestEnemy = enemy
+                this.deltaX = dx;
+                this.deltaY = dy
+
+            }
+
+        })
+
+
+        ennemies3.forEach((enemy) => {
+            const dx = enemy.position.x - this.position.x;
+            const dy = thisCenter - this.position.y - this.height/2;
+            const distanceFromEnemy = Math.sqrt(dx * dx + dy * dy);
+            if(this.distanceFromEnemy < 0 || this.distanceFromEnemy > distanceFromEnemy){
+                this.distanceFromEnemy = distanceFromEnemy;
+                this.nearestEnemy = enemy
+                this.deltaX = dx;
+                this.deltaY = dy
+
+            }
+
+        })
+        }
+
+
+
+        if (this.distanceFromEnemy > 0 && this.distanceFromEnemy<300) {
             this.moving = true;
             this.dectect = true;
-            if(Math.sqrt(dx *dx)  > Math.sqrt(dy*dy)  +  20) {
-                const vx = (dx / distanceFromPlayer) * 2;
+            if(Math.sqrt(this.deltaX *this.deltaX)  > Math.sqrt(this.deltaY*this.deltaY)  +  20) {
+                const vx = (this.deltaX / this.distanceFromEnemy) * 2;
                 this.position.x += vx;
                 if (vx >= 0){
                     this.orientation = "right"
@@ -498,9 +590,9 @@ class Enemy {
 
 
 
-            }  else if ( Math.sqrt(dy*dy) >  Math.sqrt(dx *dx) + 20) {
+            }  else if ( Math.sqrt(this.deltaY*this.deltaY) >  Math.sqrt(this.deltaX *this.deltaX) + 20) {
 
-                const vy = (dy / distanceFromPlayer) * 2;
+                const vy = (this.deltaY / this.distanceFromEnemy) * 2;
                 this.position.y += vy;
 
                 if (vy >= 0){
@@ -511,10 +603,10 @@ class Enemy {
 
 
 
-            }  else if ( Math.sqrt(dy*dy) <  Math.sqrt(dx *dx) + 20 &&  Math.sqrt(dx *dx)  < Math.sqrt(dy*dy)  +  20) {
+            }  else if ( Math.sqrt(this.deltaY*this.deltaY) <  Math.sqrt(this.deltaX*this.deltaX) + 20 &&  Math.sqrt(this.deltaX *this.deltaX)  < Math.sqrt(this.deltaY*this.deltaY)  +  20) {
 
                 this.moving = true
-                const vx = (dx / distanceFromPlayer) * 2;
+                const vx = (this.deltaX / this.distanceFromEnemy) * 2;
                 this.position.x += vx;
 
             }
@@ -525,9 +617,10 @@ class Enemy {
             this.dectect = false;
 
             this.moving = true
+            this.position.x = player.position.x
+            this.position.y = player.position.y
 
-            this.moveRandomly()
-        }
+       }
         
 
     }
@@ -574,9 +667,9 @@ class Enemy {
             
             
         }
-        deadEnnemies1 = deadEnnemies1.filter(deadEnemy =>!deadEnemy.alive)
-        deadEnnemies2 = deadEnnemies2.filter(deadEnemy =>!deadEnemy.alive)
-        deadEnnemies3 = deadEnnemies3.filter(deadEnemy =>!deadEnemy.alive)
+        deadEnnemies1 = deadEnnemies1.filter(deadEnemy =>!deadEnemy.IsRevive)
+        deadEnnemies2 = deadEnnemies2.filter(deadEnemy =>!deadEnemy.IsRevive)
+        deadEnnemies3 = deadEnnemies3.filter(deadEnemy =>!deadEnemy.IsRevive)
 
 
     }
@@ -659,7 +752,7 @@ class Enemy {
     
     
         } 
-        if(!this.alive){
+        if(!this.alive && !this.IsRevive){
 
             this.dead()
             ennemies1.forEach((enemy) => {
@@ -694,7 +787,7 @@ class Enemy {
                     this.cooldown += 2
         
                 }
-                this.moveIntoPlayer()
+                this.moveIntoEnnemy()
                 if(this.orientation == "up"){
                     this.image = this.sprites.up
         
