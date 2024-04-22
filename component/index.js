@@ -248,7 +248,7 @@ function move () {
 
     timeToSpawn+= 1
 
-    if (timeToSpawn >= 1000) {
+    if (timeToSpawn >= 500) {
         timeToSpawn = 0
     }
    
@@ -266,6 +266,29 @@ function move () {
         enemy.activateEnemy()
     })
 
+    
+    deadEnnemies1.forEach((enemy) => {
+        enemy.activateEnemy()
+    })
+    deadEnnemies2.forEach((enemy) => {
+        enemy.activateEnemy()
+    })
+    deadEnnemies3.forEach((enemy) => {
+        enemy.activateEnemy()
+    })
+   
+
+
+    allies1.forEach((ally) => {
+        console.log("allieee")
+        ally.activateEnemy()
+    })
+    allies2.forEach((ally) => {
+        ally.activateEnemy()
+    })
+    allies3.forEach((ally) => {
+        ally.activateEnemy()
+    })
 
 
     if (!player.attacking) {

@@ -1,8 +1,16 @@
 const movables = [];
-const ennemies1 = [];
-const ennemies2 = [];
-const ennemies3 = [];
+let ennemies1 = [];
+let ennemies2 = [];
+let ennemies3 = [];
+let allies1 = [];
+let allies2 = [];
+let allies3 = [];
 
+let deadEnnemies1 = [];
+
+let deadEnnemies2 = []
+
+let deadEnnemies3 = []
 
 const SpawnerArrayType1 = [];
 const SpawnerArrayType2 = [];
@@ -524,6 +532,7 @@ class Enemy {
 
     }
     dead(){
+
         if(this.deadTime < 400) {
             this.canBePicked = true
             c.drawImage(
@@ -552,9 +561,24 @@ class Enemy {
             this.defaultRogne = this.rogneY
             this.pointDeVie = 2
             this.IsRevive = true
+            if (this.enemyType== 1) {
+                allies1.push(this)
+            }
+            if (this.enemyType== 2) {
+                allies2.push(this)
+            }
+            if (this.enemyType== 3) {
+                allies3.push(this)
+            }
+
             
             
         }
+        deadEnnemies1 = deadEnnemies1.filter(deadEnemy =>!deadEnemy.alive)
+        deadEnnemies2 = deadEnnemies2.filter(deadEnemy =>!deadEnemy.alive)
+        deadEnnemies3 = deadEnnemies3.filter(deadEnemy =>!deadEnemy.alive)
+
+
     }
 
 
@@ -636,7 +660,29 @@ class Enemy {
     
         } 
         if(!this.alive){
+
             this.dead()
+            ennemies1.forEach((enemy) => {
+                if(!enemy.alive){
+                    deadEnnemies1.push(enemy)
+                }
+            })
+
+            ennemies2.forEach((enemy) => {
+                if(!enemy.alive){
+                    deadEnnemies2.push(enemy)
+                }
+            })
+
+            ennemies3.forEach((enemy) => {
+                if(!enemy.alive){
+                    deadEnnemies3.push(enemy)
+                }
+            })
+            ennemies1 = ennemies1.filter(ennemi => ennemi.alive)
+            ennemies2 = ennemies2.filter(ennemi => ennemi.alive)
+            ennemies3 = ennemies3.filter(ennemi => ennemi.alive)
+
         }
 
         if(this.alive && this.IsRevive){
@@ -799,6 +845,8 @@ class SpawnerType1 {
             movables.push(enemyName);
             numberOfType1++;
             enemyName.activateEnemy();
+            console.log(ennemies1)
+
             
         }
     
