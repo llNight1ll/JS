@@ -462,11 +462,12 @@ function move () {
 
     }
         drawHUD();
-        player.pointDeVie = 8
-        console.log(player.pointDeVie)
-
-
-
+    
+    if (player.pointDeVie <= 0) {
+        alert("Vous avez perdu")
+        window.cancelAnimationFrame(animationId)
+        hideCanvas()
+    }
 
 }
 

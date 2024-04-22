@@ -597,7 +597,6 @@ class Spell {
                 }}
             })) {
             this.touched = true
-            player.pointDeVie += -1
             if(player.pointDeVie == 0) {
                 player.alive = false
             }
