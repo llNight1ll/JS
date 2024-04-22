@@ -140,7 +140,13 @@ class Enemy {
         this.expulsionSpeedY = 4;
         this.cooldown = 0;
         this.hasAttacked = false
-        this.spellMoving = false
+        this.spell = new Spell({
+        position: {
+            x: this.position.x,
+            y: this.position.y
+        },
+    })
+
     }
 
 
@@ -366,7 +372,6 @@ class Enemy {
 
     distanceAttack(unfollow,maxRange, minRange) {
         this.distance = this.getDistanceFromPlayer()
-
         if(this.distance <maxRange && this.distance>minRange && this.cooldown >= 500) {
             if (this.distance > unfollow) {
                 this.imageWidth = 39
@@ -374,7 +379,6 @@ class Enemy {
                 this.attacking = false
             } else {
                 this.attacking = true
-                this.hitDetection()
                 if(this.orientation == "up"){
                     this.image = this.sprites.attackUp; 
                 } else if (this.orientation == "right"){
@@ -384,11 +388,16 @@ class Enemy {
                 }  else if (this.orientation == "bot"){
                     this.image = this.sprites.attackDown;
                 }
-
-                spell1.draw();
-                spell1.move();
+                this.spell.move(player.position.x, player.position.y);
+                if (this.spell.touched) {
+                    this.spell.touched = false
+                    console.log("touched")
+                    player.pointDeVie --
+                    this.spell.updatedPosition(this)
+                }
             }
         } else {
+            this.spell.updatedPosition(this)
             this.attacking = false
             this.imageWidth = 39
             this.imageHeight = 60
@@ -538,14 +547,11 @@ class Boss {
 class Spell {
     constructor({position}) {
         this.size = 5
-        this.velocity = 5
+        this.velocity =4
         this.position = position
-        this.moving = false
-        this.attacking = false
+        this.touched = false
         this.orientation = "bot"
         this.endAttack = false
-        this.distance = 0
-        this.hit = false
         this.width= 10
         this.height= 10
     }
@@ -556,38 +562,47 @@ class Spell {
         this.position.y = enemyPosition.position.y;
     }
 
+    move(Px,Py) {
+        this.draw() 
+        const dx = Px - this.position.x;
+        const dy = Py - this.position.y;
 
-    startAttack(enemyPosition) {
-        this.updatedPosition(enemyPosition);
-        this.attacking = true;
-        this.moving = true;
+        const distanceToPlayer = Math.sqrt(dx * dx + dy * dy);
+
+        const vx = (dx / distanceToPlayer) * this.velocity;
+        const vy = (dy / distanceToPlayer) * this.velocity;
+
+        this.position.x += vx;
+        this.position.y += vy;
+        this.hitDetection()
     }
 
-move() {
-    const dx = (player.position.x - this.position.x)+40;
-    const dy = (player.position.y - this.position.y)+40;
-
-    const distanceToTarget = Math.sqrt(dx * dx + dy * dy);
-
-    if (distanceToTarget === 0) {
-        this.moving = false;
-        return;
-    }
-
-    const ratio = this.velocity / distanceToTarget;
-    const vx = dx * ratio;
-    const vy = dy * ratio;
-
-    this.position.x += vx;
-    this.position.y += vy;
-
-    this.moving = true;
-}
 
 
     draw() {
         c.fillStyle = "red";
         c.fillRect(this.position.x, this.position.y, this.width, this.height);
+    }
+
+
+    hitDetection(){
+        if(
+            rectangleCollision({
+                rectangle1: player,
+                rectangle2: {
+                    ...this, 
+                    position: {
+                    x: this.position.x,
+                    y: this.position.y + 5
+                }}
+            })) {
+            this.touched = true
+            player.pointDeVie += -1
+            if(player.pointDeVie == 0) {
+                player.alive = false
+            }
+        }
+
     }
 }
 
