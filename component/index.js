@@ -245,9 +245,13 @@ function rectangleCollision({rectangle1, rectangle2}) {
     )
 }
 
-function move () {
+let isPaused = false;
 
-    window.requestAnimationFrame(move)
+function move () {
+    if (isPaused) {
+        return;
+    }
+    animationId = window.requestAnimationFrame(move)
     background.draw()
     contour.forEach((boundari) => {
         boundari.draw()
@@ -469,8 +473,12 @@ function move () {
         player.pointDeVie = 8
         console.log(player.pointDeVie)
 
+
+
+
 }
-move()
+
+let animationId = requestAnimationFrame(move);
 
 console.log(player.pointDeVie)
 
@@ -530,7 +538,9 @@ window.addEventListener('mousedown', function(event) {
     }
 })
 
-
-
-
+window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+        togglePause();
+    }
+});
 
