@@ -88,6 +88,7 @@ class Sprite {
             }
         }
     }
+
 }
 
 class Boundary {
@@ -589,4 +590,6 @@ move() {
         c.fillRect(this.position.x, this.position.y, this.width, this.height);
     }
 }
+
+
 

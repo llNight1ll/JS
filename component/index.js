@@ -127,7 +127,7 @@ const player = new Sprite ({
     },
     pointDeVie : 10
 })
-console.log(player)
+
 
 
 // const boss = new Boss ({
@@ -154,7 +154,31 @@ console.log(player)
 // })
 
 
+function drawHUD() {
+    const barWidth = 200;
+    const barHeight = 10;
+    const barPadding = 10;
+    const playerMaxHealth = 10; // En fonction de la vie max du player
 
+
+    const hudWidth = barWidth + 2 * barPadding;
+    const hudHeight = barHeight + 2 * barPadding;
+    
+
+    c.fillStyle = 'blue'; // Couleur bleue pour le fond
+    c.fillRect(0, 0, hudWidth, hudHeight);
+    
+    c.fillStyle = 'gray';
+    c.fillRect(barPadding, barPadding, barWidth, barHeight);
+    
+    const healthPercentage = player.pointDeVie / playerMaxHealth;
+    const healthBarWidth = barWidth * healthPercentage;
+    
+    c.fillStyle = 'green';
+    c.fillRect(barPadding, barPadding, healthBarWidth, barHeight);
+        c.strokeStyle = 'black';
+    c.strokeRect(barPadding, barPadding, barWidth, barHeight);
+}
 
 const enemy = createEnnemyType3()
 
@@ -208,7 +232,6 @@ const testbor = new Boundary({
     }
 })
 
-
 const movables = [background, ...contour, foreground, enemy,spell1]
 function rectangleCollision({rectangle1, rectangle2}) {
     return (
@@ -230,7 +253,6 @@ function move () {
         boundari.draw()
     })
     if(enemy.alive) {
-        console.log(enemy.cooldown)
        
         if (enemy.IsExpulsed == false) {
 
@@ -254,48 +276,6 @@ function move () {
 
             enemy.distanceAttack(800,500,350)
 
-            // if(enemy.distance < 80 && enemy.cooldown >= 500) {
-            //     enemy.attacking = true
-            //     enemy.hitDetection()
-            //     console.log("hp du joueur", player.pointDeVie)
-                
-            //     if(enemy.orientation == "up"){
-    
-                  
-            //         enemy.image = enemy.sprites.attackUp; 
-            
-        
-            //     } else if (enemy.orientation == "right"){
-    
-                  
-            //         enemy.image = enemy.sprites.attackRight;
-                    
-                    
-                
-            //     } else if (enemy.orientation == "left"){
-    
-                  
-            //         enemy.image = enemy.sprites.attackLeft;
-                    
-    
-            //     }  else if (enemy.orientation == "bot"){
-    
-                   
-            //         enemy.image = enemy.sprites.attackDown;
-                    
-            //     }
-            //     enemy.drawAttack();
-    
-    
-            
-            // } else {
-            //     enemy.attacking = false
-            //     enemy.imageWidth = 39
-            //     enemy.imageHeight = 60
-            //     enemy.draw()
-    
-            // }
-
         } else {
             enemy.expulsionAnimation()
             enemy.draw()
@@ -303,14 +283,11 @@ function move () {
     }
 
 
-    console.log("hp des ennemis", enemy.pointDeVie)
     if (!player.attacking) {
         player.draw()
-        console.log("nattaque aps")
 
     } else {
         player.drawAttack()
-        console.log("est entrain d'attack")
     }
     foreground.draw()
 
@@ -488,8 +465,14 @@ function move () {
         enemy.getHitDetection()
 
     }
+        drawHUD();
+        player.pointDeVie = 8
+        console.log(player.pointDeVie)
+
 }
 move()
+
+console.log(player.pointDeVie)
 
 window.addEventListener('keydown', (e) => {
     switch (e.key) {
