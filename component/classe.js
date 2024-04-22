@@ -175,7 +175,7 @@ class Enemy {
         this.nearestEnemy;
         this.deltaX;
         this.deltaY;
-        this.getFirstFight = false
+        this.getFight = false
 
 
 
@@ -305,6 +305,7 @@ class Enemy {
     }
 
     getHitDetection(){
+    
         if(
             this.collisionDetectionWplayer() && player.frames.elapsedAttack %10 === 0 && player.attacking && player.frames.attackFrameVal >= player.frames.max - 1
         ) {
@@ -479,16 +480,23 @@ class Enemy {
 
     moveIntoEnnemy(){
 
-        const thisCenter = this.position.y + this.height / 2;
       
-        if(!this.getFirstFight){
+        if(!this.getFight){
 
-            this.getFirstFight = true
+            this.getFight = true
             ennemies1.forEach((enemy) => {
+                const enemyCenter = enemy.position.y + enemy.imageHeight / 2;
+
                 const dx = enemy.position.x - this.position.x;
-                const dy = thisCenter - this.position.y - this.height/2;
+                const dy = enemyCenter - this.position.y - this.height/2;
                 const distanceFromEnemy = Math.sqrt(dx * dx + dy * dy);
-                if(this.distanceFromEnemy < 0 || this.distanceFromEnemy > distanceFromEnemy){
+                if(this.distanceFromEnemy < 0 ){
+                    this.distanceFromEnemy = distanceFromEnemy;
+                    this.nearestEnemy = enemy;
+                    this.deltaX = dx;
+                    this.deltaY = dy
+    
+                } else if(this.distanceFromEnemy > distanceFromEnemy){
                     this.distanceFromEnemy = distanceFromEnemy;
                     this.nearestEnemy = enemy;
                     this.deltaX = dx;
@@ -499,27 +507,42 @@ class Enemy {
             })
     
             ennemies2.forEach((enemy) => {
+                const enemyCenter = enemy.position.y + enemy.imageHeight / 2;
+
                 const dx = enemy.position.x - this.position.x;
-                const dy = thisCenter - this.position.y - this.height/2;
+                const dy = enemyCenter - this.position.y - this.height/2;
                 const distanceFromEnemy = Math.sqrt(dx * dx + dy * dy);
-                if(this.distanceFromEnemy < 0 || this.distanceFromEnemy > distanceFromEnemy){
+                if(this.distanceFromEnemy < 0 ){
                     this.distanceFromEnemy = distanceFromEnemy;
-                    this.nearestEnemy = enemy
+                    this.nearestEnemy = enemy;
+                    this.deltaX = dx;
+                    this.deltaY = dy
+    
+                } else if(this.distanceFromEnemy > distanceFromEnemy){
+                    this.distanceFromEnemy = distanceFromEnemy;
+                    this.nearestEnemy = enemy;
                     this.deltaX = dx;
                     this.deltaY = dy
     
                 }
-    
             })
     
     
             ennemies3.forEach((enemy) => {
+                const enemyCenter = enemy.position.y + enemy.imageHeight / 2;
+
                 const dx = enemy.position.x - this.position.x;
-                const dy = thisCenter - this.position.y - this.height/2;
+                const dy = enemyCenter - this.position.y - this.height/2;
                 const distanceFromEnemy = Math.sqrt(dx * dx + dy * dy);
-                if(this.distanceFromEnemy < 0 || this.distanceFromEnemy > distanceFromEnemy){
+                if(this.distanceFromEnemy < 0 ){
                     this.distanceFromEnemy = distanceFromEnemy;
-                    this.nearestEnemy = enemy
+                    this.nearestEnemy = enemy;
+                    this.deltaX = dx;
+                    this.deltaY = dy
+    
+                } else if(this.distanceFromEnemy > distanceFromEnemy){
+                    this.distanceFromEnemy = distanceFromEnemy;
+                    this.nearestEnemy = enemy;
                     this.deltaX = dx;
                     this.deltaY = dy
     
@@ -527,59 +550,27 @@ class Enemy {
     
             })
 
-        } else if(!this.nearestEnemy.alive && !this.nearestEnemy.IsRevive) {        
+        } 
+        if(!this.nearestEnemy.alive) {        
 
-        ennemies1.forEach((enemy) => {
-            const dx = enemy.position.x - this.position.x;
-            const dy = thisCenter - this.position.y - this.height/2;
-            const distanceFromEnemy = Math.sqrt(dx * dx + dy * dy);
-            if(this.distanceFromEnemy < 0 || this.distanceFromEnemy > distanceFromEnemy){
-                this.distanceFromEnemy = distanceFromEnemy;
-                this.nearestEnemy = enemy;
-                this.deltaX = dx;
-                this.deltaY = dy
-
-            }
-
-        })
-
-        ennemies2.forEach((enemy) => {
-            const dx = enemy.position.x - this.position.x;
-            const dy = thisCenter - this.position.y - this.height/2;
-            const distanceFromEnemy = Math.sqrt(dx * dx + dy * dy);
-            if(this.distanceFromEnemy < 0 || this.distanceFromEnemy > distanceFromEnemy){
-                this.distanceFromEnemy = distanceFromEnemy;
-                this.nearestEnemy = enemy
-                this.deltaX = dx;
-                this.deltaY = dy
-
-            }
-
-        })
-
-
-        ennemies3.forEach((enemy) => {
-            const dx = enemy.position.x - this.position.x;
-            const dy = thisCenter - this.position.y - this.height/2;
-            const distanceFromEnemy = Math.sqrt(dx * dx + dy * dy);
-            if(this.distanceFromEnemy < 0 || this.distanceFromEnemy > distanceFromEnemy){
-                this.distanceFromEnemy = distanceFromEnemy;
-                this.nearestEnemy = enemy
-                this.deltaX = dx;
-                this.deltaY = dy
-
-            }
-
-        })
+            this.getFight = false
         }
+       
+        const enemyCenter = this.nearestEnemy.position.y + this.nearestEnemy.imageHeight / 2;
+        const x = this.nearestEnemy.position.x - this.position.x;
+        const y = enemyCenter - this.position.y - this.height/2;
+        const distanceFromEnemy = Math.sqrt(x * x + y * y);
+        this.deltaX = x;
+        this.deltaY = y;
+        this.distanceFromEnemy = distanceFromEnemy
 
 
 
-        if (this.distanceFromEnemy > 0 && this.distanceFromEnemy<300) {
+        if (this.distanceFromEnemy > 0 && this.distanceFromEnemy<300 && this.nearestEnemy.alive) {
             this.moving = true;
             this.dectect = true;
             if(Math.sqrt(this.deltaX *this.deltaX)  > Math.sqrt(this.deltaY*this.deltaY)  +  20) {
-                const vx = (this.deltaX / this.distanceFromEnemy) * 2;
+                const vx = (this.deltaX / this.distanceFromEnemy) * 3;
                 this.position.x += vx;
                 if (vx >= 0){
                     this.orientation = "right"
@@ -592,7 +583,7 @@ class Enemy {
 
             }  else if ( Math.sqrt(this.deltaY*this.deltaY) >  Math.sqrt(this.deltaX *this.deltaX) + 20) {
 
-                const vy = (this.deltaY / this.distanceFromEnemy) * 2;
+                const vy = (this.deltaY / this.distanceFromEnemy) * 3;
                 this.position.y += vy;
 
                 if (vy >= 0){
@@ -606,7 +597,7 @@ class Enemy {
             }  else if ( Math.sqrt(this.deltaY*this.deltaY) <  Math.sqrt(this.deltaX*this.deltaX) + 20 &&  Math.sqrt(this.deltaX *this.deltaX)  < Math.sqrt(this.deltaY*this.deltaY)  +  20) {
 
                 this.moving = true
-                const vx = (this.deltaX / this.distanceFromEnemy) * 2;
+                const vx = (this.deltaX / this.distanceFromEnemy) * 3;
                 this.position.x += vx;
 
             }
@@ -617,7 +608,7 @@ class Enemy {
             this.dectect = false;
 
             this.moving = true
-            this.position.x = player.position.x
+            this.position.x = player.position.x + 10
             this.position.y = player.position.y
 
        }
@@ -664,7 +655,6 @@ class Enemy {
                 allies3.push(this)
             }
 
-            
             
         }
         deadEnnemies1 = deadEnnemies1.filter(deadEnemy =>!deadEnemy.IsRevive)
@@ -938,7 +928,6 @@ class SpawnerType1 {
             movables.push(enemyName);
             numberOfType1++;
             enemyName.activateEnemy();
-            console.log(ennemies1)
 
             
         }
