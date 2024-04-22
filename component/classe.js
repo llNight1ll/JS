@@ -304,6 +304,28 @@ class Enemy {
         })
     }
 
+    collisionDetectionWenemy(){
+        return  rectangleCollision({
+            rectangle1:{
+                position: {
+                x: this.nearestEnemy.position.x,
+                y: this.nearestEnemy.position.y + 5
+                },
+                width : this.width,
+                height : this.height,
+                size : {
+                    s : 1
+                }
+        },
+            rectangle2: {
+                ...this, 
+                position: {
+                x: this.position.x,
+                y: this.position.y + 5
+            }}
+        })
+    }
+
     getHitDetection(){
     
         if(
