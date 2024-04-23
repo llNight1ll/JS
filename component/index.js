@@ -1,8 +1,12 @@
 const canvas = document.querySelector('canvas')
 const c = canvas.getContext('2d')
 
+
+
 canvas.width = 1020
 canvas.height = 510
+
+
 
 const collisionMap = []
 for (let i = 0; i < collision.length; i += 70) {
@@ -280,8 +284,8 @@ function move () {
 
 
     allies1.forEach((ally) => {
-        console.log("allieee")
         ally.activateEnemy()
+
     })
     allies2.forEach((ally) => {
         ally.activateEnemy()
@@ -289,6 +293,7 @@ function move () {
     allies3.forEach((ally) => {
         ally.activateEnemy()
     })
+    
 
 
     if (!player.attacking) {

@@ -328,30 +328,63 @@ class Enemy {
 
     getHitDetection(){
     
-        if(
-            this.collisionDetectionWplayer() && player.frames.elapsedAttack %10 === 0 && player.attacking && player.frames.attackFrameVal >= player.frames.max - 1
-        ) {
-            this.getHit = true
-            this.pointDeVie += -1
-            this.IsExpulsed = true
-            if(this.pointDeVie == 0) {
-                this.alive = false
-            }
-        }
+        if(!this.IsRevive){
+             if(
+                this.collisionDetectionWplayer() && player.frames.elapsedAttack %10 === 0 && player.attacking && player.frames.attackFrameVal >= player.frames.max - 1
+             ) {
+                    this.getHit = true
+                    this.pointDeVie += -1
+                    this.IsExpulsed = true
+                    if(this.pointDeVie == 0) {
+                        this.alive = false
+                     }
+                }
 
+        } else {
+            if(
+                this.collisionDetectionWenemy() && this.nearestEnemy.frames.elapsedAttack %10 === 0 && this.nearestEnemy.attacking 
+                && this.nearestEnemy.frames.attackFrameVal >= this.nearestEnemy.frames.max - 1
+             ) {
+                    this.getHit = true
+                    this.pointDeVie += -1
+                    this.IsExpulsed = true
+                    if(this.pointDeVie == 0) {
+                        this.alive = false
+                     }
+                }
+
+
+        }
+       
     }
 
     hitDetection(){
-        if(
-            this.collisionDetectionWplayer() && this.frames.elapsedAttack %10 === 0 && this.attacking && this.frames.attackFrameVal >= this.frames.max - 1
-        ) {
-            this.hit = true
-            player.pointDeVie += -1
-            if(player.pointDeVie == 0) {
-                player.alive = false
+        if(!this.IsRevive){
+            if(
+                this.collisionDetectionWplayer() && this.frames.elapsedAttack %10 === 0 && this.attacking && this.frames.attackFrameVal >= this.frames.max - 1
+            ) {
+                this.hit = true
+                player.pointDeVie += -1
+                if(player.pointDeVie == 0) {
+                    player.alive = false
+                }
             }
-        }
+    
+            
+        } else {
 
+            if(
+                this.collisionDetectionWenemy() && this.frames.elapsedAttack %10 === 0 && this.attacking && this.frames.attackFrameVal >= this.frames.max - 1
+            ) {
+                this.hit = true
+                this.nearestEnemy.pointDeVie += -1
+                if(this.nearestEnemy.pointDeVie == 0) {
+                    this.nearestEnemy.alive = false
+                }
+            }
+    
+        }
+       
     }
 
 
@@ -500,9 +533,7 @@ class Enemy {
     }
 
 
-    moveIntoEnnemy(){
-
-      
+    searchFight(){
         if(!this.getFight){
 
             this.getFight = true
@@ -573,6 +604,10 @@ class Enemy {
             })
 
         } 
+    }
+
+    moveIntoEnnemy(){
+
         if(!this.nearestEnemy.alive) {        
 
             this.getFight = false
@@ -587,8 +622,7 @@ class Enemy {
         this.distanceFromEnemy = distanceFromEnemy
 
 
-
-        if (this.distanceFromEnemy > 0 && this.distanceFromEnemy<300 && this.nearestEnemy.alive) {
+        if (this.distanceFromEnemy > 0 && this.nearestEnemy.alive) {
             this.moving = true;
             this.dectect = true;
             if(Math.sqrt(this.deltaX *this.deltaX)  > Math.sqrt(this.deltaY*this.deltaY)  +  20) {
@@ -597,8 +631,10 @@ class Enemy {
                 if (vx >= 0){
                     this.orientation = "right"
                     
+                    
                 } else {
                     this.orientation = "left"
+
                 }
 
 
@@ -610,6 +646,7 @@ class Enemy {
 
                 if (vy >= 0){
                     this.orientation = "bot"
+
                 } else {
                     this.orientation = "up"
                 }
@@ -677,6 +714,8 @@ class Enemy {
                 allies3.push(this)
             }
 
+           
+
             
         }
         deadEnnemies1 = deadEnnemies1.filter(deadEnemy =>!deadEnemy.IsRevive)
@@ -684,10 +723,18 @@ class Enemy {
         deadEnnemies3 = deadEnnemies3.filter(deadEnemy =>!deadEnemy.IsRevive)
 
 
+
     }
 
 
     activateEnemy(){
+        allies1 = allies1.filter(ally => ally.alive)
+
+        allies2 = allies2.filter(ally => ally.alive)
+
+        allies3 = allies3.filter(ally => ally.alive)
+       
+      
 
         if(this.alive && !this.IsRevive) {
 
@@ -791,6 +838,7 @@ class Enemy {
         }
 
         if(this.alive && this.IsRevive){
+            this.searchFight()
             this.getHitDetection()
            
             if (this.IsExpulsed == false) {
@@ -811,6 +859,8 @@ class Enemy {
                 }  else if (this.orientation == "bot"){
                     this.image = this.sprites.down
                 } 
+                console.log(this.orientation)
+
         
                 if(this.distance < 80 && this.cooldown >= 500) {
                     this.attacking = true
