@@ -269,8 +269,7 @@ function move () {
             } 
             enemy.draw()
 
-    
-            enemy.distanceAttack(800,500,350)
+            enemy.moveIntoPlayer();
 
         } else {
             enemy.expulsionAnimation()
