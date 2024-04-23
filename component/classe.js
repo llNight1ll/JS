@@ -176,7 +176,8 @@ class Enemy {
         this.deltaX;
         this.deltaY;
         this.getFight = false;
-        this.isBlocked = false
+        this.isBlocked = false;
+        this.delayAfterCollision = 0
 
 
 
@@ -600,7 +601,7 @@ class Enemy {
 
 
             } else if (this.nombreAleatoire == 3) {
-                this.detectionCollisonWmapRight()
+                this.detectionCollisonWmapLeft()
                 if(this.isBlocked){
                     this.orientation = "right";
                     this.position.x +=10
@@ -636,9 +637,98 @@ class Enemy {
 
         const distanceFromPlayer = Math.sqrt(dx * dx + dy * dy);
         this.distance = distanceFromPlayer;
+        if(this.delayAfterCollision == 100){
+            this.delayAfterCollision = 0
+        }
 
+        if (distanceFromPlayer > 0 && distanceFromPlayer<200) {
+
+            
+            if (this.orientation == "left") {
+                this.detectionCollisonWmapLeft()
+                if(this.isBlocked){
+                    this.delayAfterCollision++
+                    this.orientation = "right";
+                    this.position.x +=10
+                    this.isBlocked = false
+ 
+                    this.nombreAleatoire = 2
+
+                    this.dectect = false;
+                    
+                    this.delayAfterCollision++
+
+                    this.moving = true
+                    this.moveRandomly()
+                    return
+
+                }
+                
+            } else if (this.orientation == "up"){
+                this.detectionCollisonWmapUp()
+                if(this.isBlocked){
+                    this.delayAfterCollision++
+                    this.orientation = "bot";
+    
+                    this.position.y += 10
+                    this.isBlocked = false
+    
+                    this.nombreAleatoire = 1
+                    this.dectect = false;
+                    this.delayAfterCollision++
+
+                    this.moving = true
+                    this.moveRandomly()
+                    return
+    
+                }
+            } else if (this.orientation == "right") {
+                this.detectionCollisonWmapRight()
+                if(this.isBlocked){
+                    this.orientation = "left";
+
+                    this.position.x -=10
+                    this.isBlocked = false
+
+                    this.nombreAleatoire = 3
+                    this.dectect = false;
+
+                    this.moving = true
+                    this.delayAfterCollision++
+
+                    this.moveRandomly()
+                    return
+
+
+                } 
+            }  else if (this.orientation == "bot") {
+                this.detectionCollisonWmapDown()
+                if(this.isBlocked){
+                    this.orientation = "up";
+
+                    this.position.y -= 10
+                    this.isBlocked = false
+
+                    this.nombreAleatoire = 0
+                    this.dectect = false;
+
+                    this.moving = true
+                    this.delayAfterCollision++
+
+
+                    this.moveRandomly()
+                    return
+
+                }
+
+            }
+            
+        }
         
-        if (distanceFromPlayer > 0 && distanceFromPlayer<3) {
+
+        if (distanceFromPlayer > 0 && distanceFromPlayer<200 && !this.isBlocked && this.delayAfterCollision == 0) {
+            console.log("il la detcterrrrrrrrrrrrrrrrrrrrrrrrrr")
+            
             this.moving = true;
             this.dectect = true;
             if(Math.sqrt(dx *dx)  > Math.sqrt(dy*dy)  +  20) {
@@ -666,7 +756,7 @@ class Enemy {
 
 
 
-            }  else if ( Math.sqrt(dy*dy) <  Math.sqrt(dx *dx) + 20 &&  Math.sqrt(dx *dx)  < Math.sqrt(dy*dy)  +  20) {
+            }  else if ( Math.sqrt(dy*dy) <  Math.sqrt(dx *dx) + 20 &&  Math.sqrt(dx *dx)  < Math.sqrt(dy*dy)  +  20 ) {
 
                 this.moving = true
                 const vx = (dx / distanceFromPlayer) * 2;
@@ -682,6 +772,7 @@ class Enemy {
             this.moving = true
 
             this.moveRandomly()
+
         }
     }
 

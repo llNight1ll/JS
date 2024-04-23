@@ -107,7 +107,7 @@ function createEnnemyType1(position){
         player: player ,
         rogneY: 61,
         imageWidth :39,
-        imageHeight: 61,
+        imageHeight: 60,
         attackWidth: 56,
         enemyType: 1
     })
@@ -181,7 +181,7 @@ function createEnnemyType2(position){
         player: player ,
         rogneY: 69,
         imageWidth :50,
-        imageHeight: 69,
+        imageHeight: 68,
         attackWidth: 56,
         enemyType: 2,
     })
