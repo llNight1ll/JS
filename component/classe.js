@@ -323,7 +323,7 @@ class Enemy {
             this.spell.draw();
             this.spell.move();
         }
-        if (this.distance < 1200 && this.distance > 350) {
+        if (this.distance > 350) {
             this.distanceAttack(player.position);
         } else {
             if (this.spell.touched) {
@@ -342,7 +342,7 @@ class Enemy {
                     this.spell.launch = false;
                 }
             }
-            if (distanceFromPlayer > 0 && distanceFromPlayer<350) {
+            if ((distanceFromPlayer > 0 && distanceFromPlayer<350) || distanceFromPlayer > 750) {
                 this.moving = true;
                 if(Math.sqrt(dx *dx)  > Math.sqrt(dy*dy)  +  20) {
                     const vx = (dx / distanceFromPlayer) * 2;
