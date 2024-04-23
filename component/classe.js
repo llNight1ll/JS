@@ -1237,14 +1237,18 @@ class SpawnerType1 {
             return
         
         } else {
-            this.isGenerating = true
-            const enemyName = createEnnemyType1(position)
+            if(ennemies1.length < 3){
+                this.isGenerating = true
+
+                const enemyName = createEnnemyType1(position)
             
-            enemyName.positionInArray = ennemies1.length;
-            ennemies1.push(enemyName);
-            movables.push(enemyName);
-            numberOfType1++;
-            enemyName.activateEnemy();
+                enemyName.positionInArray = ennemies1.length;
+                ennemies1.push(enemyName);
+                movables.push(enemyName);
+                numberOfType1++;
+                enemyName.activateEnemy();
+            }
+
 
             
         }
@@ -1329,17 +1333,19 @@ class SpawnerType2 {
         
             } else {
 
+            if(ennemies2.length < 3) {
+                this.isGenerating = true
 
-            this.isGenerating = true
+                const enemyName = createEnnemyType2(position)
+    
+                enemyName.positionInArray = ennemies2.length;
+    
+                ennemies2.push(enemyName);
+                movables.push(enemyName);
+                numberOfType2++;
+                enemyName.activateEnemy();
+            }
 
-            const enemyName = createEnnemyType2(position)
-
-            enemyName.positionInArray = ennemies2.length;
-
-            ennemies2.push(enemyName);
-            movables.push(enemyName);
-            numberOfType1++;
-            enemyName.activateEnemy();
             }
      
     }    
@@ -1369,15 +1375,20 @@ class SpawnerType3 {
                return
         
             } else {
-            const enemyName = createEnnemyType3(position)
             
-            this.isGenerating = true
-            enemyName.positionInArray = ennemies3.length;
+            if(ennemies3.length < 3){
+                this.isGenerating = true
 
-            ennemies3.push(enemyName);
-            movables.push(enemyName);
-            numberOfType1++;
-            enemyName.activateEnemy();
+                const enemyName = createEnnemyType3(position)
+
+                enemyName.positionInArray = ennemies3.length;
+    
+                ennemies3.push(enemyName);
+                movables.push(enemyName);
+                numberOfType3++;
+                enemyName.activateEnemy();
+            }
+            
             }
     
         
