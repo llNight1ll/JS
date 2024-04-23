@@ -525,7 +525,7 @@ class Enemy {
 
     moveRandomly(){
 
-        if (this.delayBeforeChangingOrientation == 0){
+        if (this.delayBeforeChangingOrientation == 0 || this.isBlocked){
             var min = 0; 
             var max = 3; 
 
@@ -541,51 +541,80 @@ class Enemy {
         
         
             if (this.nombreAleatoire == 0) {
-                this.orientation = "up";
                 this.detectionCollisonWmapUp()
                 if(this.isBlocked){
-                    this.position.y += 0
+                    this.orientation = "bot";
+
+                    this.position.y += 10
+                    this.isBlocked = false
+  
+                    this.nombreAleatoire = 1
+
+
                 } else {
+                    this.orientation = "up";
+
                     this.position.y -=2 
                 }
-                this.isBlocked = false
        
             } else if (this.nombreAleatoire == 1) {
-                this.orientation = "bot";
                 this.detectionCollisonWmapDown()
                 if(this.isBlocked){
-                    this.position.y += 0
+                    this.orientation = "up";
+
+                    this.position.y -= 10
+                    this.isBlocked = false
+
+                    this.nombreAleatoire = 0
+
+
+
                 } else {
+                    this.orientation = "bot";
+
                     this.position.y +=2
 
                 }
-                this.isBlocked = false
 
 
 
             } else if (this.nombreAleatoire == 2) {
-                this.orientation = "right";
                 this.detectionCollisonWmapRight()
                 if(this.isBlocked){
-                    this.position.x +=0
+                    this.orientation = "left";
+
+                    this.position.x -=10
+                    this.isBlocked = false
+
+                    this.nombreAleatoire = 3
+
+
+
                 } else {
+                    this.orientation = "right";
+
                     this.position.x +=2
 
                 }
-                this.isBlocked = false
 
 
 
             } else if (this.nombreAleatoire == 3) {
-                this.orientation = "left";
                 this.detectionCollisonWmapRight()
                 if(this.isBlocked){
-                    this.position.x +=0
+                    this.orientation = "right";
+                    this.position.x +=10
+                    this.isBlocked = false
+ 
+                    this.nombreAleatoire = 2
+
+
                 } else {
+                    this.orientation = "left";
+
                     this.position.x -=2
 
                 }
-                this.isBlocked = false
 
 
 
@@ -609,7 +638,7 @@ class Enemy {
         this.distance = distanceFromPlayer;
 
         
-        if (distanceFromPlayer > 0 && distanceFromPlayer<300) {
+        if (distanceFromPlayer > 0 && distanceFromPlayer<3) {
             this.moving = true;
             this.dectect = true;
             if(Math.sqrt(dx *dx)  > Math.sqrt(dy*dy)  +  20) {
