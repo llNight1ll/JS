@@ -175,7 +175,8 @@ class Enemy {
         this.nearestEnemy;
         this.deltaX;
         this.deltaY;
-        this.getFight = false
+        this.getFight = false;
+        this.isBlocked = false
 
 
 
@@ -326,6 +327,99 @@ class Enemy {
         })
     }
 
+
+    detectionCollisonWmapUp(){
+
+        for (let i = 0; i < contour.length; i++) {
+            const boundari = contour[i]
+            if(
+                rectangleCollision({
+                    rectangle1:{...this},
+                    rectangle2: {
+                        ...boundari, 
+                        position: {
+                        x: boundari.position.x,
+                        y: boundari.position.y + 5
+                    }}
+                })
+            ) {
+                this.moving = false
+                this.isBlocked = true
+                break
+            }
+        }
+    }
+    
+    detectionCollisonWmapDown(){
+
+        for (let i = 0; i < contour.length; i++) {
+            const boundari = contour[i]
+            if(
+                rectangleCollision({
+                    rectangle1:{...this},
+                    rectangle2: {
+                        ...boundari, 
+                        position: {
+                        x: boundari.position.x,
+                        y: boundari.position.y - 5
+                    }}
+                })
+            ) {
+                this.moving = false
+                this.isBlocked = true
+                break
+            }
+        }
+    }
+ 
+    
+    detectionCollisonWmapLeft(){
+
+        for (let i = 0; i < contour.length; i++) {
+            const boundari = contour[i]
+            if(
+                rectangleCollision({
+                    rectangle1:{...this},
+                    rectangle2: {
+                        ...boundari, 
+                        position: {
+                        x: boundari.position.x + 5,
+                        y: boundari.position.y
+                    }}
+                })
+            ) {
+                this.moving = false
+                this.isBlocked = true
+                break
+            }
+        }
+    }
+ 
+    
+    detectionCollisonWmapRight(){
+
+        for (let i = 0; i < contour.length; i++) {
+            const boundari = contour[i]
+            if(
+                rectangleCollision({
+                    rectangle1:{...this},
+                    rectangle2: {
+                        ...boundari, 
+                        position: {
+                        x: boundari.position.x - 5,
+                        y: boundari.position.y
+                    }}
+                })
+            ) {
+                this.moving = false
+                this.isBlocked = true
+                break
+            }
+        }
+    }
+ 
+ 
+
     getHitDetection(){
     
         if(!this.IsRevive){
@@ -448,22 +542,51 @@ class Enemy {
         
             if (this.nombreAleatoire == 0) {
                 this.orientation = "up";
-                this.position.y -=2
-
+                this.detectionCollisonWmapUp()
+                if(this.isBlocked){
+                    this.position.y += 0
+                } else {
+                    this.position.y -=2 
+                }
+                this.isBlocked = false
        
             } else if (this.nombreAleatoire == 1) {
                 this.orientation = "bot";
-                this.position.y +=2
+                this.detectionCollisonWmapDown()
+                if(this.isBlocked){
+                    this.position.y += 0
+                } else {
+                    this.position.y +=2
+
+                }
+                this.isBlocked = false
+
 
 
             } else if (this.nombreAleatoire == 2) {
                 this.orientation = "right";
-                this.position.x +=2
+                this.detectionCollisonWmapRight()
+                if(this.isBlocked){
+                    this.position.x +=0
+                } else {
+                    this.position.x +=2
+
+                }
+                this.isBlocked = false
+
 
 
             } else if (this.nombreAleatoire == 3) {
                 this.orientation = "left";
-                this.position.x -=2
+                this.detectionCollisonWmapRight()
+                if(this.isBlocked){
+                    this.position.x +=0
+                } else {
+                    this.position.x -=2
+
+                }
+                this.isBlocked = false
+
 
 
         }
@@ -485,6 +608,7 @@ class Enemy {
         const distanceFromPlayer = Math.sqrt(dx * dx + dy * dy);
         this.distance = distanceFromPlayer;
 
+        
         if (distanceFromPlayer > 0 && distanceFromPlayer<300) {
             this.moving = true;
             this.dectect = true;
@@ -725,6 +849,7 @@ class Enemy {
 
 
     }
+
 
 
     activateEnemy(){
