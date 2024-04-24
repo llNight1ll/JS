@@ -474,51 +474,42 @@ let animationId = requestAnimationFrame(move);
 
 console.log(player.pointDeVie)
 
+let upKey = 'z';
+let leftKey = 'q';
+let downKey = 's';
+let rightKey = 'd';
+
+
 window.addEventListener('keydown', (e) => {
     switch (e.key) {
-        case 'z':
-        case 'ArrowUp':
-        case 'Z':
+        case upKey:
             keys.z.presser = true;
             break;
-        case 'q':
-        case 'ArrowLeft':
-        case 'Q':
+        case leftKey:
             keys.q.presser = true;
             break;
-        case 's':
-        case 'ArrowDown':
-        case 'S':
+        case downKey:
             keys.s.presser = true;
             break;
-        case 'd':
-        case 'ArrowRight':
-        case 'D':
+        case rightKey:
             keys.d.presser = true;
             break;
     }
 });
 
+
 window.addEventListener('keyup', (e) => {
     switch (e.key) {
-        case 'z':
-        case 'ArrowUp':
-        case 'Z':
+        case upKey:
             keys.z.presser = false;
             break;
-        case 'q':
-        case 'ArrowLeft':
-        case 'Q':
+        case leftKey:
             keys.q.presser = false;
             break;
-        case 's':
-        case 'ArrowDown':
-        case 'S':
+        case downKey:
             keys.s.presser = false;
             break;
-        case 'd':
-        case 'ArrowRight':
-        case 'D':
+        case rightKey:
             keys.d.presser = false;
             break;
     }
@@ -532,7 +523,9 @@ window.addEventListener('mousedown', function(event) {
 
 window.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
-        togglePause();
+        if (optionSelected === false){
+            togglePause();
+        }
     }
 });
 
