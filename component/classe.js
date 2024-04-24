@@ -1,3 +1,6 @@
+
+//Declaration of variables
+
 const movables = [];
 let ennemies1 = [];
 let ennemies2 = [];
@@ -17,7 +20,7 @@ const SpawnerArrayType2 = [];
 const SpawnerArrayType3 = [];
 let timess  = 0;
 
-
+//Create Sprite class
 class Sprite {
     constructor({position, velocity, image, frames = {max: 1}, sprites,size = {s: 1},pointDeVie}) {
         this.size = size
@@ -113,6 +116,7 @@ class Sprite {
 
 }
 
+//Create Boundary class 
 class Boundary {
     static width = 48
     static height = 48
@@ -130,7 +134,7 @@ class Boundary {
 }
 
 
-
+//Create enemy class
 class Enemy {
     constructor({position, velocity, image, frames = {max: 1}, sprites,size = {s: 1},pointDeVie, rogneY,imageWidth,imageHeight,attackWidth,enemyType}) {
         this.size = size
@@ -1162,6 +1166,7 @@ class Enemy {
 
 }
 
+//Create Spawner of ennemy (type 1)
 class SpawnerType1 {
     constructor({position,}) {   
         this.position = position,
@@ -1259,6 +1264,7 @@ class SpawnerType1 {
          
 }
 
+//Create Spawner of ennemy (type 2)
 
 class SpawnerType2 {
     constructor({position,}) {   
@@ -1306,7 +1312,7 @@ class SpawnerType2 {
             this.position.y-246,
             69, 
             350
-        )
+        ) 
 
         if (this.frames.max > 1) {
             this.frames.elapsedflash++
@@ -1351,6 +1357,8 @@ class SpawnerType2 {
     }    
         
 }
+
+//Create Spawner of ennemy (type 3)
 
 class SpawnerType3 {
     constructor({position}) {   
@@ -1653,7 +1661,7 @@ class Spell {
             }
             return this.touched = true;
         } else {
-            return false; // Retourne false sinon
+            return false;
         }
     }
 

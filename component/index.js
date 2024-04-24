@@ -21,11 +21,12 @@ for (let i = 0; i < collision.length; i += 70) {
 
 const contour = []
 const offset = {
-    //positions perso depart
+    //Start position of the player
     x: -410,
     y: -890
 }
 
+//Convert mapcollision as Boundary
 collisionMap.forEach((ligne, i) => {
     ligne.forEach((symbol, j) => {
       if (symbol === 2102)
@@ -40,7 +41,7 @@ collisionMap.forEach((ligne, i) => {
     })
 })
 
-
+//Declare all sprites
 const image = new Image()
 image.src = "./img/map.png"
 
@@ -112,7 +113,7 @@ bossLeft.src = "./img/boss1Left.png"
 
 
 
-
+//Create player
 const player = new Sprite ({
     position: {
         x: canvas.width / 2 - 528 / 4 / 2,
@@ -166,7 +167,7 @@ const boss = new Boss ({
     rogneY: 0
 })
 
-
+//Create background
 const background = new Sprite({
     position: {
         x: offset.x,
@@ -175,6 +176,7 @@ const background = new Sprite({
     image: image
 })
 
+//Create foreground
 const foreground = new Sprite({
     position: {
         x: offset.x,
@@ -183,6 +185,7 @@ const foreground = new Sprite({
     image: foregroundImage
 })
 
+//Declare the state of controls
 const keys = {
     z: {
         presser: false
@@ -204,24 +207,13 @@ const keys = {
     }
 }
 
-const testbor = new Boundary({
-    position: {
-        x: 400,
-        y: 400
-    }
-})
 
 
-/* let movables = [background, ...contour, foreground, spawnertest]
- */
-
-
-
-
-
-
+//Initialize time after each an ennemy spawn
 let timeToSpawn = 0
 
+
+//Create Spawner
 createSpawnerEnnemyType1(position = {x: canvas.width / 2 - 528 / 4 / 2 +300, y: canvas.height / 2 - 157 / 2 -0.5})
 
 createSpawnerEnnemyType2(position = {x: canvas.width / 2 - 528 / 4 / 2 -300, y: canvas.height / 2 - 157 / 2 -0.5})
@@ -229,7 +221,7 @@ createSpawnerEnnemyType2(position = {x: canvas.width / 2 - 528 / 4 / 2 -300, y: 
 createSpawnerEnnemyType3(position = {x: canvas.width / 2 - 528 / 4 / 2 +300, y: canvas.height / 2 - 157 / 2 -0.5+ - 200})
 
 
-
+//Add the movable's element in the table wich contains them
 movables.push(background, ...contour, foreground)
 function rectangleCollision({rectangle1, rectangle2}) {
     return (
@@ -245,7 +237,7 @@ function rectangleCollision({rectangle1, rectangle2}) {
 
 let isPaused = false;
 
-
+//Function that makes the game run
 function move () {
 
     if (start===false) {
@@ -256,6 +248,8 @@ function move () {
         return;
     }
     animationId = window.requestAnimationFrame(move)
+    
+    //Display game's elements
 
     background.draw()
 
@@ -309,7 +303,7 @@ function move () {
    
 
     
-
+    //Activate allies,ennemies and dead ennemies
 
     ennemies1.forEach((enemy) => {
         enemy.activateEnemy()
@@ -346,7 +340,7 @@ function move () {
     })
     
 
-
+    //Draw player while attacking or moving
     if (!player.attacking) {
         player.draw()
 
@@ -357,6 +351,7 @@ function move () {
 
     let moving = true
     player.moving = false
+    //Actions in function of key which is pressing
     if (keys.z.presser) {
         player.orientation = "up"
         player.moving = true
@@ -537,6 +532,8 @@ if (isPaused === false){
     animationId = requestAnimationFrame(move);
 }
 
+
+//Create listener of which keys of the keyboard are up or down
 window.addEventListener('keydown', (e) => {
     switch (e.key) {
         case upKey:
