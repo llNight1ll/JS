@@ -1,89 +1,45 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Defaite</title>
-    <link rel="stylesheet" href="/static/stylegame.css" />
-    <style>
-        body {
-            background-image: url('https://cdn.discordapp.com/attachments/1190789714270228612/1216078301387423985/IekGmH7AB-apdtvNG9LAT5Kw-Ou_DwnHChXgJqzH_nGn9Du-emL-fDK_jyp2NhAL-1XSio--TfTdzOLlcKyCJw3myNVSrv8OrPgTChM.png?ex=65ff142c&is=65ec9f2c&hm=83e9bc4d2e55ddaac47dbd4fe60eab7c173d8fded636ba11d5a814bb82869aee&');
-            background-size: cover;
-            background-position: center;
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
-
-        .canvas {
-            text-align: center;
-            background-color: rgba(255, 255, 255, 0.8); /* Ajoute un fond semi-transparent pour une meilleure lisibilité du contenu */
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        h1 {
-            color: #5a0202;
-            font-size: 50px;
-        }
-
-        p {
-            color: #333;
-            font-size: 50px; /* Augmente la taille du texte */
-        }
-
-        .emoji {
-            font-size: 70px; /* Taille de l'emoji */
-            animation: rotateEmoji 2s infinite linear;
-        }
-
-        @keyframes rotateEmoji {
-            from {
-                transform: rotate(0deg);
-            }
-            to {
-                transform: rotate(360deg);
-            }
-        }
-
-        .btnReturn {
-            background-color: #590803;
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-            padding: 10px 20px;
-            font-size: 16px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        .btnReturn:hover {
-            background-color: #000204;
-        }
-    </style>
+  <meta charset="utf-8">
+  <title>Page de défaite</title>
 </head>
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Defeat</title>
-        <link rel="stylesheet" href="/static/stylewin.css">
-    </head>
 <body>
-    <div class="canvas">
-        <h1>Vous avez Perduuu !</h1>
-        <p>DOMMAGE!! <span class="emoji">😞</span></p>
-        <footer>
-            <a href="../index.html">  
-                <button class="btnReturn">
-                    <span class="text">←<br>Retour</span>
-                </button>
-            </a>
-        </footer>
-    </div>
+  <h1>Désolé !</h1>
+  <p>Vous avez perdu.</p>
+  <button>Réessayer</button>
 </body>
+<style>
+    body {
+      background-image: url('https://www.creativefabrica.com/wp-content/uploads/2023/02/23/pixel-art-cute-skull-vector-illustration-Graphics-62193620-2-580x387.jpg');
+      background-size: 70%;
+      background-position-y: 5%;
+      background-position-x: center;
+      color: #fff;
+      font-family: 'Pixel', Arial, sans-serif;
+      text-align: center;
+    }
+    h1 {
+      font-size: 50px;
+      margin-top: 100px;
+      color: #000;
+    }
+    p {
+      font-size: 24px;
+      margin-top: 50px;
+      color: #000;
+    }
+    button {
+      background-color: #fff;
+      border: none;
+      color: #000;
+      font-size: 24px;
+      padding: 10px 20px;
+      cursor: pointer;
+      margin-top: 50px;
+    }
+    button:hover {
+      background-color: #ddd;
+    }
+  </style>
 </html>
