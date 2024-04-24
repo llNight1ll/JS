@@ -11,6 +11,19 @@ function hideCanvas() {
 }
 
 
+function exit() {
+    const canvas = document.getElementById('gameCanvas');
+    const menu = document.getElementById('gameMenu');
+    const pauseMenu = document.getElementById('pauseWindow');
+    console.log(canvas);
+    togglePause();
+    if (canvas) {
+        canvas.style.display = 'none';
+        menu.style.display = 'flex';
+        pauseMenu.style.display = 'none';
+    }
+}
+
 
 function togglePause() {
     isPaused = !isPaused;
@@ -22,15 +35,6 @@ function togglePause() {
         pauseWindow.style.display = 'none';
         animationId = requestAnimationFrame(move);
     }
-}
-
-function play() {
-    const menu = document.getElementById('gameMenu');
-    menu.style.display = 'none';
-    const canvas = document.getElementById('gameCanvas');
-    canvas.style.display = 'block';
-    isPaused = false;
-    animationId = requestAnimationFrame(move); // ICI METTRE LA LOGIQUE DE SPAWN DU JEU
 }
 
 function resume() {
@@ -109,4 +113,17 @@ function saveOptionFromMenu() {
     option.style.display = 'none';
     menu.style.display = 'flex';
     optionSelected = false;
+}
+
+function play() {
+    start = true;
+    const canvas = document.getElementById('gameCanvas');
+    const menu = document.getElementById('gameMenu');
+    const pauseMenu = document.getElementById('pauseWindow');
+    console.log(canvas);
+    if (canvas) {
+        canvas.style.display = 'flex';
+        menu.style.display = 'none';
+        pauseMenu.style.display = 'none';
+    }
 }

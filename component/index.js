@@ -3,6 +3,7 @@ const c = canvas.getContext('2d')
 
 canvas.width = 1020
 canvas.height = 510
+let start = false;
 
 const collisionMap = []
 for (let i = 0; i < collision.length; i += 70) {
@@ -240,6 +241,10 @@ function rectangleCollision({rectangle1, rectangle2}) {
 let isPaused = false;
 
 function move () {
+    if (start===false) {
+        cancelAnimationFrame(animationId);
+        hideCanvas();
+    }
     if (isPaused) {
         return;
     }
@@ -528,4 +533,3 @@ window.addEventListener('keydown', (e) => {
         }
     }
 });
-
