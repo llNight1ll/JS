@@ -125,19 +125,23 @@ function play() {
     }
 }
 
+
 // Fonction for the HUD (life bar)
-function drawHUD() {
+function drawHUD(life, xp) {
+    console.log(player.xp)
     const barWidth = 200;
     const barHeight = 10;
     const barPadding = 10;
-    const playerMaxHealth = 10; // En fonction de la vie max du player
-
+    const playerMaxHealth = life; 
+    const playerMaxLevel = xp;
+    const playerScore = player.score;
+    let xpBarPercentage;
+    let xpBarWidth;
 
     const hudWidth = barWidth + 2 * barPadding;
-    const hudHeight = barHeight + 2 * barPadding;
+    const hudHeight = barHeight * 3 + 2 * barPadding;
     
-
-    c.fillStyle = 'blue'; // Couleur bleue pour le fond
+    c.fillStyle = 'blue';
     c.fillRect(0, 0, hudWidth, hudHeight);
     
     c.fillStyle = 'gray';
@@ -146,17 +150,49 @@ function drawHUD() {
     const healthPercentage = player.pointDeVie / playerMaxHealth;
     const healthBarWidth = barWidth * healthPercentage;
     
-    c.fillStyle = 'green';
+    c.fillStyle = 'red';
     c.fillRect(barPadding, barPadding, healthBarWidth, barHeight);
-        c.strokeStyle = 'black';
+    
+    c.strokeStyle = 'black';
     c.strokeRect(barPadding, barPadding, barWidth, barHeight);
+
+    c.fillStyle = 'gray';
+    c.fillRect(barPadding, barPadding * 2 + barHeight, barWidth, barHeight);
+
+    c.strokeStyle = 'black';
+    c.strokeRect(barPadding, barPadding * 2 + barHeight, barWidth, barHeight);
+
+    if (player.xp <= 150) {
+        xpBarPercentage = player.xp / playerMaxLevel;
+        xpBarWidth = barWidth * xpBarPercentage;
+    } else {
+        xpBarPercentage = 1;
+        xpBarWidth = barWidth;
+    }
+    c.fillStyle = 'orange'; 
+    c.fillRect(barPadding, barPadding * 2 + barHeight, xpBarWidth, barHeight);
+
+    c.fillStyle = 'white';
+    c.font = '20px Arial'; 
+    c.fillText('Score: ' + playerScore, barPadding, barPadding + barHeight + 50);
+
+    c.fillStyle = 'black';
+    c.font = '20px Arial'; 
+    const levelText = 'Level ' + (player.level);
+    const levelTextWidth = c.measureText(levelText).width;
+    const levelTextX = barPadding + (barWidth - levelTextWidth) / 2; 
+    const levelTextY = barPadding * 2 + barHeight + 12; 
+    c.fillText(levelText, levelTextX, levelTextY);
 }
+
 
 // Fonction for the visual loosing page
 function loosePage() {
     const canvas = document.getElementById('gameCanvas');
     const menu = document.getElementById('gameMenu');
     const loose = document.getElementById('looseMenu');
+    document.getElementById("playerScore").innerText = "Score : " + player.score;
+
     if (canvas) {
         canvas.style.display = 'none';
         menu.style.display = 'none';
