@@ -20,21 +20,21 @@ let animationId;
 
 
 const collisionMap = []
-for (let i = 0; i < collision.length; i += 70) {
-    collisionMap.push(collision.slice(i, 70 + i))
+for (let i = 0; i < collision.length; i += 200) {
+    collisionMap.push(collision.slice(i, 200 + i))
 }
 
 const contour = []
 const offset = {
     //Start position of the player
-    x: -410,
-    y: -890
+    x: -2250,
+    y: -500
 }
 
 //Convert mapcollision as Boundary
 collisionMap.forEach((ligne, i) => {
     ligne.forEach((symbol, j) => {
-      if (symbol === 2102)
+      if (symbol === 1025)
         contour.push(
           new Boundary({
             position: {
@@ -223,7 +223,7 @@ createSpawnerEnnemyType1(position = {x: canvas.width / 2 - 528 / 4 / 2 +300, y: 
 
 createSpawnerEnnemyType2(position = {x: canvas.width / 2 - 528 / 4 / 2 -300, y: canvas.height / 2 - 157 / 2 -0.5})
 
-createSpawnerEnnemyType3(position = {x: canvas.width / 2 - 528 / 4 / 2 +300, y: canvas.height / 2 - 157 / 2 -0.5+ - 200})
+createSpawnerEnnemyType3(position = {x: canvas.width / 2 - 528 / 4 / 2 - 100, y: canvas.height / 2 - 157 / 2 -0.5 + 500})
 
 
 //Add the movable's element in the table wich contains them
