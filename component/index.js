@@ -48,10 +48,10 @@ collisionMap.forEach((ligne, i) => {
 
 //Declare all sprites
 const image = new Image()
-image.src = "./img/map.png"
+image.src = "./map/map2.png"
 
 const foregroundImage = new Image()
-foregroundImage.src = "./img/foreground.png"
+foregroundImage.src = "./map/foreground.png"
 
 const playerDownImage = new Image()
 playerDownImage.src = "./img/playerfullbot.png"
