@@ -9,12 +9,83 @@
 
   <body>
     <canvas id="gameCanvas" width="1020" height="510"></canvas>
+    <div id="pauseWindow" class="pause-window">
+      <div class="pause-content">
+        <h2 class="title">MENU</h2>
+        <button onclick="resume();">Resume</button>
+        <br>
+        <button onclick="optionFromGame();">Options</button>
+        <br>
+        <button onclick="exit();">Exit</button>
+      </div>
+    </div>
+
+    <div class="game-menu" id="gameMenu" style="display: none;">
+      <div class="game-menu-content">
+        <h2 class="gametitle">GAME JAM</h2>
+        <button onclick="play();">Play</button>
+        <br>
+        <button onclick="optionFromMenu();">Options</button>
+        <br>
+        <button onclick="credit();">Crédit</button>
+      </div>
+    </div>
+
+
+    <div class="optionFromGame" id="optionMenuFromGame" style="display: none;">
+      <div class="optionFromGame-content">
+        <h2 class="optionTitle2">Options</h2>
+        <div class="Avancer">
+          <h2>Avancer : </h2><input type="text" id="up" value="z" required maxlength="1"> 
+        </div>
+        <div class="Reculer">
+          <h2>Reculer : </h2><input type="text" id="down" value="s" required maxlength="1">
+        </div>
+        <div class="Droite">
+          <h2>Droite : </h2><input type="text" id="right" value="d" required maxlength="1">
+        </div>
+        <div class="Gauche">
+          <h2>Gauche : </h2><input type="text" id="left" value="q" required maxlength="1">
+        </div>
+        <button onclick="saveOptionFromGame();">Save</button>
+      </div>
+    </div>
+
+
+    <div class="optionFromMenu" id="optionMenuFromMenu" style="display: none;">
+      <div class="optionFromMenu-content">
+        <h2 class="optionTitle">Options</h2>
+        <div class="Avancer">
+          <h1>Avancer : </h1><input type="text" id="upMenu" value="z" required maxlength="1">
+        </div>
+        <div class="Reculer">
+          <h1>Reculer : </h1><input type="text" id="downMenu" value="s" required maxlength="1">
+        </div>
+        <div class="Droite">
+          <h1>Droite : </h1><input type="text" id="rightMenu" value="d" required maxlength="1">
+        </div>
+        <div class="Gauche">
+          <h1>Gauche : </h1><input type="text" id="leftMenu" value="q" required maxlength="1">
+        </div>
+        <button onclick="saveOptionFromMenu();">Save</button>
+      </div>
+    </div>
+
+
+    <div class="loose-menu" id="looseMenu" style="display: none;">
+      <div class="loose-menu-content">
+        <h2 class="gametitle2">YOU LOST</h2>
+        <button onclick="exit();">Retry</button>
+      </div>
+    </div>
+
+    <script src="./component/tools.js"></script>
     <script src="./component/collision.js"></script>
     <script src="./component/spawner.js"></script>
     <script src="./component/classe.js"></script>
     <script src="./component/index.js"></script>
     <div id="hud">
-      Number of allies (type 1) : <span id="allies1Number"></span>
-  </div>
+        Number of allies (type 1) : <span id="allies1Number"></span>
+    </div>
   </body>
 </html>

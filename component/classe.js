@@ -1444,3 +1444,217 @@ class SpawnerType3 {
 
         
 }
+
+
+
+// Class defined for game bosses (not implemented)
+class Boss {
+    constructor({position, velocity, image, frames = {max: 1}, sprites,size = {s: 1},pointDeVie, rogneY}) {
+        this.size = size
+        this.position = position
+        this.image = image
+        this.frames = {...frames, val: 0, elapsed: 0, attackFrameVal : 0, elapsedAttack :0,}
+        this.image.onload = () => {
+            this.width = this.image.width / this.frames.max
+            this.height = this.image.height
+        }
+        this.moving = false
+        this.attacking = false
+        this.sprites = sprites
+        this.orientation = "bot"
+        this.alive = true
+        this.pointDeVie = pointDeVie
+        this.getHit = false
+        this.endAttack = false
+        this.attackingNumber = 0
+        this.rogneY = rogneY
+        this.mouvementOrientation = "vertical"
+        this.OldmouvementOrientation = ""
+
+
+    }
+
+
+
+    draw() {
+        c.drawImage
+        c.drawImage(
+            this.image,
+            this.frames.val * this.width,
+            this.rogneY,
+            this.image.width / this.frames.max,
+            this.image.height,
+            this.position.x,
+            this.position.y,
+            this.image.width / this.frames.max * this.size.s, 
+            this.image.height* this.size.s
+        )
+
+        if (!this.moving) {
+            return
+        }
+
+        if (this.frames.max > 1) {
+            this.frames.elapsed ++
+        }
+
+        if (this.frames.elapsed %150 === 0) {
+            if (this.frames.val < this.frames.max - 1) {
+                this.frames.val++
+            } else {
+                this.frames.val = 0
+            }
+        }
+    }
+
+
+    hitDetection(){
+        if(
+            rectangleCollision({
+                rectangle1: player,
+                rectangle2: {
+                    ...this, 
+                    position: {
+                    x: this.position.x,
+                    y: this.position.y + 5
+                }}
+            }) && player.frames.elapsedAttack %10 === 0 && player.attacking && player.frames.attackFrameVal >= player.frames.max - 1
+        ) {
+            this.getHit = true
+            this.pointDeVie += -1
+            if(this.pointDeVie == 0) {
+                this.alive = false
+            }
+        }
+
+    }
+
+    moveIntoPlayer() {
+        this.OldmouvementOrientation = this.mouvementOrientation
+        const playerCenter = player.position.y + player.height / 2;
+
+        const dx = player.position.x - this.position.x;
+        const dy = playerCenter - this.position.y - this.height/2;
+
+        const distanceFromPlayer = Math.sqrt(dx * dx + dy * dy);
+
+        if (distanceFromPlayer > 0 && distanceFromPlayer<400) {
+            if(dx*dx >= dy*dy) {
+                this.mouvementOrientation == "horizontal"
+                const vx = (dx / distanceFromPlayer) * 2;
+                this.position.x += vx;
+                if (vx >= 0){
+                    this.orientation = "right"
+                    
+                } else {
+                    this.orientation = "left"
+                }
+
+
+
+            } else if ( Math.sqrt(dy*dy) >  Math.sqrt(dx *dx)) {
+                this.mouvementOrientation == "vertical"
+
+                const vy = (dy / distanceFromPlayer) * 2;
+                this.position.y += vy;
+
+                if (vy >= 0){
+                    this.orientation = "bot"
+                } else {
+                    this.orientation = "up"
+                }
+
+
+
+            }
+
+        }
+    }
+
+    moveSet1(){
+        if (boss.position.x < initialBossX + 200) {
+            boss.image = boss.sprites.right
+            boss.moving = true
+            boss.position.x += 1;
+        }
+    }
+
+}
+
+// Class defined for game mob spells (not implemented)
+class Spell {
+    constructor({position}) {
+        this.size = 5
+        this.velocity =4
+        this.position = this.spawn(position)
+        this.target = {x: player.position.x, y: player.position.y}
+        this.touched = false
+        this.launch = false 
+        this.orientation = "bot"
+        this.endAttack = false
+        this.width= 10
+        this.height= 10
+        this.distance = 0
+    }
+
+
+    spawn(position) {
+        return {
+            x: position.x,
+            y: position.y
+        }
+    }
+
+    updatedPosition(enemyPosition) {
+        this.position.x = enemyPosition.position.x;
+        this.position.y = enemyPosition.position.y;
+    }
+
+    move() {
+        this.draw();
+        const dx = this.target.x - this.position.x;
+        const dy = this.target.y - this.position.y;
+
+        const distanceToPlayer = Math.sqrt(dx * dx + dy * dy);
+
+        const vx = (dx / distanceToPlayer) * this.velocity;
+        const vy = (dy / distanceToPlayer) * this.velocity;
+
+        this.position.x += vx;
+        this.distance ++
+        this.position.y += vy;
+        this.distance ++
+        this.hitDetection()
+    }
+
+
+
+    draw() {
+        c.fillStyle = "red";
+        c.fillRect(this.position.x, this.position.y, this.width, this.height);
+    }
+
+
+    hitDetection() {
+        const collisionDetected = rectangleCollision({
+            rectangle1: player,
+            rectangle2: {
+                ...this,
+                position: {
+                    x: this.position.x,
+                    y: this.position.y
+                }
+            }
+        });
+
+        if (collisionDetected) {
+            if (player.pointDeVie === 0) {
+                player.alive = false;
+            }
+            return this.touched = true;
+        } else {
+            return false; // Retourne false sinon
+        }
+    }
+
+}

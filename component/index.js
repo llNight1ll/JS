@@ -1,11 +1,17 @@
 const canvas = document.querySelector('canvas')
 const c = canvas.getContext('2d')
 
+let upKey = 'z';
+let leftKey = 'q';
+let downKey = 's';
+let rightKey = 'd';
+
 
 
 canvas.width = 1020
 canvas.height = 510
-
+let start = false;
+let animationId;
 
 
 const collisionMap = []
@@ -92,6 +98,21 @@ const enemyLeftAttackImage = new Image()
 enemyLeftAttackImage.src = "./img/attakleft.png"
 
 
+const bossDown = new Image()
+bossDown.src = "./img/boss1Down.png"
+
+const bossUp = new Image()
+bossUp.src = "./img/boss1Up.png"
+
+const bossRight = new Image()
+bossRight.src = "./img/boss1Right.png"
+
+const bossLeft = new Image()
+bossLeft.src = "./img/boss1Left.png"
+
+
+
+
 const player = new Sprite ({
     position: {
         x: canvas.width / 2 - 528 / 4 / 2,
@@ -121,8 +142,29 @@ const player = new Sprite ({
 
 
 
-
-
+// First boss not implemented
+const boss = new Boss ({
+    position: {
+        x: canvas.width / 2 - 528 / 4 / 2 -50,
+        y: canvas.height / 2 - 157 / 2 - 50,
+    },
+    image: bossDown,
+    frames: {
+        max: 3,
+    },
+    sprites: {
+        up: bossUp,
+        left: bossLeft,
+        down: bossDown,
+        right: bossRight,
+    },
+    size: {
+        s : 1.5 ,
+    },
+    pointDeVie : 20,
+    player: player ,
+    rogneY: 0
+})
 
 
 const background = new Sprite({
@@ -201,11 +243,20 @@ function rectangleCollision({rectangle1, rectangle2}) {
     )
 }
 
+let isPaused = false;
+
+
 function move () {
 
+    if (start===false) {
+        cancelAnimationFrame(animationId);
+        hideCanvas();
+    }
+    if (isPaused) {
+        return;
+    }
+    animationId = window.requestAnimationFrame(move)
 
-
-    window.requestAnimationFrame(move)
     background.draw()
 
     SpawnerArrayType1.forEach((spawner) => {
@@ -470,34 +521,36 @@ function move () {
 
             
         }
-
-
     }
+
+        drawHUD();
+    
+    if (player.pointDeVie <= 0) {
+        window.cancelAnimationFrame(animationId)
+        hideCanvas();
+        loosePage();
+    }
+
 }
-move()
+if (isPaused === false){
+    togglePause();
+    animationId = requestAnimationFrame(move);
+}
 
 window.addEventListener('keydown', (e) => {
     switch (e.key) {
-        case 'z':
-        case 'ArrowUp':
-        case 'Z':
+        case upKey:
             keys.z.presser = true;
             break;
-        case 'q':
-        case 'ArrowLeft':
-        case 'Q':
+        case leftKey:
             keys.q.presser = true;
             break;
-        case 's':
-        case 'ArrowDown':
-        case 'S':
+        case downKey:
             keys.s.presser = true;
             break;
-        case 'd':
-        case 'ArrowRight':
-        case 'D':
+        case rightKey:
             keys.d.presser = true;
-            break;
+            break;               
         case 'f':
         case 'F':
             keys.f.presser = true;
@@ -505,26 +558,19 @@ window.addEventListener('keydown', (e) => {
     }
 });
 
+
 window.addEventListener('keyup', (e) => {
     switch (e.key) {
-        case 'z':
-        case 'ArrowUp':
-        case 'Z':
+        case upKey:
             keys.z.presser = false;
             break;
-        case 'q':
-        case 'ArrowLeft':
-        case 'Q':
+        case leftKey:
             keys.q.presser = false;
             break;
-        case 's':
-        case 'ArrowDown':
-        case 'S':
+        case downKey:
             keys.s.presser = false;
             break;
-        case 'd':
-        case 'ArrowRight':
-        case 'D':
+        case rightKey:
             keys.d.presser = false;
             break;
         case 'f':
@@ -540,7 +586,10 @@ window.addEventListener('mousedown', function(event) {
     }
 })
 
-
-
-
-
+window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+        if (optionSelected === false){
+            togglePause();
+        }
+    }
+});
