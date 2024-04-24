@@ -6,6 +6,11 @@ let leftKey = 'q';
 let downKey = 's';
 let rightKey = 'd';
 
+let maxlife1 = false;
+let maxlife2 = false;
+let maxlife3 = false;
+let maxlife4 = false;
+let maxlife5 = false;
 
 
 canvas.width = 1020
@@ -528,30 +533,49 @@ function move () {
     if (player.xp >= 10 && player.xp < 50) {
         player.maxLife = 15
         player.maxXp = 50
+        if (maxlife1 === false) {
+            player.pointDeVie += 5
+            maxlife1 = true
+        }
         player.level = 1
         player.damage = 1.2
     }
     if (player.xp >= 50 && player.xp < 75) {
         player.maxLife = 20
         player.maxXp = 75
+        if (maxlife2 === false) {
+            player.pointDeVie += 5
+            maxlife2 = true
+        }
         player.level = 2
         player.damage = 1.5
     }
     if (player.xp >= 75 && player.xp < 100) {
         player.maxLife = 25
         player.maxXp = 100
+        if (maxlife3 === false) {
+            player.pointDeVie += 5
+            maxlife3 = true
+        }
         player.level = 3
         player.damage = 1.8
     }
     if (player.xp >= 100 && player.xp < 150) {
         player.maxLife = 30
         player.maxXp = 150
+        if (maxlife4 === false) {
+            player.pointDeVie += 5
+            maxlife4 = true
+        }
         player.level = 4
         player.damage = 2
     }
     if (player.xp >= 150) {
         player.maxLife = 40
-        player.maxXp = 150
+        if (maxlife5 === false) {
+            player.pointDeVie += 10
+            maxlife5 = true
+        }
         player.level = 5
     }
 }
