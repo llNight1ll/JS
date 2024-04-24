@@ -328,7 +328,6 @@ class Enemy {
         } else {
             if (this.spell.touched) {
                 this.spell.touched = false;
-                console.log("touched");
                 player.pointDeVie--;
                 this.spell.updatedPosition(this);
                 this.spell.distance = 0;
@@ -386,7 +385,6 @@ class Enemy {
         this.spell.move();
         if (this.spell.touched) {
             this.spell.touched = false;
-            console.log("touched");
             player.pointDeVie--;
             this.spell.updatedPosition(this);
             this.spell.distance = 0;

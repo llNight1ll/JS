@@ -2,7 +2,6 @@ function hideCanvas() {
     const canvas = document.getElementById('gameCanvas');
     const menu = document.getElementById('gameMenu');
     const pauseMenu = document.getElementById('pauseWindow');
-    console.log(canvas);
     if (canvas) {
         canvas.style.display = 'none';
         menu.style.display = 'flex';
@@ -15,7 +14,6 @@ function exit() {
     const canvas = document.getElementById('gameCanvas');
     const menu = document.getElementById('gameMenu');
     const pauseMenu = document.getElementById('pauseWindow');
-    console.log(canvas);
     togglePause();
     if (canvas) {
         canvas.style.display = 'none';
@@ -120,7 +118,6 @@ function play() {
     const canvas = document.getElementById('gameCanvas');
     const menu = document.getElementById('gameMenu');
     const pauseMenu = document.getElementById('pauseWindow');
-    console.log(canvas);
     if (canvas) {
         canvas.style.display = 'flex';
         menu.style.display = 'none';

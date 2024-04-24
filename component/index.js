@@ -477,8 +477,6 @@ function move () {
 
 let animationId = requestAnimationFrame(move);
 
-console.log(player.pointDeVie)
-
 let upKey = 'z';
 let leftKey = 'q';
 let downKey = 's';
