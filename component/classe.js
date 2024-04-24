@@ -37,13 +37,18 @@ class Sprite {
         this.orientation = ""
         this.alive = true
         this.pointDeVie = pointDeVie
+        this.maxLife = pointDeVie
         this.getHit = false
         this.endAttack = false
         this.attackingNumber = 0
         this.realPostion = {x: -410, y: -890}
         this.gap = 20
         this.defaultGap = 20
-
+        this.score = 0
+        this.xp = 0
+        this.maxXp = 10
+        this.level = 0
+        this.damage = 1
     }
 
     draw() {
@@ -432,11 +437,13 @@ class Enemy {
                 this.collisionDetectionWplayer() && player.frames.elapsedAttack %10 === 0 && player.attacking && player.frames.attackFrameVal >= player.frames.max - 1
              ) {
                     this.getHit = true
-                    this.pointDeVie += -1
+                    this.pointDeVie -= player.damage
                     this.IsExpulsed = true
-                    if(this.pointDeVie == 0) {
+                    if(this.pointDeVie <= 0) {
+                        player.xp += 5
+                        player.score += 10
                         this.alive = false
-                     }
+                    }
                 }
 
         } else {
@@ -447,7 +454,7 @@ class Enemy {
                     this.getHit = true
                     this.pointDeVie += -1
                     this.IsExpulsed = true
-                    if(this.pointDeVie == 0) {
+                    if(this.pointDeVie <= 0) {
                         this.alive = false
                      }
                 }
@@ -464,7 +471,7 @@ class Enemy {
             ) {
                 this.hit = true
                 player.pointDeVie += -1
-                if(player.pointDeVie == 0) {
+                if(player.pointDeVie <= 0) {
                     player.alive = false
                 }
             }
@@ -477,8 +484,10 @@ class Enemy {
             ) {
                 this.hit = true
                 this.nearestEnemy.pointDeVie += -1
-                if(this.nearestEnemy.pointDeVie == 0) {
+                if(this.nearestEnemy.pointDeVie <= 0) {
                     this.nearestEnemy.alive = false
+                    player.xp += 3
+                    player.score += 5
                 }
             }
     
@@ -731,8 +740,6 @@ class Enemy {
         
 
         if (distanceFromPlayer > 0 && distanceFromPlayer<200 && !this.isBlocked && this.delayAfterCollision == 0) {
-            console.log("il la detcterrrrrrrrrrrrrrrrrrrrrrrrrr")
-            
             this.moving = true;
             this.dectect = true;
             if(Math.sqrt(dx *dx)  > Math.sqrt(dy*dy)  +  20) {
@@ -1108,7 +1115,6 @@ class Enemy {
                 }  else if (this.orientation == "bot"){
                     this.image = this.sprites.down
                 } 
-                console.log(this.orientation)
 
         
                 if(this.distance < 80 && this.cooldown >= 500) {

@@ -518,15 +518,44 @@ function move () {
         }
     }
 
-        drawHUD();
+    drawHUD(player.maxLife,player.maxXp);
     
     if (player.pointDeVie <= 0) {
         window.cancelAnimationFrame(animationId)
         hideCanvas();
         loosePage();
     }
-
+    if (player.xp >= 10 && player.xp < 50) {
+        player.maxLife = 15
+        player.maxXp = 50
+        player.level = 1
+        player.damage = 1.2
+    }
+    if (player.xp >= 50 && player.xp < 75) {
+        player.maxLife = 20
+        player.maxXp = 75
+        player.level = 2
+        player.damage = 1.5
+    }
+    if (player.xp >= 75 && player.xp < 100) {
+        player.maxLife = 25
+        player.maxXp = 100
+        player.level = 3
+        player.damage = 1.8
+    }
+    if (player.xp >= 100 && player.xp < 150) {
+        player.maxLife = 30
+        player.maxXp = 150
+        player.level = 4
+        player.damage = 2
+    }
+    if (player.xp >= 150) {
+        player.maxLife = 40
+        player.maxXp = 150
+        player.level = 5
+    }
 }
+
 if (isPaused === false){
     togglePause();
     animationId = requestAnimationFrame(move);

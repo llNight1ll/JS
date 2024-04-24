@@ -237,9 +237,14 @@ button {
   border: 5cap solid #010101;
   border-radius: 18px;
   position: relative;
-  bottom : 80px;
+  bottom : 40px;
 }
 
+.loose-menu-content h3 {
+  position: relative;
+  bottom: 80px;
+  font-size: 30px;
+}
 
 
 .Reculer,
